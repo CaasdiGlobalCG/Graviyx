@@ -34,7 +34,7 @@ function FlowPacket({ path, delay }: { path: string; delay: number }) {
 
 export function EcosystemDiagram() {
   return (
-    <div className="reveal neu-raised mx-auto mt-14 max-w-6xl overflow-hidden p-5 md:p-8">
+    <div className="neu-raised mx-auto mt-14 max-w-6xl overflow-hidden p-5 md:p-8">
       <div className="mb-5 flex items-center justify-between border-b border-border pb-4 font-mono text-[9px] uppercase text-meta md:text-[10px]">
         <span>GRAVIYX / Exchange architecture</span>
         <span className="flex items-center gap-2">

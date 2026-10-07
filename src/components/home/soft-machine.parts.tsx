@@ -91,11 +91,22 @@ export function NeuButton({
 }
 
 /** One complaint, extruded out of the canvas and struck through as the next one arrives. */
-export function StrikeRow({ index, text, delay = 0 }: { index: string; text: string; delay?: number }) {
+export function StrikeRow({
+  index,
+  text,
+  delay = 0,
+  from = "bottom",
+}: {
+  index: string;
+  text: string;
+  delay?: number;
+  from?: "bottom" | "left" | "right";
+}) {
   return (
     <li>
       <Reveal
         delay={delay}
+        from={from}
         className="neu-flat relative flex items-baseline gap-4 px-5 py-5 md:gap-6 md:px-7 md:py-6"
       >
         <span className="font-mono text-[10px] leading-none tracking-[0.22em] text-muted tabular-nums">
@@ -122,14 +133,16 @@ export function StepCard({
   index,
   step,
   delay = 0,
+  from = "bottom",
 }: {
   index: string;
   step: { readonly key: string; readonly body: string };
   delay?: number;
+  from?: "bottom" | "left" | "right";
 }) {
   return (
     <li className="h-full">
-      <Reveal delay={delay} y={16} className="neu-raised flex h-full flex-col p-6 md:p-7">
+      <Reveal delay={delay} y={16} from={from} className="neu-raised flex h-full flex-col p-6 md:p-7">
         <span className="neu-inset self-start px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums">
           {index}
         </span>
@@ -141,10 +154,20 @@ export function StepCard({
 }
 
 /** One commitment, extruded out of the canvas. */
-export function TrustCard({ index, text, delay = 0 }: { index: string; text: string; delay?: number }) {
+export function TrustCard({
+  index,
+  text,
+  delay = 0,
+  from = "bottom",
+}: {
+  index: string;
+  text: string;
+  delay?: number;
+  from?: "bottom" | "left" | "right";
+}) {
   return (
     <li className="h-full">
-      <Reveal delay={delay} y={16} className="neu-flat flex h-full flex-col p-6 md:p-7">
+      <Reveal delay={delay} y={16} from={from} className="neu-flat flex h-full flex-col p-6 md:p-7">
         <span aria-hidden="true" className="mark-dot" />
         <p className="mt-5 font-mono text-[10px] leading-none tracking-[0.22em] text-muted tabular-nums">
           {index}
@@ -160,14 +183,16 @@ export function WayCard({
   index,
   card,
   delay,
+  from = "bottom",
 }: {
   index: string;
   card: { readonly audience: string; readonly body: string; readonly to: string; readonly cta: string };
   delay: number;
+  from?: "bottom" | "left" | "right";
 }) {
   return (
     <li className="h-full">
-      <Reveal delay={delay} y={18} className="neu-raised flex h-full flex-col p-7 md:p-9">
+      <Reveal delay={delay} y={18} from={from} className="neu-raised flex h-full flex-col p-7 md:p-9">
         <span className="neu-inset self-start px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums">
           {index}
         </span>
@@ -182,10 +207,20 @@ export function WayCard({
 }
 
 /** One industry: a shallow extrusion whose whole surface is the link to the register. */
-export function IndustryChip({ to, name, delay = 0 }: { to: string; name: string; delay?: number }) {
+export function IndustryChip({
+  to,
+  name,
+  delay = 0,
+  from = "bottom",
+}: {
+  to: string;
+  name: string;
+  delay?: number;
+  from?: "bottom" | "left" | "right";
+}) {
   return (
     <li>
-      <Reveal delay={delay} y={12}>
+      <Reveal delay={delay} y={12} from={from}>
         <Link to={to} className={`neu-flat group flex items-center gap-3.5 px-5 py-4 text-fg ${LIFT} ${PRESS} ${FOCUS}`}>
           <span
             aria-hidden="true"
@@ -203,14 +238,16 @@ export function SystemSide({
   index,
   side,
   delay = 0,
+  from = "bottom",
 }: {
   index: string;
   side: { readonly key: string; readonly body: string };
   delay?: number;
+  from?: "bottom" | "left" | "right";
 }) {
   return (
     <li className="h-full">
-      <Reveal delay={delay} y={14} className="neu-flat flex h-full gap-4 p-5 md:p-6">
+      <Reveal delay={delay} y={14} from={from} className="neu-flat flex h-full gap-4 p-5 md:p-6">
         <span aria-hidden="true" className="mark-dot mt-2" />
         <div className="min-w-0">
           <p className="font-mono text-[10px] leading-none tracking-[0.22em] text-muted tabular-nums">

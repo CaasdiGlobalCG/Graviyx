@@ -868,6 +868,106 @@
   }
 }
 
+/* ---------- Side reveals ----------
+   The same contract as `reveal` — the base state is VISIBLE and the animation is added only
+   where the browser supports scroll-driven animations and the visitor has not asked for
+   reduced motion. The only difference is the axis: these travel in from the sides instead of
+   from the bottom, so a section can alternate direction rather than everything rising.
+
+   `--reveal-x` is the travel distance; it is deliberately smaller than the vertical offset
+   would be, because horizontal motion is more noticeable and more likely to cause discomfort.
+   Motion-sensitivity guidance is severity-High on exactly this. */
+
+@keyframes reveal-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--reveal-x, 48px) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes reveal-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(var(--reveal-x, 48px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@utility reveal-left {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: reveal-from-left linear both;
+      animation-timeline: view();
+      animation-range: entry var(--reveal-offset, 0%) cover 30%;
+    }
+  }
+}
+
+@utility reveal-right {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: reveal-from-right linear both;
+      animation-timeline: view();
+      animation-range: entry var(--reveal-offset, 0%) cover 30%;
+    }
+  }
+}
+
+/* ---------- Pinned hero (parallax layer 1) ----------
+   The hero holds at the top of the viewport while the page scrolls over it, which is what
+   produces the depth: the hero is one layer moving at zero rate, the content another moving
+   at the scroll rate.
+
+   `position: sticky` occupies its normal space in the flow, so nothing is removed from the
+   document and the page height is unchanged. Nothing is scroll-jacked either — the visitor
+   scrolls at their own rate; only paint order changes.
+
+   The sibling rule is what makes it work: a `sticky` element is POSITIONED, so it would
+   otherwise paint above the following non-positioned sections. Lifting those siblings to
+   `relative; z-index: 10` puts the content back in front. It stays below the fixed header
+   (`z-50`). */
+.hero-pin {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+.hero-pin ~ * {
+  position: relative;
+  z-index: 10;
+}
+
+/* The hero's own copy drifts and settles as it is covered — parallax layer 2. It reads the
+   root scroll timeline and completes within the first part of the page, so it is a settle
+   rather than a long travel. Scale and translate only; never layout. */
+@keyframes hero-depth {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(var(--depth-y, 72px)) scale(var(--depth-scale, 0.96));
+    opacity: var(--depth-opacity, 0.72);
+  }
+}
+
+@utility hero-depth {
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: hero-depth linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0% 22%;
+    }
+  }
+}
+
 /* ---------- Keyframes — transform and opacity only ---------- */
 
 @keyframes graviyx-pulse {

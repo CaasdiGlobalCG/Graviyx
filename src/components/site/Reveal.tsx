@@ -28,6 +28,10 @@ type RevealProps = {
   delay?: number;
   /** Starting vertical offset in pixels. Transform only, never layout. */
   y?: number;
+  /** Starting horizontal offset in pixels, used by the side directions. */
+  x?: number;
+  /** Which edge the content travels in from. */
+  from?: "bottom" | "left" | "right";
   className?: string;
 };
 
@@ -36,26 +40,40 @@ const DELAY_TO_OFFSET = 40;
 const MAX_OFFSET = 20;
 
 /**
- * Reveals its children on first scroll into view.
+ * Reveals its children on first scroll into view, from the bottom by default or from either
+ * side.
  *
- * The resting state is visible, so the page is fully legible with animation disabled,
- * with JavaScript disabled, and before hydration.
+ * The resting state is visible, so the page is fully legible with animation disabled, with
+ * JavaScript disabled, and before hydration.
  *
  * @param props.delay - Stagger. Mapped to an entry-range offset, capped at 20%.
  * @param props.y - Starting vertical offset in pixels.
+ * @param props.x - Starting horizontal offset in pixels. Keep this smaller than `y` would
+ *   be: horizontal motion is more noticeable and more likely to cause discomfort.
+ * @param props.from - The edge to travel in from.
  * @param props.className - Merged onto the wrapper element.
  *
- * @connects src/styles.css (`reveal`, `reveal-in`, `--reveal-y`, `--reveal-offset`)
+ * @connects src/styles.css (`reveal`, `reveal-left`, `reveal-right`, `reveal-in`,
+ *   `reveal-from-left`, `reveal-from-right`, `--reveal-y`, `--reveal-x`, `--reveal-offset`)
  */
-export function Reveal({ children, delay = 0, y = 18, className }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  y = 18,
+  x = 48,
+  from = "bottom",
+  className,
+}: RevealProps) {
   const offset = `${Math.min(delay * DELAY_TO_OFFSET, MAX_OFFSET).toFixed(1)}%`;
+  const direction = from === "bottom" ? "reveal" : `reveal-${from}`;
 
   return (
     <div
-      className={className ? `reveal ${className}` : "reveal"}
+      className={className ? `${direction} ${className}` : direction}
       style={
         {
           "--reveal-y": `${y}px`,
+          "--reveal-x": `${x}px`,
           "--reveal-offset": offset,
         } as CSSProperties
       }

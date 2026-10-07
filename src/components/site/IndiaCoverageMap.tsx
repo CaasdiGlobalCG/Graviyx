@@ -24,7 +24,7 @@ export function IndiaCoverageMap() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="reveal neu-raised mt-12 overflow-hidden">
+    <div className="neu-raised mt-12 overflow-hidden">
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
         <div className="relative min-h-[560px] overflow-hidden sm:min-h-[680px] lg:border-r lg:border-border">
           <div className="absolute top-5 left-5 z-10 font-mono text-[10px] tracking-[0.16em] text-meta uppercase sm:top-7 sm:left-8">

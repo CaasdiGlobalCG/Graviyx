@@ -59,7 +59,7 @@ export function Hero({
   const isInk = tone === "ink";
 
   return (
-    <section className={`relative overflow-hidden ${isInk ? "surface-ink" : "bg-bg"}`}>
+    <section className={`hero-pin overflow-hidden ${isInk ? "surface-ink" : "bg-bg"}`}>
       {/* Oversized by one background tile (72px) so the drift translate never
           exposes an edge. The drift animates transform, not background-position. */}
       <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" />
@@ -71,7 +71,7 @@ export function Hero({
         }}
       />
       <div
-        className={`container-x relative ${compact ? "pt-28 pb-14 md:pt-36 md:pb-20" : "pt-32 pb-20 md:pt-44 md:pb-28"}`}
+        className={`container-x hero-depth relative ${compact ? "pt-28 pb-14 md:pt-36 md:pb-20" : "pt-32 pb-20 md:pt-44 md:pb-28"}`}
       >
         {eyebrow ? (
           <p className="eyebrow hero-in mb-6 flex items-center gap-3" style={stepStyle(STEP.eyebrow)}>

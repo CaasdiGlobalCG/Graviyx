@@ -52,9 +52,9 @@ import {
  */
 function Hero() {
   return (
-    <section className="surface-ink section-y relative overflow-hidden">
+    <section className="hero-pin surface-ink section-y overflow-hidden">
       <div aria-hidden="true" className="bg-grid drift-grid pointer-events-none absolute -inset-24" />
-      <div className="container-x relative">
+      <div className="container-x hero-depth relative">
         <div className="flex items-center gap-3">
           <span aria-hidden="true" className="mark-dot pulse-dot" />
           <p className="eyebrow">{HERO.eyebrow}</p>
@@ -85,7 +85,13 @@ function Problem() {
         <SoftHead index="02" heading={PROBLEM.heading} />
         <ul className="mt-12 grid gap-6">
           {PROBLEM.items.map((item, i) => (
-            <StrikeRow key={item} index={rowIndex(i)} text={item} delay={i * 0.06} />
+            <StrikeRow
+              key={item}
+              index={rowIndex(i)}
+              text={item}
+              delay={i * 0.06}
+              from={i % 2 === 0 ? "left" : "right"}
+            />
           ))}
         </ul>
         <Reveal className="mt-10">
@@ -106,7 +112,13 @@ function HowItWorks() {
         <SoftHead index="03" heading={HOW_IT_WORKS.heading} />
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOW_IT_WORKS.steps.map((step, i) => (
-            <StepCard key={step.key} index={rowIndex(i)} step={step} delay={i * 0.08} />
+            <StepCard
+              key={step.key}
+              index={rowIndex(i)}
+              step={step}
+              delay={i * 0.08}
+              from={i % 2 === 0 ? "left" : "right"}
+            />
           ))}
         </ol>
         <Reveal className="mt-10">
@@ -124,8 +136,10 @@ function SpeedAndJudgement() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <SoftHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
-        <Reveal y={18} className="neu-flat flex flex-col p-7 md:p-9">
+        <Reveal from="left">
+          <SoftHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
+        </Reveal>
+        <Reveal from="right" y={18} className="neu-flat flex flex-col p-7 md:p-9">
           <p className="body-copy max-w-xl text-[16px] text-fg">{SPEED_AND_JUDGEMENT.body}</p>
           <div className="mt-auto pt-9">
             <NeuButton to={SPEED_AND_JUDGEMENT.link.to}>{SPEED_AND_JUDGEMENT.link.label}</NeuButton>
@@ -145,7 +159,13 @@ function Trust() {
         <SoftHead index="05" heading={TRUST.heading} />
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
           {TRUST.items.map((item, i) => (
-            <TrustCard key={item} index={rowIndex(i)} text={item} delay={i * 0.08} />
+            <TrustCard
+              key={item}
+              index={rowIndex(i)}
+              text={item}
+              delay={i * 0.08}
+              from={i % 2 === 0 ? "left" : "right"}
+            />
           ))}
         </ul>
         <Reveal className="mt-10">
@@ -164,7 +184,13 @@ function TwoWaysIn() {
         <SoftHead index="06" heading={TWO_WAYS_IN.heading} />
         <ul className="mt-12 grid gap-8 md:grid-cols-2">
           {TWO_WAYS_IN.cards.map((card, i) => (
-            <WayCard key={card.to} index={rowIndex(i)} card={card} delay={i * 0.1} />
+            <WayCard
+              key={card.to}
+              index={rowIndex(i)}
+              card={card}
+              delay={i * 0.1}
+              from={i === 0 ? "left" : "right"}
+            />
           ))}
         </ul>
       </div>
@@ -181,7 +207,13 @@ function Industries() {
         <SoftHead index="07" heading={INDUSTRIES_SECTION.heading} />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {INDUSTRIES_SECTION.items.map((name, i) => (
-            <IndustryChip key={name} name={name} to={INDUSTRIES_SECTION.to} delay={i * 0.04} />
+            <IndustryChip
+              key={name}
+              name={name}
+              to={INDUSTRIES_SECTION.to}
+              delay={i * 0.04}
+              from={i % 2 === 0 ? "left" : "right"}
+            />
           ))}
         </ul>
       </div>
@@ -198,7 +230,13 @@ function TheSystem() {
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_minmax(260px,340px)]">
           <ul className="grid gap-6 sm:grid-cols-2">
             {THE_SYSTEM.sides.map((side, i) => (
-              <SystemSide key={side.key} index={rowIndex(i)} side={side} delay={i * 0.06} />
+              <SystemSide
+                key={side.key}
+                index={rowIndex(i)}
+                side={side}
+                delay={i * 0.06}
+                from={i % 2 === 0 ? "left" : "right"}
+              />
             ))}
           </ul>
           <SystemCore label={THE_SYSTEM.centre} caption={THE_SYSTEM.caption} />
@@ -223,21 +261,29 @@ function CoverageAndEcosystem() {
     <>
       <section className="neu-canvas section-y">
         <div className="container-x">
-          <SectionHead
-            eyebrow="Where we serve"
-            title="Connected across India's industrial corridors."
-            lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
-          />
-          <IndiaCoverageMap />
+          <Reveal from="left">
+            <SectionHead
+              eyebrow="Where we serve"
+              title="Connected across India's industrial corridors."
+              lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
+            />
+            <IndiaCoverageMap />
+          </Reveal>
         </div>
       </section>
       <section className="neu-canvas section-y">
         <div className="container-x">
-          <SectionHead eyebrow="The ecosystem" title="Four sides. One orchestrator." align="center" />
-          <EcosystemDiagram />
-          <p className="mt-6 text-center text-sm text-muted">
-            Orchestrated trade, not just listed products.
-          </p>
+          <Reveal from="right">
+            <SectionHead
+              eyebrow="The ecosystem"
+              title="Four sides. One orchestrator."
+              align="center"
+            />
+            <EcosystemDiagram />
+            <p className="mt-6 text-center text-sm text-muted">
+              Orchestrated trade, not just listed products.
+            </p>
+          </Reveal>
         </div>
       </section>
     </>
