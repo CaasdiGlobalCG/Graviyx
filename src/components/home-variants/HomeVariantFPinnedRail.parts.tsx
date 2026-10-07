@@ -119,7 +119,7 @@ export function ProgressRail({ targetRef }: { targetRef: RefObject<HTMLDivElemen
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-14 lg:block"
     >
-      <div className="absolute top-1/2 h-[44vh] w-full -translate-y-1/2">
+      <div className="absolute top-[12vh] h-[40vh] w-full">
         <span className="absolute inset-y-0 right-0 block w-px bg-steel-30" />
         <motion.span
           className="absolute inset-y-0 right-0 block w-px origin-top bg-ink"
@@ -138,7 +138,8 @@ export function ProgressRail({ targetRef }: { targetRef: RefObject<HTMLDivElemen
           ))}
         </ol>
       </div>
-      <p className="absolute bottom-6 left-0 w-full px-1.5 font-mono text-[9px] leading-[1.7] text-muted">
+      {/* bottom-24 clears the fixed preview bar (VariantPreviewBar, ~56px tall). */}
+      <p className="absolute bottom-24 left-0 w-full px-1.5 font-mono text-[9px] leading-[1.7] text-muted">
         {current ? current.label : null}
       </p>
     </aside>
