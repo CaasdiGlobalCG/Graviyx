@@ -34,7 +34,7 @@ const RELATIONSHIP: [string, string][] = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -68,7 +68,7 @@ function Partner() {
       <section className="neu-canvas section-y">
         <div className="container-x">
           <SoftHead index="03" heading="Two-way commitment" />
-          <Reveal className="mt-12 overflow-x-auto">
+          <Reveal from="right" className="mt-12 overflow-x-auto">
             <table className="w-full min-w-[560px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-border">

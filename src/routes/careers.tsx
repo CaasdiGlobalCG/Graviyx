@@ -57,7 +57,7 @@ const GROUPS = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -95,7 +95,13 @@ function Careers() {
           <SoftHead index="02" heading="What a specialist owns" />
           <ul className="mt-12 grid gap-5 sm:grid-cols-2">
             {OWNS.map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.08} y={14} className="neu-flat h-full p-6">
+              <Reveal
+                key={item.title}
+                delay={i * 0.08}
+                y={14}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat h-full p-6"
+              >
                 <span aria-hidden="true" className="mark-dot mb-5 block" />
                 <p className="text-[16px] text-fg">
                   <strong className="text-fg">{item.title}</strong> {item.body}
@@ -111,7 +117,13 @@ function Careers() {
           <SoftHead index="03" heading="Four teams" />
           <ul className="mt-12 grid gap-5 sm:grid-cols-2">
             {GROUPS.map((g, i) => (
-              <Reveal key={g.title} delay={i * 0.08} y={14} className="neu-flat h-full p-6 md:p-7">
+              <Reveal
+                key={g.title}
+                delay={i * 0.08}
+                y={14}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat h-full p-6 md:p-7"
+              >
                 <span aria-hidden="true" className="mark-dot mb-5 block" />
                 <h3 className="display-sm text-fg">{g.title}</h3>
                 <p className="body-copy mt-2 text-[15px] text-fg">{g.body}</p>
@@ -124,7 +136,7 @@ function Careers() {
       <section className="neu-canvas section-y">
         <div className="container-x">
           <SoftHead index="04" heading="Open roles" />
-          <Reveal className="neu-inset mt-12 px-6 py-14 text-center md:py-20">
+          <Reveal from="right" className="neu-inset mt-12 px-6 py-14 text-center md:py-20">
             <span aria-hidden="true" className="mark-dot pulse-dot mx-auto mb-6 block" />
             <h3 className="display-sm text-fg">No open roles right now.</h3>
             <p className="body-copy mx-auto mt-3 max-w-xl text-[16px] text-fg">

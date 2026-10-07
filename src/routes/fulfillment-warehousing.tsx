@@ -53,7 +53,7 @@ const DATA_LOOP = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -95,6 +95,7 @@ function Fulfillment() {
                 key={tier.title}
                 delay={i * 0.1}
                 y={16}
+                from={i % 2 === 0 ? "left" : "right"}
                 className="neu-raised flex gap-5 p-6 md:p-8"
               >
                 <span aria-hidden="true" className="mark-dot mt-2 shrink-0" />
@@ -115,7 +116,13 @@ function Fulfillment() {
           <SoftHead index="03" heading="Warehouses feed the AI" />
           <ul className="mt-12 grid gap-5 md:grid-cols-3">
             {DATA_LOOP.map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.08} y={14} className="neu-flat p-6">
+              <Reveal
+                key={item.title}
+                delay={i * 0.08}
+                y={14}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat p-6"
+              >
                 <span aria-hidden="true" className="mark-dot mb-5 block" />
                 <p className="body-copy text-[16px] text-fg">
                   <strong className="text-fg">{item.title}</strong> {item.body}
@@ -123,7 +130,7 @@ function Fulfillment() {
               </Reveal>
             ))}
           </ul>
-          <Reveal className="mt-10">
+          <Reveal from="right" className="mt-10">
             <NeuButton to="/intelligence-layer">See the Intelligence Layer</NeuButton>
           </Reveal>
         </div>

@@ -40,7 +40,7 @@ function PostRequirement() {
 
       <section className="neu-canvas-dark section-y">
         <div className="container-x">
-          <Reveal>
+          <Reveal from="left">
             <p className="neu-flat mx-auto max-w-2xl p-5 text-[15px] text-muted">
               Graviyx currently sources <strong className="text-fg">finished goods</strong>. Custom
               parts made to your drawings, and semi-finished goods, aren't available yet. See{" "}

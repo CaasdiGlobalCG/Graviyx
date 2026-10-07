@@ -71,25 +71,30 @@ function Contact() {
                     setSent(true);
                   }}
                 >
-                  <fieldset>
-                    <legend className="eyebrow mb-3 block text-fg">Enquiry type</legend>
-                    <div className="flex flex-wrap gap-2">
-                      {ENQUIRY_TYPES.map((t) => (
-                        <button
-                          key={t.id}
-                          type="button"
-                          onClick={() => setType(t.id)}
-                          className={
-                            type === t.id
-                              ? "neu-pressed px-5 py-3 text-[14px] font-semibold text-fg"
-                              : "neu-control px-5 py-3 text-[14px] font-medium text-fg"
-                          }
-                        >
-                          {t.label}
-                        </button>
-                      ))}
-                    </div>
-                  </fieldset>
+                  {/* Bottom reveal, not a side one: this fieldset sits INSIDE the form panel,
+                      whose padding is 24-36px, so a 48px horizontal travel would overhang the
+                      panel's own edge as it scrolls in. */}
+                  <Reveal>
+                    <fieldset>
+                      <legend className="eyebrow mb-3 block text-fg">Enquiry type</legend>
+                      <div className="flex flex-wrap gap-2">
+                        {ENQUIRY_TYPES.map((t) => (
+                          <button
+                            key={t.id}
+                            type="button"
+                            onClick={() => setType(t.id)}
+                            className={
+                              type === t.id
+                                ? "neu-pressed px-5 py-3 text-[14px] font-semibold text-fg"
+                                : "neu-control px-5 py-3 text-[14px] font-medium text-fg"
+                            }
+                          >
+                            {t.label}
+                          </button>
+                        ))}
+                      </div>
+                    </fieldset>
+                  </Reveal>
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <label className="block">
@@ -185,7 +190,7 @@ function Contact() {
 
       <section className="neu-canvas-dark section-y">
         <div className="container-x">
-          <Reveal delay={0.1}>
+          <Reveal from="right" delay={0.1}>
             <div className="neu-flat mx-auto max-w-2xl px-6 py-8 text-center">
               <p className="text-[15px] text-muted">
                 Sourcing finished goods?{" "}

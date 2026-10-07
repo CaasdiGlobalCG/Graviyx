@@ -136,7 +136,7 @@ function Login() {
 
       <section className="neu-canvas-dark section-y">
         <div className="container-x">
-          <Reveal delay={0.1}>
+          <Reveal from="left" delay={0.1}>
             <div className="neu-flat mx-auto max-w-md px-6 py-8 text-center">
               <p className="text-[15px] text-muted">
                 New to Graviyx?{" "}

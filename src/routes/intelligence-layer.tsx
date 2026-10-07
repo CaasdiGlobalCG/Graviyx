@@ -67,7 +67,7 @@ const functions = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -101,7 +101,12 @@ function Jobs() {
         <ul className="mt-12 grid gap-6 lg:grid-cols-2">
           {functions.map((job, i) => (
             <li key={job.title} className="h-full">
-              <Reveal delay={i * 0.08} y={16} className="neu-flat flex h-full flex-col p-6 md:p-8">
+              <Reveal
+                delay={i * 0.08}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat flex h-full flex-col p-6 md:p-8"
+              >
                 <h3 className="display-sm text-fg">{job.title}</h3>
                 <p className="body-copy mt-4 text-[15px] text-fg">{job.action}</p>
                 <p className="body-copy mt-4 text-[15px] text-fg">
@@ -142,7 +147,7 @@ function WhatItLearnsFrom() {
           heading="What it learns from"
           lead="Supplier scorecards, demand signals, warehouse stock and the evidence on each supplier's record. Every deal makes the next one better."
         />
-        <Reveal className="mt-10">
+        <Reveal from="right" className="mt-10">
           <Link
             to="/fulfillment-warehousing"
             className="neu-control inline-flex items-center px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase"
@@ -161,7 +166,7 @@ function Closing() {
     <section className="surface-ink section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
       <div className="container-x relative">
-        <Reveal className="max-w-3xl">
+        <Reveal from="left" className="max-w-3xl">
           <h2 className="display-md text-fg">See where software stops and a person starts.</h2>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/for-buyers" className="btn btn-on-ink">

@@ -64,7 +64,7 @@ const STAGES = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -83,7 +83,12 @@ function WhatYouGet() {
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {BENEFITS.map((card, i) => (
             <li key={card.title} className="h-full">
-              <Reveal delay={i * 0.08} y={16} className="neu-flat flex h-full flex-col p-6 md:p-7">
+              <Reveal
+                delay={i * 0.08}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat flex h-full flex-col p-6 md:p-7"
+              >
                 <h3 className="display-sm text-fg">{card.title}</h3>
                 <p className="body-copy mt-3 text-[15px] text-fg">{card.body}</p>
               </Reveal>
@@ -121,6 +126,7 @@ function Stages() {
             <li key={stage.name}>
               <Reveal
                 delay={i * 0.06}
+                from={i % 2 === 0 ? "left" : "right"}
                 className="neu-flat flex items-baseline gap-4 px-5 py-5 md:gap-6 md:px-7 md:py-6"
               >
                 <span className="font-mono text-[10px] leading-none tracking-[0.22em] text-muted tabular-nums">
@@ -149,13 +155,18 @@ function Pricing() {
           heading="Simple, and tied to results."
           lead="Buyers work on one of three models: pay per deal, category-based pricing, or a subscription for high volume. Terms are agreed with your specialist."
         />
-        <PricingLogic
-          paths={[
-            { name: "Pay per deal", body: "Priced to the transaction." },
-            { name: "Category-based pricing", body: "Priced to the category." },
-            { name: "Subscription for high volume", body: "For buyers with high transaction volume." },
-          ]}
-        />
+        <Reveal from="left">
+          <PricingLogic
+            paths={[
+              { name: "Pay per deal", body: "Priced to the transaction." },
+              { name: "Category-based pricing", body: "Priced to the category." },
+              {
+                name: "Subscription for high volume",
+                body: "For buyers with high transaction volume.",
+              },
+            ]}
+          />
+        </Reveal>
       </div>
     </section>
   );
@@ -167,7 +178,7 @@ function Closing() {
     <section className="surface-ink section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
       <div className="container-x relative">
-        <Reveal className="max-w-3xl">
+        <Reveal from="left" className="max-w-3xl">
           <h2 className="display-md text-fg">Stop chasing. Start comparing.</h2>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/for-buyers" className="btn btn-on-ink">

@@ -59,7 +59,7 @@ const BENEFITS = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -78,7 +78,12 @@ function WhatYouGet() {
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {BENEFITS.map((card, i) => (
             <li key={card.title} className="h-full">
-              <Reveal delay={i * 0.08} y={16} className="neu-flat flex h-full flex-col p-6 md:p-7">
+              <Reveal
+                delay={i * 0.08}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat flex h-full flex-col p-6 md:p-7"
+              >
                 <h3 className="display-sm text-fg">{card.title}</h3>
                 <p className="body-copy mt-3 text-[15px] text-fg">{card.body}</p>
               </Reveal>
@@ -98,22 +103,23 @@ function Verification() {
         <SoftHead index="03" heading="Three checks, then a scorecard." />
         <div className="mt-12 space-y-3">
           {checks.map((item, index) => (
-            <motion.div
-              key={item.title}
-              className="neu-flat flex gap-5 p-6"
-              initial={{ y: 18 }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.16 }}
-            >
-              <span className="mark-dot mt-2 shrink-0" />
-              <div>
-                <h3 className="display-sm text-fg">
-                  {index + 1}. {item.title}
-                </h3>
-                <p className="body-copy mt-2 text-[16px]">{item.body}</p>
-              </div>
-            </motion.div>
+            <Reveal key={item.title} from={index % 2 === 0 ? "left" : "right"}>
+              <motion.div
+                className="neu-flat flex gap-5 p-6"
+                initial={{ y: 18 }}
+                whileInView={{ y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.16 }}
+              >
+                <span className="mark-dot mt-2 shrink-0" />
+                <div>
+                  <h3 className="display-sm text-fg">
+                    {index + 1}. {item.title}
+                  </h3>
+                  <p className="body-copy mt-2 text-[16px]">{item.body}</p>
+                </div>
+              </motion.div>
+            </Reveal>
           ))}
         </div>
         <p className="body-copy mt-8 max-w-3xl text-[16px] text-fg">
@@ -153,7 +159,7 @@ function Closing() {
     <section className="surface-ink section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
       <div className="container-x relative">
-        <Reveal className="max-w-3xl">
+        <Reveal from="left" className="max-w-3xl">
           <h2 className="display-md text-fg">Verified once. Visible to every buyer.</h2>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/contact" className="btn btn-on-ink">

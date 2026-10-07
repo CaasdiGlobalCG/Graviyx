@@ -49,7 +49,7 @@ const ROADMAP = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -64,7 +64,7 @@ function About() {
     <>
       <section className="neu-canvas section-y">
         <div className="container-x">
-          <Reveal className="max-w-3xl">
+          <Reveal from="left" className="max-w-3xl">
             <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
               01
             </span>
@@ -91,7 +91,7 @@ function About() {
       <section className="neu-canvas-dark section-y">
         <div className="container-x">
           <SoftHead index="03" heading="The name" />
-          <Reveal className="mt-8 max-w-3xl">
+          <Reveal from="right" className="mt-8 max-w-3xl">
             <p className="body-copy text-[17px] text-fg">
               <strong className="text-fg">GRAVIYX:</strong> Global Resource Access &amp; Verified
               Industrial Yield eXchange. Worldwide access to verified industrial supply, exchanged
@@ -110,7 +110,13 @@ function About() {
           />
           <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PROPERTIES.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.08} y={14} className="neu-flat p-6">
+              <Reveal
+                key={p.title}
+                delay={i * 0.08}
+                y={14}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat p-6"
+              >
                 <span aria-hidden="true" className="mark-dot mb-5 block" />
                 <p className="text-[16px] text-fg">
                   <strong className="text-fg">{p.title}</strong>, {p.body}
@@ -126,7 +132,13 @@ function About() {
           <SoftHead index="05" heading="Roadmap" />
           <ul className="mt-12 grid gap-5 md:grid-cols-3">
             {ROADMAP.map((r, i) => (
-              <Reveal key={r.term} delay={i * 0.1} y={16} className="neu-raised p-6 md:p-7">
+              <Reveal
+                key={r.term}
+                delay={i * 0.1}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-raised p-6 md:p-7"
+              >
                 <span className="eyebrow">{r.term}</span>
                 <p className="body-copy mt-3 text-[16px] text-fg">{r.body}</p>
               </Reveal>
@@ -138,7 +150,7 @@ function About() {
       <section className="neu-canvas section-y">
         <div className="container-x">
           <SoftHead index="06" heading="The team" />
-          <Reveal className="mt-8 max-w-3xl">
+          <Reveal from="right" className="mt-8 max-w-3xl">
             <p className="body-copy text-[17px] text-fg">
               Four groups build and run Graviyx: AI and engineering, procurement specialists,
               supplier verification, and logistics and warehousing.{" "}

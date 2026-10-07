@@ -56,7 +56,7 @@ const COMPARISON: [string, string, string][] = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -86,6 +86,7 @@ function Trust() {
                 key={layer.title}
                 delay={i * 0.08}
                 y={16}
+                from={i % 2 === 0 ? "left" : "right"}
                 className="neu-raised flex gap-5 p-6 md:p-8"
               >
                 <span aria-hidden="true" className="mark-dot mt-2 shrink-0" />
@@ -112,7 +113,7 @@ function Trust() {
       <section className="neu-canvas section-y">
         <div className="container-x">
           <SoftHead index="04" heading="The old way vs Graviyx" />
-          <Reveal className="mt-12 overflow-x-auto">
+          <Reveal from="right" className="mt-12 overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-border">
@@ -148,7 +149,7 @@ function Trust() {
       <section className="neu-canvas section-y">
         <div className="container-x">
           <SoftHead index="06" heading="Customer stories" />
-          <Reveal className="neu-inset mt-12 px-6 py-14 text-center md:py-20">
+          <Reveal from="right" className="neu-inset mt-12 px-6 py-14 text-center md:py-20">
             <span aria-hidden="true" className="mark-dot pulse-dot mx-auto mb-6 block" />
             <p className="body-copy mx-auto max-w-xl text-[16px] text-fg">
               Customer stories will appear here once verified deals are complete and customers agree

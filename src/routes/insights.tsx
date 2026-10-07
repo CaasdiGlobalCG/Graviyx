@@ -43,12 +43,15 @@ function WhatNext() {
   return (
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
-        <SectionHead eyebrow="What's next" title="In build, not yet live." />
+        <Reveal from="left">
+          <SectionHead eyebrow="What's next" title="In build, not yet live." />
+        </Reveal>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {ROADMAP.map((card, index) => (
             <Reveal
               key={card.title}
               delay={index * 0.1}
+              from={index % 2 === 0 ? "left" : "right"}
               className="neu-raised flex h-full flex-col p-6 md:p-8"
             >
               <span className="eyebrow mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-border px-3 py-1 text-meta">
@@ -76,12 +79,16 @@ function Articles() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x">
-        <SectionHead eyebrow="Articles" title="Field notes." />
+        <Reveal from="left">
+          <SectionHead eyebrow="Articles" title="Field notes." />
+        </Reveal>
         <div className="mt-12">
-          <EmptyState
-            title="New content is on the way."
-            body="Articles will appear here as they are published."
-          />
+          <Reveal from="right">
+            <EmptyState
+              title="New content is on the way."
+              body="Articles will appear here as they are published."
+            />
+          </Reveal>
         </div>
       </div>
     </section>

@@ -111,7 +111,7 @@ const GO_DEEPER = [
  */
 function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
   return (
-    <Reveal className="max-w-3xl">
+    <Reveal from="left" className="max-w-3xl">
       <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
         {index}
       </span>
@@ -130,7 +130,12 @@ function Steps() {
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((step, i) => (
             <li key={step.index} className="h-full">
-              <Reveal delay={i * 0.08} y={16} className="neu-raised flex h-full flex-col p-6 md:p-7">
+              <Reveal
+                delay={i * 0.08}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-raised flex h-full flex-col p-6 md:p-7"
+              >
                 <span className="neu-inset self-start px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
                   {step.index}
                 </span>
@@ -155,7 +160,12 @@ function KeepsWorking() {
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
           {KEEPS_WORKING.map((item, i) => (
             <li key={item.title} className="h-full">
-              <Reveal delay={i * 0.08} y={16} className="neu-flat flex h-full flex-col p-6 md:p-7">
+              <Reveal
+                delay={i * 0.08}
+                y={16}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat flex h-full flex-col p-6 md:p-7"
+              >
                 <span aria-hidden="true" className="mark-dot" />
                 <h3 className="display-sm mt-5 text-fg">{item.title}</h3>
                 <p className="body-copy mt-3 text-[15px] text-fg">{item.body}</p>
@@ -177,7 +187,12 @@ function UnderTheHood() {
         <ul className="mt-12 grid gap-6 sm:grid-cols-2">
           {UNDER_THE_HOOD.map((layer, i) => (
             <li key={layer.title} className="h-full">
-              <Reveal delay={i * 0.06} y={14} className="neu-flat flex h-full gap-4 p-5 md:p-6">
+              <Reveal
+                delay={i * 0.06}
+                y={14}
+                from={i % 2 === 0 ? "left" : "right"}
+                className="neu-flat flex h-full gap-4 p-5 md:p-6"
+              >
                 <span aria-hidden="true" className="mark-dot mt-2" />
                 <div className="min-w-0">
                   <h3 className="display-sm text-fg">{layer.title}</h3>
@@ -201,7 +216,7 @@ function GoDeeper() {
         <ul className="mt-12 grid gap-6 md:grid-cols-2">
           {GO_DEEPER.map((card, i) => (
             <li key={card.to} className="h-full">
-              <Reveal delay={i * 0.08} y={18}>
+              <Reveal delay={i * 0.08} y={18} from={i % 2 === 0 ? "left" : "right"}>
                 <Link
                   to={card.to}
                   className="neu-raised flex h-full flex-col p-7 transition-transform duration-150 ease-out hover:-translate-y-px active:neu-pressed active:translate-y-px active:scale-[0.97] md:p-9"
@@ -224,7 +239,7 @@ function Closing() {
     <section className="surface-ink section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
       <div className="container-x relative">
-        <Reveal className="max-w-3xl">
+        <Reveal from="left" className="max-w-3xl">
           <h2 className="display-md text-fg">Try it on a real requirement.</h2>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/for-buyers" className="btn btn-on-ink">

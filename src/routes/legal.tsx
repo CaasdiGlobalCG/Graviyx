@@ -32,7 +32,7 @@ function Notice() {
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
         <SectionHead eyebrow="Documents" title="Privacy, terms and security." />
-        <Reveal className="mt-8 max-w-3xl">
+        <Reveal from="left" className="mt-8 max-w-3xl">
           <div className="neu-raised p-7 md:p-9">
             <p className="body-copy text-[16px]">
               <strong className="text-fg">
@@ -53,29 +53,35 @@ function Documents() {
     <section className="neu-canvas section-y">
       <div className="container-x">
         <div className="grid gap-4 md:grid-cols-3">
-          <LinkOutCard
-            eyebrow="Privacy"
-            title="Privacy Policy"
-            body="Being finalised. It will be published here."
-            to="/legal/privacy-policy"
-            cta="View"
-          />
-          <LinkOutCard
-            eyebrow="Terms"
-            title="Terms of Service"
-            body="Being finalised. It will be published here."
-            to="/legal/terms-of-service"
-            cta="View"
-            delay={0.08}
-          />
-          <LinkOutCard
-            eyebrow="Security"
-            title="Security & Data Handling"
-            body="Being finalised. It will be published here."
-            to="/legal/security"
-            cta="View"
-            delay={0.16}
-          />
+          <Reveal from="left" className="h-full">
+            <LinkOutCard
+              eyebrow="Privacy"
+              title="Privacy Policy"
+              body="Being finalised. It will be published here."
+              to="/legal/privacy-policy"
+              cta="View"
+            />
+          </Reveal>
+          <Reveal from="right" className="h-full">
+            <LinkOutCard
+              eyebrow="Terms"
+              title="Terms of Service"
+              body="Being finalised. It will be published here."
+              to="/legal/terms-of-service"
+              cta="View"
+              delay={0.08}
+            />
+          </Reveal>
+          <Reveal from="left" className="h-full">
+            <LinkOutCard
+              eyebrow="Security"
+              title="Security & Data Handling"
+              body="Being finalised. It will be published here."
+              to="/legal/security"
+              cta="View"
+              delay={0.16}
+            />
+          </Reveal>
         </div>
       </div>
     </section>

@@ -30,7 +30,7 @@ function Security() {
       <Hero eyebrow="Legal" headline="Security & Data Handling." compact />
       <section className="neu-canvas-dark section-y">
         <div className="container-x">
-          <Reveal className="mx-auto max-w-3xl">
+          <Reveal from="left" className="mx-auto max-w-3xl">
             <div className="neu-raised p-7 md:p-9">
               <p className="body-copy text-[17px]">
                 <strong className="text-fg">

@@ -31,9 +31,13 @@ function Coverage() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x">
-        <SectionHead eyebrow="Coverage" title="Nine sectors." />
-        <IndustryChips size="lg" />
-        <Reveal className="mt-10">
+        <Reveal from="left">
+          <SectionHead eyebrow="Coverage" title="Nine sectors." />
+        </Reveal>
+        <Reveal from="right">
+          <IndustryChips size="lg" />
+        </Reveal>
+        <Reveal from="left" className="mt-10">
           <div className="neu-flat max-w-3xl p-6 md:p-7">
             <p className="body-copy text-[16px] text-fg">
               Don't see your sector?{" "}
@@ -54,7 +58,10 @@ function Closing() {
   return (
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
-        <Reveal className="neu-raised mx-auto flex max-w-3xl flex-col items-center p-8 text-center md:p-12">
+        <Reveal
+          from="left"
+          className="neu-raised mx-auto flex max-w-3xl flex-col items-center p-8 text-center md:p-12"
+        >
           <h2 className="display-md text-fg">Your industry, your requirement.</h2>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link
