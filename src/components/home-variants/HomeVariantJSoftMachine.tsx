@@ -5,6 +5,12 @@
 //          it. Seven soft sections share one canvas, framed by the page's two rationed Ink
 //          bands — the hero and the closing — where neumorphism does not read and the page
 //          goes flat with hairlines instead.
+//
+//          This is the accessible "Soft UI Evolution" form the design database prefers over
+//          classic neumorphism (which it flags "⚠ Low contrast"): body copy on the canvas is
+//          `text-fg` and `text-meta` never appears on a neumorphic surface, the press shrinks
+//          to scale(0.97) as well as translating and reweighting, and `box-shadow` is swapped
+//          rather than animated.
 // CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
 //          ./HomeVariantJSoftMachine.parts (the primitives), @/components/site/Reveal,
 //          @/components/site/Section, SectionHead, IndiaCoverageMap, EcosystemDiagram (the two
@@ -85,7 +91,7 @@ function Problem() {
           ))}
         </ul>
         <Reveal className="mt-10">
-          <p className="lead max-w-3xl">{PROBLEM.closing}</p>
+          <p className="lead max-w-3xl text-fg">{PROBLEM.closing}</p>
         </Reveal>
       </div>
     </section>
@@ -120,7 +126,7 @@ function SpeedAndJudgement() {
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:gap-16">
         <SoftHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
         <Reveal y={18} className="neu-flat flex flex-col p-7 md:p-9">
-          <p className="body-copy max-w-xl text-[16px]">{SPEED_AND_JUDGEMENT.body}</p>
+          <p className="body-copy max-w-xl text-[16px] text-fg">{SPEED_AND_JUDGEMENT.body}</p>
           <div className="mt-auto pt-9">
             <NeuButton to={SPEED_AND_JUDGEMENT.link.to}>{SPEED_AND_JUDGEMENT.link.label}</NeuButton>
           </div>

@@ -588,6 +588,15 @@
 
 @utility neu-canvas {
   background-color: var(--neu-canvas);
+
+  /* Neumorphism sits on a MID-TONE, which is the worst possible background for muted grey
+     text. The UX guidance is severity-High on all three of: "don't use gray text on gray
+     background", "minimum 4.5:1 for normal text", and "use darker text on light
+     backgrounds". Re-pointing --muted to steel-70 lifts body-copy, lead and eyebrow to
+     ~9.4:1 on the canvas without touching a single call site — and it means a neumorphic
+     surface never has to rely on a `text-fg` class winning a cascade-order fight with
+     `body-copy`, which is exactly the kind of fragility that breaks silently later. */
+  --muted: var(--steel-70);
 }
 
 @utility neu-raised {
@@ -662,6 +671,52 @@
     left bottom, left bottom,
     right bottom, right bottom;
   background-repeat: no-repeat;
+}
+
+/* ---------- Chamfered corners (futuristic) ----------
+   The HUD / FUI vocabulary calls for 45-degree cut corners rather than a border radius:
+   "chamfered corners used instead of radius… borderRadius: 0, chamfer via SVG path".
+   It is the single most distinctive futuristic device that survives a monochrome palette,
+   because it is geometry rather than colour.
+
+   A static clip-path is fine — the rule forbids ANIMATING clip-path, not using it.
+   Caveat: clip-path also clips any border, so a chamfered outline needs two stacked
+   elements (an outer chamfered panel in the border colour, an inner one inset by 1px in
+   the surface colour). A filled chamfered panel needs only this utility. */
+
+@utility chamfer {
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+}
+
+@utility chamfer-sm {
+  clip-path: polygon(
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%,
+    0 8px
+  );
+}
+
+@utility chamfer-all {
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
 }
 
 /* ---------- Mount stagger (hero) ----------

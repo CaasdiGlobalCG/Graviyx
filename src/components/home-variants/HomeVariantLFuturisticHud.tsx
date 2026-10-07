@@ -1,12 +1,12 @@
 // ============================================================
 // FILE: HomeVariantLFuturisticHud.tsx
 // PURPOSE: Home variant L "Heads-Up Display" — the v2.0 Home page read as a monochrome
-//          procurement instrument: bracketed panels, mono readouts, hairline grids and a
-//          single reticle. With no accent colour in the system, the futuristic read has to
-//          come from geometry, ruled telemetry and type at scale rather than from a glow.
+//          procurement instrument. The futuristic read comes from geometry (45-degree
+//          chamfers), ruled telemetry and type at scale, since the brand has no accent
+//          colour. HUD is dark-first: the two Ink bands carry the dense console and the
+//          light sections stay quiet.
 // CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
-//          @/components/site/Section, SectionHead, IndiaCoverageMap, EcosystemDiagram (the
-//          two carried-over sections), @/components/site/Reveal,
+//          @/components/site/Section, SectionHead, IndiaCoverageMap, EcosystemDiagram,
 //          @tanstack/react-router (Link), ./HomeVariantLFuturisticHud.parts (primitives).
 // ============================================================
 
@@ -30,25 +30,23 @@ import {
 import {
   CheckCell,
   CornerTicks,
+  HudCell,
   HudHead,
   HudLegend,
   HudPanel,
   IndustryEntry,
   LogRow,
-  Reticle,
   ScanSweep,
   SideRow,
   StepCell,
+  TargetScreen,
   WayPanel,
   pad2,
 } from "./HomeVariantLFuturisticHud.parts";
 
-/**
- * HERO — Ink band 1 of 2, the page's primary screen: a drifting hairline grid, corner brackets
- * and one scan sweep do the futuristic work. The heading inherits Paper and the eyebrow, subhead
- * and scope line resolve through the re-pointed semantic tokens, so no `text-ink`,
- * `btn-primary` or `btn-secondary` appears inside this band.
- */
+/** HERO — Ink band 1 of 2, the page's dense console. Two motions only: the slow grid drift and
+ *  one scan sweep. The heading inherits Paper and the eyebrow, subhead and scope line resolve
+ *  through the re-pointed semantic tokens, so no `text-ink`, `btn-primary` or `btn-secondary`. */
 function Hero() {
   return (
     <section className="surface-ink section-y relative overflow-hidden">
@@ -61,7 +59,7 @@ function Hero() {
         <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16">
           <div>
             <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="mark-dot pulse-dot" />
+              <span aria-hidden="true" className="mark-dot" />
               <p className="eyebrow">{HERO.eyebrow}</p>
             </div>
             <h1 className="display-xl mt-6 max-w-3xl">{HERO.headline}</h1>
@@ -72,25 +70,28 @@ function Hero() {
             </div>
           </div>
           <div className="hidden lg:block">
-            <Reticle className="w-[220px] xl:w-[260px]" />
+            <TargetScreen label={THE_SYSTEM.centre} className="w-[240px] xl:w-[280px]" />
           </div>
         </div>
-        <div className="mt-10 flex items-start gap-4 border-t border-border pt-4">
-          <span aria-hidden="true" className="mt-2 h-px w-6 shrink-0 bg-border" />
-          <p className="max-w-3xl text-[13px] text-on-ink-muted">{HERO.scopeLine}</p>
-        </div>
+        <HudPanel scan size="md" className="mt-10" contentClassName="p-5 md:p-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
+            <HudLegend>Scope</HudLegend>
+            <p className="text-[13px] text-on-ink-muted md:flex-1">{HERO.scopeLine}</p>
+          </div>
+        </HudPanel>
       </div>
     </section>
   );
 }
 
-/** PROBLEM — the five complaints as a ruled diagnostics log, struck through as the next arrives. */
+/** PROBLEM — the five complaints as a ruled diagnostics log. One signature motion: each line is
+ *  struck through as the next arrives. */
 function Problem() {
   return (
     <section className="section-y">
       <div className="container-x">
         <HudHead index="02" heading={PROBLEM.heading} />
-        <HudPanel scan className="mt-10">
+        <HudPanel size="md" className="mt-10">
           <ul>
             {PROBLEM.items.map((item, i) => (
               <LogRow key={item} index={pad2(i)} text={item} delay={i * 0.07} />
@@ -105,7 +106,8 @@ function Problem() {
   );
 }
 
-/** HOW_IT_WORKS — the four steps as a bracketed sequencer: Post, Compare, Order, Track. */
+/** HOW_IT_WORKS — the four steps as chamfered sequencer cells. A quiet light section: no
+ *  signature motion, only the shared Reveal. */
 function HowItWorks() {
   return (
     <section className="section-y border-t border-border">
@@ -131,7 +133,7 @@ function SpeedAndJudgement() {
       <div className="container-x grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
         <HudHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
         <div>
-          <HudPanel bare>
+          <HudPanel size="md" contentClassName="p-6">
             <p className="body-copy max-w-xl text-[16px]">{SPEED_AND_JUDGEMENT.body}</p>
           </HudPanel>
           <Reveal delay={0.08}>
@@ -143,7 +145,7 @@ function SpeedAndJudgement() {
   );
 }
 
-/** TRUST — the three verification commitments as bracketed check cells. */
+/** TRUST — the three verification commitments as chamfered check cells. */
 function Trust() {
   return (
     <section className="section-y border-t border-border">
@@ -162,7 +164,7 @@ function Trust() {
   );
 }
 
-/** TWO_WAYS_IN — the two doors, as bracketed panels of equal weight. */
+/** TWO_WAYS_IN — the two doors, as chamfered panels of equal weight. */
 function TwoWaysIn() {
   return (
     <section className="section-y border-t border-border">
@@ -194,7 +196,8 @@ function Industries() {
   );
 }
 
-/** THE_SYSTEM — the four sides ruled down the left, the GRAVIYX centre held in a bracketed panel. */
+/** THE_SYSTEM — the four sides ruled down the left, the GRAVIYX centre held in a filled
+ *  chamfer-all cell: the one surface cut on all four corners. */
 function TheSystem() {
   return (
     <section className="section-y border-t border-border">
@@ -207,10 +210,10 @@ function TheSystem() {
             ))}
           </ul>
           <Reveal delay={0.1}>
-            <div className="hud-corners panel flex flex-col items-center gap-6 p-8">
-              <span aria-hidden="true" className="mark-dot pulse-dot" />
+            <HudCell size="all" className="flex flex-col items-center gap-6 p-8">
+              <span aria-hidden="true" className="mark-dot" />
               <HudLegend className="justify-center">{THE_SYSTEM.centre}</HudLegend>
-            </div>
+            </HudCell>
           </Reveal>
         </div>
         <Reveal>
@@ -221,26 +224,27 @@ function TheSystem() {
   );
 }
 
-/**
- * CLOSING — Ink band 2 of 2. Same rules as the hero: the heading inherits Paper, the copy
- * resolves to the on-ink tones and the pair of controls is the on-ink pair. No `text-ink`,
- * no `btn-primary`, no `btn-secondary`.
- */
+/** CLOSING — Ink band 2 of 2, the second dense console. Same rules as the hero: the heading
+ *  inherits Paper, the copy resolves to the on-ink tones and the controls are the on-ink pair.
+ *  One motion only: the scan sweep. */
 function Closing() {
   return (
     <section className="surface-ink section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+      <ScanSweep />
       <div className="pointer-events-none absolute inset-3 md:inset-6">
         <CornerTicks />
       </div>
       <div className="container-x relative">
-        <HudLegend className="tabular-nums">09</HudLegend>
-        <h2 className="display-lg mt-8 max-w-3xl">{CLOSING.heading}</h2>
-        <p className="lead mt-6 max-w-2xl">{CLOSING.body}</p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">{CLOSING.primaryCta.label}</Link>
-          <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">{CLOSING.secondaryCta.label}</Link>
-        </div>
+        <HudPanel size="md" scan contentClassName="p-8 md:p-12">
+          <HudLegend className="tabular-nums">09</HudLegend>
+          <h2 className="display-lg mt-8 max-w-3xl">{CLOSING.heading}</h2>
+          <p className="lead mt-6 max-w-2xl">{CLOSING.body}</p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">{CLOSING.primaryCta.label}</Link>
+            <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">{CLOSING.secondaryCta.label}</Link>
+          </div>
+        </HudPanel>
       </div>
     </section>
   );

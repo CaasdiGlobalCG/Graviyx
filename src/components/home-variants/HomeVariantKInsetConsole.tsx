@@ -3,8 +3,7 @@
 // PURPOSE: Home variant K "Inset Console" — the complete v2.0 Home page read as a machined
 //          panel: every surface is cut INTO the page rather than pushed out of it, so content
 //          sits down inside recessed wells, channels and slots. The hero and the closing are
-//          the page's two rationed Ink bands, flat with hairlines — neumorphism does not read
-//          on Ink.
+//          the page's two rationed Ink bands, flat with hairlines — neumorphism does not read on Ink.
 // CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
 //          @/components/site/Reveal, @/components/site/Section + SectionHead +
 //          IndiaCoverageMap + EcosystemDiagram (the two carried-over sections only),
@@ -12,7 +11,8 @@
 // ============================================================
 //
 // Every section rendering a neumorphic surface also carries `neu-canvas`, so each surface's
-// background matches its parent canvas exactly — what makes it read as a recess, not a box.
+// background matches its parent canvas exactly. Body copy on those surfaces is `text-fg` and
+// `text-meta` never appears on one — see the contrast note in the .parts file.
 
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
@@ -129,7 +129,7 @@ function SpeedAndJudgement() {
         <div className="lg:pt-2">
           <Reveal>
             <div className="neu-inset p-6 md:p-8">
-              <p className="body-copy max-w-xl text-[16px]">{SPEED_AND_JUDGEMENT.body}</p>
+              <p className="max-w-xl text-[16px] text-fg">{SPEED_AND_JUDGEMENT.body}</p>
             </div>
           </Reveal>
           <Reveal delay={0.08} className="mt-8">

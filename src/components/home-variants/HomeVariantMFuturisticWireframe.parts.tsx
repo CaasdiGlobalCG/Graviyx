@@ -1,10 +1,11 @@
 // ============================================================
 // FILE: HomeVariantMFuturisticWireframe.parts.tsx
 // PURPOSE: The Signal Wireframe primitives — a technical drawing rendered as an
-//          interface. The plotted field (grid, drawn axes, ticks, real-copy labels), the
-//          dimension rule, the crosshair registration mark, the annotation leader, and the
-//          two node-and-edge diagrams: the HOW_IT_WORKS step chain and the THE_SYSTEM hub.
-//          Every mark is a 1px hairline or an SVG stroke; no colour is introduced and no
+//          interface: the plotted field, the chamfered panel, the dimension rule, the
+//          crosshair registration mark, the annotation leader and the two node-and-edge
+//          diagrams (the HOW_IT_WORKS chain and the THE_SYSTEM hub). Every mark is a 1px
+//          hairline or an SVG stroke paired with a text label, so no rule, tick or
+//          crosshair ever carries meaning on its own. No colour is introduced and no
 //          dimension, coordinate or status is ever printed.
 // CONNECTS TO: motion/react (motion, useReducedMotion), @/components/site/Reveal,
 //          HomeVariantMFuturisticWireframe.tsx (the section assembler).
@@ -23,24 +24,32 @@ const FIELD_W = 1440;
 const FIELD_H = 840;
 const AXIS_Y = 780;
 
-/** The plotted field — the drawing the variant sits on: a hairline grid, a heavier baseline
- *  with ticks, and up to two kinds of label. Labels are the only text it prints and must be
- *  real copy, because a numeric scale would mean inventing coordinates, which this repo
- *  forbids. Strokes are `currentColor`, so it renders as Paper on the Ink bands. Decorative:
- *  every string it carries is real copy repeated elsewhere on the page. `label` is one
- *  title-block note; `labels` are evenly spaced category labels. */
-export function PlotField({
-  label,
-  labels,
-  className = "",
-}: {
-  label?: string;
-  labels?: readonly string[];
+/** A chamfered panel outline — the HUD device the database calls for instead of a radius.
+ *  `clip-path` clips a border too, so a 1px chamfered outline is two stacked elements: an
+ *  outer one filled with the frame colour, an inner one inset 1px and filled with the
+ *  surface colour. Both carry `chamfer`, so the cut edges stay parallel and read as a
+ *  hairline. A *filled* chamfered panel needs only the utility, not this wrapper. */
+export function ChamferPanel({ children, className = "", frame = "bg-border", surface = "bg-paper-2" }: {
+  children: ReactNode;
   className?: string;
+  frame?: string;
+  surface?: string;
 }) {
+  return (
+    <div className={`chamfer ${frame} p-px`}>
+      <div className={`chamfer ${surface} ${className}`}>{children}</div>
+    </div>
+  );
+}
+
+/** The plotted field — the drawing the variant sits on: a hairline grid, a heavier baseline
+ *  with ticks, and one optional title-block label. The label is the only text it prints and
+ *  must be real copy, because a numeric scale would mean inventing coordinates, which this
+ *  repo forbids. Strokes are `currentColor`, so it renders as Paper on the Ink bands. The
+ *  whole field is decorative and `aria-hidden`; its label is real copy repeated elsewhere. */
+export function PlotField({ label, className = "" }: { label?: string; className?: string }) {
   const cols = Array.from({ length: 25 }, (_, i) => i * GRID);
   const rows = Array.from({ length: 15 }, (_, i) => i * GRID);
-  const cats = labels ?? [];
   return (
     <div aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
       <svg viewBox={`0 0 ${FIELD_W} ${FIELD_H}`} preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
@@ -56,15 +65,6 @@ export function PlotField({
       {label ? (
         <span className="absolute bottom-3 left-4 font-mono text-[10px] tracking-[0.22em] uppercase opacity-60">{label}</span>
       ) : null}
-      {cats.map((cat, i) => (
-        <span
-          key={cat}
-          className="absolute bottom-2 -translate-x-1/2 font-mono text-[10px] tracking-[0.22em] uppercase opacity-60"
-          style={{ left: `${((i + 0.5) / cats.length) * 100}%` }}
-        >
-          {cat}
-        </span>
-      ))}
     </div>
   );
 }
@@ -162,10 +162,8 @@ function StepCell({ step, last }: { step: { readonly key: string; readonly body:
       <span aria-hidden="true" className="absolute top-0 left-0 hidden -translate-x-1/2 md:block">
         <Crosshair className="text-fg" />
       </span>
-      <Reveal>
-        <h3 className="display-sm text-fg">{step.key}</h3>
-        <p className="body-copy mt-3 max-w-xs text-[15px]">{step.body}</p>
-      </Reveal>
+      <h3 className="display-sm text-fg">{step.key}</h3>
+      <p className="body-copy mt-3 max-w-xs text-[15px]">{step.body}</p>
     </li>
   );
 }
@@ -205,22 +203,21 @@ function HubPulse({ path, delay }: { path: string; delay: number }) {
 }
 
 /** THE_SYSTEM as a node-and-edge diagram: the four sides on the corners, GRAVIYX at the
- *  centre, one hairline edge each. Node labels are the real side keys and the real centre;
- *  the bodies follow in the keyed rows below, as a labelled figure and its legend. Shown
- *  from sm up — a phone gets HubChain instead. */
-export function HubGraph({
-  centre,
-  sides,
-  label,
-}: {
+ *  centre, one hairline edge each. The frame is a chamfered SVG polygon — the figure has a
+ *  known aspect ratio, so a real polygon keeps a true 45° cut in one element, where an HTML
+ *  clip-path would need two stacked elements and still only approximate the outline. Node
+ *  labels are the real side keys and the real centre; the bodies follow in the keyed rows
+ *  below, as a labelled figure and its legend. Shown from sm up — a phone gets HubChain. */
+export function HubGraph({ centre, sides, label }: {
   centre: string;
   sides: readonly { readonly key: string }[];
   label: string;
 }) {
   return (
-    <div className="relative mt-14 hidden border border-border bg-grid p-4 sm:block">
+    <div className="relative mt-14 hidden bg-grid sm:block">
       <svg viewBox="0 0 720 440" role="img" aria-label={label} className="w-full text-fg">
-        <g stroke="currentColor" strokeWidth={1}>
+        <polygon points="14,1 719,1 719,426 705,439 1,439 1,14" fill="none" stroke="currentColor" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+        <g stroke="currentColor" strokeWidth={1} vectorEffect="non-scaling-stroke">
           {HUB_NODES.map((n) => <line key={`e${n.x}-${n.y}`} x1={n.x} y1={n.y} x2={HUB_CENTRE.x} y2={HUB_CENTRE.y} />)}
           {HUB_NODES.map((n) => <rect key={`n${n.x}-${n.y}`} x={n.x - 6} y={n.y - 6} width={12} height={12} fill="var(--paper)" />)}
           <rect x={HUB_CENTRE.x - 11} y={HUB_CENTRE.y - 11} width={22} height={22} fill="var(--paper)" />
@@ -271,29 +268,29 @@ export function HubChain({ centre, sides }: { centre: string; sides: readonly { 
   );
 }
 
-/** A ruled row for the PROBLEM and TRUST lists: a crosshair, the copy, and — where the
- *  motion cue calls for it — a hairline drawn across the line as the next arrives. */
+/** A ruled row for the PROBLEM and TRUST lists: a crosshair, the copy, and — on the
+ *  PROBLEM list, which is the section's one signature motion — a hairline drawn across the
+ *  line as it arrives. The crosshair and the strike are both decorative and `aria-hidden`;
+ *  the sentence is the only thing that carries meaning. */
 export function StrikeRow({ text, strike = false }: { text: string; strike?: boolean }) {
   return (
     <li className="border-b border-border">
-      <Reveal>
-        <div className="flex items-baseline gap-4 py-5 md:gap-6 md:py-6">
-          <Crosshair className="mt-1 text-fg" />
-          <span className="relative inline-block text-[17px] text-fg md:text-[19px]">
-            {text}
-            {strike ? (
-              <motion.span
-                aria-hidden="true"
-                className="absolute top-1/2 left-0 h-px w-full origin-left bg-steel-30"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: 0.25, ease: EASE }}
-              />
-            ) : null}
-          </span>
-        </div>
-      </Reveal>
+      <div className="flex items-baseline gap-4 py-5 md:gap-6 md:py-6">
+        <Crosshair className="mt-1 text-fg" />
+        <span className="relative inline-block text-[17px] text-fg md:text-[19px]">
+          {text}
+          {strike ? (
+            <motion.span
+              aria-hidden="true"
+              className="absolute top-1/2 left-0 h-px w-full origin-left bg-steel-30"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.25, ease: EASE }}
+            />
+          ) : null}
+        </span>
+      </div>
     </li>
   );
 }

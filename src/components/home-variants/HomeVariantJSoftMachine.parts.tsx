@@ -2,7 +2,7 @@
 // FILE: HomeVariantJSoftMachine.parts.tsx
 // PURPOSE: The Soft Machine primitives — monochrome neumorphism for variant J. Surfaces are
 //          pushed out of the page, controls are pressed back into it, and the pressed state
-//          changes position and weight as well as shadow, so it survives greyscale.
+//          changes position, scale and weight as well as shadow, so it survives greyscale.
 // CONNECTS TO: motion/react, @tanstack/react-router (Link), @/components/site/Reveal,
 //          HomeVariantJSoftMachine.tsx (the section assembler).
 // ============================================================
@@ -16,6 +16,8 @@
 //   · Depth is for surfaces and controls. Hairlines still do the dividing.
 //   · No text sits on a shaded edge: recessed surfaces are padded well clear of their own
 //     inset shadow, and no body copy is ever placed on one.
+//   · Contrast: the canvas is a mid-tone, so body copy is `text-fg`; `text-muted` (steel-50) is
+//     the lightest a label may go. `text-meta` (steel-30) never appears on a neumorphic surface.
 
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
@@ -33,10 +35,15 @@ const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 const FOCUS = "focus-visible:outline-offset-2 focus-visible:[outline:2px_solid_var(--ink)]";
 
 /**
- * The pressed state: the surface presses in, the control drops a pixel, and the label goes up a
- * weight. Shadow alone would not survive greyscale, print or a low-contrast display.
+ * The pressed state: the surface presses in, the control drops a pixel, shrinks to 97% and the
+ * label goes up a weight. Shadow alone would not survive greyscale, print or a low-contrast
+ * display, so the press carries position, scale and weight as well — the idiomatic neumorphic
+ * press. The 0.97 is the scale the design database specifies for neumorphism.
+ *
+ * The shrink is a `scale`, so `transition-transform` animates it; `box-shadow` is never animated,
+ * the shadow is swapped by the `active:neu-pressed` class instead.
  */
-const PRESS = "active:neu-pressed active:translate-y-px active:font-semibold";
+const PRESS = "active:neu-pressed active:translate-y-px active:scale-[0.97] active:font-semibold";
 
 /** Raised at rest, lifted a hair on hover. Transform only — box-shadow is never animated. */
 const LIFT = "transition-transform duration-150 ease-out hover:-translate-y-px";
@@ -54,7 +61,7 @@ export function SoftHead({ index, heading, lead }: { index: string; heading: str
         {index}
       </span>
       <h2 className="display-lg mt-6">{heading}</h2>
-      {lead ? <p className="lead mt-5">{lead}</p> : null}
+      {lead ? <p className="lead mt-5 text-fg">{lead}</p> : null}
     </Reveal>
   );
 }
@@ -128,7 +135,7 @@ export function StepCard({
           {index}
         </span>
         <h3 className="display-sm mt-6 text-fg">{step.key}</h3>
-        <p className="body-copy mt-3 text-[15px]">{step.body}</p>
+        <p className="body-copy mt-3 text-[15px] text-fg">{step.body}</p>
       </Reveal>
     </li>
   );
@@ -166,7 +173,7 @@ export function WayCard({
           {index}
         </span>
         <h3 className="display-sm mt-6 text-fg">{card.audience}</h3>
-        <p className="body-copy mt-4 text-[16px]">{card.body}</p>
+        <p className="body-copy mt-4 text-[16px] text-fg">{card.body}</p>
         <div className="mt-auto pt-9">
           <NeuButton to={card.to}>{card.cta}</NeuButton>
         </div>
@@ -211,7 +218,7 @@ export function SystemSide({
             {index}
           </p>
           <h3 className="display-sm mt-3 text-fg">{side.key}</h3>
-          <p className="body-copy mt-2 text-[14px]">{side.body}</p>
+          <p className="body-copy mt-2 text-[14px] text-fg">{side.body}</p>
         </div>
       </Reveal>
     </li>
@@ -232,7 +239,7 @@ export function SystemCore({ label, caption }: { label: string; caption: string 
       <span aria-hidden="true" className="mark-dot pulse-dot relative" />
       <p className="eyebrow relative">{label}</p>
       <span aria-hidden="true" className="relative block h-px w-16 bg-border" />
-      <p className="body-copy relative text-[13px]">{caption}</p>
+      <p className="body-copy relative text-[13px] text-fg">{caption}</p>
     </Reveal>
   );
 }

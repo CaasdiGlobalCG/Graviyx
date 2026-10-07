@@ -9,6 +9,10 @@
 //
 // Neumorphic rule this file depends on: an element's background must match its parent canvas
 // exactly, so every section that renders one of these primitives carries `neu-canvas`.
+//
+// CONTRAST (the accessible form of neumorphism — home-variants-context.md): the canvas is a
+// mid-tone, so body copy is `text-fg`, `text-muted` (~4.8:1) is the lightest tone permitted,
+// `text-meta` (~2.5:1) never appears here, and a deep `neu-pressed` well holds no text.
 
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
@@ -18,8 +22,10 @@ import { Reveal } from "@/components/site/Reveal";
 /** Mirrors --ease-signal in src/styles.css. A tuple so Motion's type accepts it. */
 const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
-/** The press transition, expressed through the motion tokens rather than a new curve. */
-const PRESS = "transition-[translate] duration-[var(--motion-fast)] ease-[var(--ease-signal)]";
+/** The press: drop 2px and scale to 0.97 (the database's value). The transition covers both
+ *  individual transform properties; box-shadow is swapped as a class, never animated. */
+const PRESS =
+  "transition-[translate,scale] duration-[var(--motion-fast)] ease-[var(--ease-signal)] active:translate-y-[2px] active:scale-[0.97]";
 /** An outline ring, not a box-shadow: the neu-* utilities already own box-shadow. */
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
@@ -39,26 +45,44 @@ export function sidePlacement(i: number): string {
   return placement ?? "";
 }
 
-/** The mono readout. Every index and label in the console is set in it. */
-export function Readout({ children, className = "" }: { children: ReactNode; className?: string }) {
+/** The mono readout. `text-muted` is the lightest tone permitted here; `tone="fg"` where the
+ *  readout carries meaning in its own right. Never `text-meta`. */
+export function Readout({
+  children,
+  tone = "muted",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: "muted" | "fg";
+  className?: string;
+}) {
   return (
     <span
-      className={`font-mono text-[11px] leading-none tracking-[0.22em] text-muted tabular-nums ${className}`}
+      className={`font-mono text-[11px] leading-none tracking-[0.22em] tabular-nums ${
+        tone === "fg" ? "text-fg" : "text-muted"
+      } ${className}`}
     >
       {children}
     </span>
   );
 }
 
-/** The section head: the mono index sunk into a pressed slot, the heading set beside it. */
+/** The section head: the heading and index on the bare canvas, the pressed well beside them
+ *  holding a non-textual indicator, so no type sits on its inset lip. */
 export function ConsoleHead({ index, heading }: { index: string; heading: string }) {
   return (
     <Reveal>
       <div className="flex items-start gap-5 md:gap-8">
-        <span className="neu-pressed mt-1 inline-flex w-fit shrink-0 items-center px-4 py-3 md:px-5">
-          <Readout>{index}</Readout>
+        <span
+          aria-hidden="true"
+          className="neu-pressed mt-2 inline-flex h-11 w-11 shrink-0 items-center justify-center"
+        >
+          <span className="mark-dot pulse-dot" />
         </span>
-        <h2 className="display-lg max-w-3xl text-fg">{heading}</h2>
+        <div>
+          <Readout>{index}</Readout>
+          <h2 className="display-lg mt-3 max-w-3xl text-fg">{heading}</h2>
+        </div>
       </div>
     </Reveal>
   );
@@ -89,7 +113,7 @@ export function ChannelRow({
             {strike ? (
               <motion.span
                 aria-hidden="true"
-                className="absolute top-1/2 left-0 h-px w-full origin-left bg-steel-30"
+                className="absolute top-1/2 left-0 h-px w-full origin-left bg-ink"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
@@ -139,7 +163,7 @@ export function StepSlot({
         />
       </div>
       <h3 className="display-sm mt-5 text-fg">{step.key}</h3>
-      <p className="body-copy mt-3 text-[15px]">{step.body}</p>
+      <p className="mt-3 text-[15px] text-fg">{step.body}</p>
     </li>
   );
 }
@@ -167,19 +191,20 @@ export function SideSlot({
         />
       </div>
       <h3 className="display-sm mt-4 text-fg">{side.key}</h3>
-      <p className="body-copy mt-2 text-[15px]">{side.body}</p>
+      <p className="mt-2 text-[15px] text-fg">{side.body}</p>
     </div>
   );
 }
 
-/** The centre of THE_SYSTEM: the mono readout pressed into a plate. */
+/** The centre of THE_SYSTEM: the deepest recess. The label is centred, set in `text-fg` and
+ *  padded well clear of the plate's own inset lip, so the well never shades it. */
 export function CentrePlate({ label, className = "" }: { label: string; className?: string }) {
   return (
     <div
-      className={`neu-pressed flex flex-col items-center justify-center gap-5 p-6 text-center md:p-8 ${className}`}
+      className={`neu-pressed flex flex-col items-center justify-center gap-5 p-8 text-center md:p-10 ${className}`}
     >
       <span aria-hidden="true" className="mark-dot pulse-dot" />
-      <Readout>{label}</Readout>
+      <Readout tone="fg">{label}</Readout>
       <span aria-hidden="true" className="block h-px w-14 bg-border" />
     </div>
   );
@@ -200,7 +225,7 @@ export function IndustryKey({ index, name, to }: { index: string; name: string; 
   );
 }
 
-/** One of the two ways in: a door raised out of the panel, its label sunk into it. */
+/** One of the two ways in: a door raised out of the panel, its index on the raised face. */
 export function DoorCard({
   index,
   card,
@@ -217,11 +242,17 @@ export function DoorCard({
         className={`group neu-raised flex h-full flex-col justify-between p-7 hover:-translate-y-0.5 md:p-9 ${PRESS} ${FOCUS}`}
       >
         <div>
-          <span className="neu-pressed inline-flex items-center px-3 py-2">
+          <div className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="neu-pressed inline-flex h-9 w-9 shrink-0 items-center justify-center"
+            >
+              <span className="mark-dot pulse-dot" />
+            </span>
             <Readout>{index}</Readout>
-          </span>
+          </div>
           <p className="eyebrow mt-5">{card.audience}</p>
-          <p className="body-copy mt-4 text-[16px]">{card.body}</p>
+          <p className="mt-4 text-[16px] text-fg">{card.body}</p>
         </div>
         <span className="mt-10 inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.22em] text-ink uppercase">
           {card.cta}
@@ -237,10 +268,8 @@ export function DoorCard({
   );
 }
 
-/**
- * The console control. Raised at rest, pressed on :active — and the press also drops it 2px,
- * so the state survives greyscale and print rather than living in the shadow alone.
- */
+/** The console control. Raised at rest, pressed on :active: the surface class is swapped (never
+ *  an animated box-shadow), the control drops 2px and scales to 0.97. */
 export function ConsoleAction({
   to,
   children,
@@ -252,15 +281,12 @@ export function ConsoleAction({
   tone?: "raised" | "flat";
   className?: string;
 }) {
-  const skin =
-    tone === "raised"
-      ? "neu-raised text-ink active:neu-pressed"
-      : "neu-flat text-muted hover:text-ink active:neu-pressed";
+  const skin = tone === "raised" ? "neu-raised text-ink" : "neu-flat text-fg";
 
   return (
     <Link
       to={to}
-      className={`inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-medium active:translate-y-[2px] ${PRESS} ${FOCUS} ${skin} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-medium hover:-translate-y-px active:neu-pressed ${PRESS} ${FOCUS} ${skin} ${className}`}
     >
       {children}
     </Link>

@@ -178,6 +178,67 @@ exist to avoid.
 - `hud-corners` is a `background-image`, so the element needs padding for the brackets to have room;
   do not put them on a bare text node.
 
+## Research findings — read before building
+
+These come from the `ui-ux-pro-max` design database (`skillJar/ui-ux-pro-max-skill`,
+`styles.csv` + `ux-guidelines.csv`), not from guesswork. They are the brief.
+
+### Neumorphism
+
+The database carries three relevant entries and **flags the classic form itself**:
+
+| Entry | Accessibility verdict | What it says |
+| --- | --- | --- |
+| **Neumorphism** (classic) | **⚠ Low contrast** | radius 12–16px, dual shadow `-5px -5px 15px` / `5px 5px 15px`, press 150ms |
+| **Neumorphism (Mobile)** | **⚠ Moderate — low-contrast risk** | dual-layer shadow, extruded resting, inset pressed, **scale 0.97 on press**, shadow opacity interpolates 1→0.4 |
+| **Soft UI Evolution** | **✓ WCAG AA+** | *"improved contrast, softer than flat but clearer than pure neumorphism"*, focus visible, 200–300ms |
+
+**Build the accessible form, not the classic one.** Concretely:
+
+- Radius 12–16px — the system's `--neu-radius` is 14px, already in range.
+- Light shadow `rgba(255,255,255,0.8–0.92)` and dark shadow `rgba(0,0,0,0.1)`, offsets 5–6px,
+  blur 10–15px — the system's `--neu-*` tokens already match. Use them; do not hand-roll.
+- **Press: `scale(0.97)` plus the inset swap.** The database specifies a scale on press; the
+  system currently only translates. Add the scale — it is the idiomatic neumorphic press and
+  it is a transform.
+- **Contrast is the whole risk.** The UX guidelines are severity **High** on all three of:
+  *"Don't: gray text on gray background"*, *"minimum 4.5:1 for normal text"*, and *"use darker
+  text on light backgrounds"*. A neumorphic canvas is a mid-tone, so it is the worst possible
+  background for muted grey text. **Never put `text-meta` (steel-30) body copy on a neumorphic
+  surface.** Use `text-fg` for body and `text-muted` (steel-50 ≈ 4.7:1 on paper-2) at the
+  lightest, and prefer larger sizes for anything quieter.
+- Do not animate `box-shadow` — swap the shadow class instead, and carry the state change in
+  scale and position so it survives greyscale.
+
+### Futuristic / HUD
+
+The database's three entries are **HUD / Sci-Fi FUI** (*"⚠ Poor — thin lines"*, *"Light Mode:
+Low"*), **Cyberpunk UI** (*"⚠ Limited — dark + neon"*) and **Cyberpunk Mobile HUD**
+(*"⚠ requires careful reduced-motion handling"*). All three depend on **neon colour**, which
+this brand forbids — so take the *structure* and leave the colour:
+
+- **Chamfered 45° corners instead of a border radius.** `"chamfered corners used instead of
+  radius… borderRadius: 0, chamfer via SVG path"`. The system now provides `chamfer`,
+  `chamfer-sm` and `chamfer-all`. This is the strongest futuristic signal available to a
+  monochrome palette, because it is geometry. Use it.
+- **1px hairlines, monospaced technical type, decorative brackets, technical markers,
+  scanlines.** The database names JetBrains Mono explicitly for data — the brand's `font-mono`
+  already is JetBrains Mono, so the `eyebrow` utility and `tabular-nums` are exactly right.
+- **HUD is dark-first** (*"Light Mode: Low"*). Keep the signature instrument moments on the
+  Ink bands, and hold the light sections back — a HUD on a light ground is the weakest form of
+  this style, which is why the previous revision read flat.
+- **"⚠ Poor — thin lines":** never let a 1px rule carry meaning on its own. Every rule,
+  bracket and tick must be paired with a text label.
+- **Motion cap — severity High:** *"Animate 1–2 key elements per view maximum. Don't animate
+  everything that moves."* A HUD tempts you to animate every readout. Do not. Pick one or two
+  signature motions per section and leave the rest static.
+
+### Both styles
+
+Severity **High** and already enforced system-wide: visible focus rings (`:focus-visible` is
+now an outline, so it survives any shadow), 4.5:1 text contrast, and `prefers-reduced-motion`.
+Do not regress any of them.
+
 ## Two sections that must appear in EVERY variant, unchanged
 
 Every variant must render these two sections, with exactly this copy and these components. They are

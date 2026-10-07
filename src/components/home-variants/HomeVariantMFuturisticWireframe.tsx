@@ -1,13 +1,13 @@
 // ============================================================
 // FILE: HomeVariantMFuturisticWireframe.tsx
 // PURPOSE: Home variant M "Signal Wireframe" — the complete v2.0 Home content drawn as a
-//          technical drawing that happens to be interactive. Plotted fields with drawn
-//          axes, dimension rules, crosshair registration marks and node-and-edge diagrams
-//          carry the page; the hero and the closing are its two rationed Ink bands.
+//          technical drawing that happens to be interactive. Plotted fields, dimension
+//          rules, crosshair registration marks and chamfered node-and-edge diagrams carry
+//          the page; the hero and the closing are the two rationed Ink bands and carry the
+//          strongest drawing. Each section is capped at one or two motions.
 // CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
-//          @/components/site/Section, SectionHead, IndiaCoverageMap, EcosystemDiagram (the
-//          two carried-over sections), @/components/site/Reveal, @tanstack/react-router
-//          (Link), ./HomeVariantMFuturisticWireframe.parts (the primitives).
+//          @/components/site/{Section,SectionHead,IndiaCoverageMap,EcosystemDiagram,Reveal},
+//          @tanstack/react-router (Link), ./*.parts (the primitives).
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
@@ -29,6 +29,7 @@ import {
 } from "@/components/home-variants/shared/home-variants.constants";
 import {
   Annotation,
+  ChamferPanel,
   CornerMarks,
   DimensionRule,
   HubChain,
@@ -39,9 +40,11 @@ import {
   WireHead,
 } from "./HomeVariantMFuturisticWireframe.parts";
 
-/** HERO — the Ink hero, the first of two rationed dark bands. The plotted field and corner
- *  registration marks are decorative; the copy resolves through the re-pointed tokens and
- *  the heading inherits Paper, so no `text-ink`, `btn-primary` or `btn-secondary` inside. */
+/** HERO — the Ink hero, the first of two rationed dark bands and the strongest drawing on
+ *  the page: full-bleed plotted field, corner registration marks and a chamfered title
+ *  block. The marks are decorative; the copy resolves through the re-pointed tokens and the
+ *  heading inherits Paper, so no `text-ink`, `btn-primary` or `btn-secondary` inside. One
+ *  motion only — the pulsing scope dot. */
 function Hero() {
   return (
     <section className="surface-ink section-y relative overflow-hidden">
@@ -60,8 +63,10 @@ function Hero() {
             <Link to={HERO.primaryCta.to} className="btn btn-on-ink">{HERO.primaryCta.label}</Link>
             <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">{HERO.secondaryCta.label}</Link>
           </div>
-          <div className="mt-10 border-t border-border pt-4">
-            <p className="text-[13px] text-on-ink-muted">{HERO.scopeLine}</p>
+          <div className="chamfer-sm mt-10 max-w-md bg-border-soft p-px">
+            <div className="chamfer-sm bg-ink px-4 py-3">
+              <p className="text-[13px] text-on-ink-muted">{HERO.scopeLine}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -69,7 +74,9 @@ function Hero() {
   );
 }
 
-/** PROBLEM — the five complaints as ruled rows, each struck through as the next arrives. */
+/** PROBLEM — the five complaints as ruled rows. Two motions only: the head reveal and the
+ *  strike-through, which is this section's signature. The rows and the closing line are
+ *  static. */
 function Problem() {
   return (
     <section className="section-y relative">
@@ -80,15 +87,14 @@ function Problem() {
             <StrikeRow key={item} text={item} strike={i < PROBLEM.items.length - 1} />
           ))}
         </ul>
-        <Reveal className="mt-10">
-          <p className="lead max-w-3xl">{PROBLEM.closing}</p>
-        </Reveal>
+        <p className="lead mt-10 max-w-3xl">{PROBLEM.closing}</p>
       </div>
     </section>
   );
 }
 
-/** HOW_IT_WORKS — the four steps as the nodes of one chain, in one reading order. */
+/** HOW_IT_WORKS — the four steps as the nodes of one chain, in one reading order. The
+ *  nodes are static; two motions only — the head reveal and the CTA reveal. */
 function HowItWorks() {
   return (
     <section className="section-y relative">
@@ -103,27 +109,29 @@ function HowItWorks() {
   );
 }
 
-/** SPEED_AND_JUDGEMENT — the statement, split into a head and a plotted panel. */
+/** SPEED_AND_JUDGEMENT — the statement, split into a head and a chamfered, scanlined panel.
+ *  Two motions only — the head reveal and the panel reveal. */
 function SpeedAndJudgement() {
   return (
     <section className="section-y relative">
       <div className="container-x grid gap-10 md:grid-cols-2 md:gap-16">
         <WireHead heading={SPEED_AND_JUDGEMENT.heading} />
         <Reveal>
-          <div className="hud-corners hud-scanlines border border-border bg-paper-2 p-6 md:p-8">
+          <ChamferPanel className="hud-scanlines p-6 md:p-8">
             <DimensionRule className="max-w-xs" />
             <p className="body-copy mt-6 text-[16px]">{SPEED_AND_JUDGEMENT.body}</p>
             <Link to={SPEED_AND_JUDGEMENT.link.to} className="btn btn-secondary mt-8">
               {SPEED_AND_JUDGEMENT.link.label}
             </Link>
-          </div>
+          </ChamferPanel>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/** TRUST — three commitments as ruled rows, each with its own registration mark. */
+/** TRUST — three commitments as ruled rows, each anchored by a registration mark. Two
+ *  motions only — the head reveal and the CTA reveal; the rows are static. */
 function Trust() {
   return (
     <section className="section-y relative">
@@ -142,15 +150,16 @@ function Trust() {
   );
 }
 
-/** TWO_WAYS_IN — the two doors as the two categories of one plotted field. */
+/** TWO_WAYS_IN — the two doors as a divided band. Deliberately held back: no plotted field
+ *  here, so the full-bleed field stays a signature of the Ink bands. One motion — the head
+ *  reveal; the cards only respond to hover. */
 function TwoWaysIn() {
   return (
     <section className="section-y relative">
       <div className="container-x">
         <WireHead heading={TWO_WAYS_IN.heading} />
-        <div className="relative mt-12 border-y border-border py-10">
-          <PlotField labels={TWO_WAYS_IN.cards.map((card) => card.audience)} />
-          <div className="relative grid md:grid-cols-2 md:divide-x md:divide-border">
+        <div className="mt-12 border-y border-border py-10">
+          <div className="grid md:grid-cols-2 md:divide-x md:divide-border">
             {TWO_WAYS_IN.cards.map((card) => (
               <Link key={card.to} to={card.to} className="group flex flex-col justify-between bg-paper p-8 transition-colors duration-200 hover:bg-paper-2">
                 <div>
@@ -173,7 +182,8 @@ function TwoWaysIn() {
   );
 }
 
-/** INDUSTRIES_SECTION — the industries as a measured register whose name is the link. */
+/** INDUSTRIES_SECTION — the industries as a measured register whose name is the link. One
+ *  motion only — the head reveal; the register itself is static. */
 function Industries() {
   return (
     <section className="section-y relative">
@@ -182,14 +192,12 @@ function Industries() {
         <ul className="mt-12 grid border-t border-border sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-3">
           {INDUSTRIES_SECTION.items.map((name) => (
             <li key={name} className="border-b border-border">
-              <Reveal>
-                <Link to={INDUSTRIES_SECTION.to} className="group flex items-center gap-4 py-4">
-                  <span aria-hidden="true" className="h-px w-5 shrink-0 bg-border-soft" />
-                  <span className="display-sm text-steel-50 transition-colors duration-200 group-hover:text-ink">
-                    {name}
-                  </span>
-                </Link>
-              </Reveal>
+              <Link to={INDUSTRIES_SECTION.to} className="group flex items-center gap-4 py-4">
+                <span aria-hidden="true" className="h-px w-5 shrink-0 bg-border-soft" />
+                <span className="display-sm text-steel-50 transition-colors duration-200 group-hover:text-ink">
+                  {name}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
@@ -198,7 +206,9 @@ function Industries() {
   );
 }
 
-/** THE_SYSTEM — four sides and one centre, drawn as a node-and-edge diagram plus its key. */
+/** THE_SYSTEM — four sides and one centre, drawn as a node-and-edge diagram plus its key.
+ *  Two motions only — the head reveal and the pulses travelling the hub edges; the keyed
+ *  rows and the caption are static. */
 function TheSystem() {
   return (
     <section className="section-y relative">
@@ -208,27 +218,20 @@ function TheSystem() {
         <HubChain centre={THE_SYSTEM.centre} sides={THE_SYSTEM.sides} />
         <ul className="mt-12 grid border-t border-border sm:grid-cols-2 sm:gap-x-12">
           {THE_SYSTEM.sides.map((side) => (
-            <li key={side.key} className="border-b border-border">
-              <Reveal>
-                <div className="py-5">
-                  <p className="eyebrow">{side.key}</p>
-                  <p className="body-copy mt-2 max-w-md text-[15px]">{side.body}</p>
-                </div>
-              </Reveal>
+            <li key={side.key} className="border-b border-border py-5">
+              <p className="eyebrow">{side.key}</p>
+              <p className="body-copy mt-2 max-w-md text-[15px]">{side.body}</p>
             </li>
           ))}
         </ul>
-        <Reveal>
-          <Annotation text={THE_SYSTEM.caption} className="mt-8" />
-        </Reveal>
+        <Annotation text={THE_SYSTEM.caption} className="mt-8" />
       </div>
     </section>
   );
 }
 
-/** CLOSING — the Ink closing, the second and last dark band. Same rules as the hero: the
- *  heading inherits Paper, the copy resolves to on-ink tones and the buttons are the on-ink
- *  pair, so no `text-ink`, `btn-primary` or `btn-secondary` appears inside. */
+/** CLOSING — the Ink closing, the second and last dark band. Same rules as the hero: no
+ *  `text-ink`, `btn-primary` or `btn-secondary`; headings inherit Paper, copy resolves. */
 function Closing() {
   return (
     <section className="surface-ink section-y relative overflow-hidden">
