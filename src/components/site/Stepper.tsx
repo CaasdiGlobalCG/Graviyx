@@ -25,7 +25,7 @@ export function Stepper({ steps }: { steps: Step[] }) {
         initial={{ scaleY: 0 }}
         whileInView={{ scaleY: 1 }}
         viewport={{ once: true, margin: "-120px" }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 0.61, 0.36, 1] }}
       >
         <div className="h-full w-px" style={{ height: "100%" }} />
       </motion.div>
@@ -39,7 +39,7 @@ export function Stepper({ steps }: { steps: Step[] }) {
               initial={{ opacity: 0, x: 18 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.42, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.42, delay: i * 0.08, ease: [0.22, 0.61, 0.36, 1] }}
               className="relative pl-12 md:pl-16"
             >
               <span
@@ -72,7 +72,7 @@ export function Stepper({ steps }: { steps: Step[] }) {
                     className="body-copy mt-3 block text-[16px]"
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
                   >
                     {step.body}
                   </motion.span>

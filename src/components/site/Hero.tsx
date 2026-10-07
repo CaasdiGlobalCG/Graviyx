@@ -44,7 +44,7 @@ export function Hero({
             className="eyebrow mb-6 flex items-center gap-3"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
           >
             <span className="mark-dot pulse-dot" />
             {eyebrow}
@@ -55,7 +55,7 @@ export function Hero({
           className="display-xl max-w-5xl text-fg"
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 0.61, 0.36, 1] }}
         >
           {headline}
         </motion.h1>
@@ -65,7 +65,7 @@ export function Hero({
             className="lead mt-7 max-w-2xl"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
           >
             {subhead}
           </motion.p>
@@ -76,7 +76,7 @@ export function Hero({
             className="mt-10 flex flex-wrap gap-3"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, delay: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
           >
             {actions.map((a) => (
               <Link

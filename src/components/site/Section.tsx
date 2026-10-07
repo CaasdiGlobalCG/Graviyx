@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
-type Tone = "bg" | "surface" | "warm";
+type Tone = "bg" | "surface" | "warm" | "ink";
 
 const toneClass: Record<Tone, string> = {
   bg: "bg-bg",
   surface: "bg-surface",
   warm: "bg-surface-warm",
+  ink: "surface-ink",
 };
 
 export function Section({

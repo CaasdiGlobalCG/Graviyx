@@ -1,5 +1,12 @@
+// ============================================================
+// FILE: Footer.tsx
+// PURPOSE: The global footer. An Ink surface — Operon rations Ink to "nav, footer,
+//          select heroes", and this is the footer's share of that ~15%.
+// CONNECTS TO: src/styles.css (surface-ink, btn-on-ink, btn-ghost-on-ink),
+//          public/brand/graviyx-wordmark-ink.png, @tanstack/react-router.
+// ============================================================
+
 import { Link } from "@tanstack/react-router";
-import wordmark from "@/assets/graviyx-wordmark.png.asset.json";
 import type { To } from "./types";
 
 const COLUMNS: { heading: string; links: { label: string; to: To }[] }[] = [
@@ -42,20 +49,22 @@ const COLUMNS: { heading: string; links: { label: string; to: To }[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg">
+    <footer className="surface-ink border-t border-border">
       <div className="container-x py-16 md:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2.4fr]">
           <div>
-            <img src={wordmark.url} alt="Graviyx" className="h-4 w-auto invert" />
+            {/* Invert is exact here: the wordmark is pure #000000 with alpha, so
+                invert(1) yields pure white with the same alpha. No second asset needed. */}
+            <img src="/brand/graviyx-wordmark-ink.png" alt="GRAVIYX" className="h-4 w-auto invert" />
             <p className="body-copy mt-5 max-w-xs text-[15px]">
               GRAVIYX is the procurement orchestrator connecting verified manufacturers,
               sellers and industrial buyers.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/for-buyers" className="btn btn-primary">
+              <Link to="/for-buyers" className="btn btn-on-ink">
                 Marketplace
               </Link>
-              <Link to="/post-a-requirement" className="btn btn-secondary">
+              <Link to="/post-a-requirement" className="btn btn-ghost-on-ink">
                 Post a Requirement
               </Link>
             </div>

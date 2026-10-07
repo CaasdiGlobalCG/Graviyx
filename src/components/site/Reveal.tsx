@@ -11,7 +11,7 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 /** Mirrors --ease-signal in src/styles.css. Kept as a tuple so Motion's type accepts it. */
-const EASE_SIGNAL: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_SIGNAL: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
 /** Mirrors --motion-scene in src/styles.css. */
 const REVEAL_DURATION = 0.6;

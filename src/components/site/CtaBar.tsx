@@ -12,7 +12,7 @@ export function CtaBar({
   actions: HeroAction[];
 }) {
   return (
-    <section className="section-y relative overflow-hidden bg-surface-warm">
+    <section className="surface-ink section-y relative overflow-hidden">
       <div className="grid-veil pointer-events-none absolute inset-0 opacity-60" />
       <div className="container-x relative">
         <Reveal className="mx-auto max-w-3xl text-center">
@@ -23,7 +23,7 @@ export function CtaBar({
               <Link
                 key={a.label}
                 to={a.to}
-                className={`btn ${a.variant === "secondary" ? "btn-secondary" : "btn-primary"}`}
+                className={`btn ${a.variant === "secondary" ? "btn-ghost-on-ink" : "btn-on-ink"}`}
               >
                 {a.label}
               </Link>

@@ -20,7 +20,7 @@ export function PillarCard({
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay, ease: [0.22, 0.61, 0.36, 1] }}
       whileHover={{ y: -4 }}
     >
       <div className="mb-5 flex items-center gap-3">

@@ -51,6 +51,32 @@
   --danger: #dc2626;
 
   /* ──────────────────────────────────────
+     STRUCTURAL HAIRLINES — Operon's method
+     Operon BRAND.md: "ink-14 is the default hairline; ink-30 for quiet borders".
+     Structure is built from black at opacity rather than from a hex ramp, so a
+     hairline reads correctly on any surface tone. Text hierarchy still uses the
+     steel ramp above.
+     ────────────────────────────────────── */
+  --rule: rgba(0, 0, 0, 0.14);
+  --rule-soft: rgba(0, 0, 0, 0.3);
+  --rule-faint: rgba(0, 0, 0, 0.08);
+
+  /* ──────────────────────────────────────
+     ON-INK SURFACES — Operon's paper-70/55/30/14/08
+     Ink surfaces are rationed. Operon BRAND.md sets the ratio at
+     55% Paper / 25% Cloud / 15% Ink / 05% signal, with Ink reserved for
+     "nav, footer, select heroes". These are the tones that sit on top of Ink.
+     ────────────────────────────────────── */
+  --on-ink: #fafaf7;
+  --on-ink-muted: rgba(250, 250, 247, 0.7);
+  --on-ink-meta: rgba(250, 250, 247, 0.55);
+  --on-ink-rule: rgba(250, 250, 247, 0.14);
+  --on-ink-rule-soft: rgba(250, 250, 247, 0.3);
+
+  /* The bullet mark. Re-pointed on ink so it never disappears into the surface. */
+  --mark: var(--ink);
+
+  /* ──────────────────────────────────────
      SEMANTIC SURFACE / FOREGROUND
      ────────────────────────────────────── */
   --bg: var(--paper);
@@ -59,8 +85,8 @@
   --fg: var(--ink);
   --muted: var(--steel-50);
   --meta: var(--steel-30);
-  --border: var(--steel-15);
-  --border-soft: var(--steel-30);
+  --border: var(--rule);
+  --border-soft: var(--rule-soft);
 
   /* ──────────────────────────────────────
      TYPE
@@ -144,7 +170,10 @@
   --motion-slow: 420ms;
   --motion-scene: 600ms; /* the reveal/entrance duration used across components/site */
   --motion-draw: 1200ms; /* signature moments: the travelling connector line, the 65° cut */
-  --ease-signal: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Operon's ease-signal. tailwind.config.js:53 defines it as
+     cubic-bezier(0.22, 0.61, 0.36, 1) — the curve the repo rules refer to as
+     "the project's easing". */
+  --ease-signal: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-cut: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* ──────────────────────────────────────
@@ -179,6 +208,18 @@
   --color-border: var(--border);
   --color-border-soft: var(--border-soft);
   --color-danger: var(--danger);
+
+  /* Operon structural hairlines */
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-rule-faint: var(--rule-faint);
+
+  /* Operon on-ink tones */
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-muted: var(--on-ink-muted);
+  --color-on-ink-meta: var(--on-ink-meta);
+  --color-on-ink-rule: var(--on-ink-rule);
+  --color-on-ink-rule-soft: var(--on-ink-rule-soft);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -276,20 +317,20 @@
   font-weight: 500;
   letter-spacing: var(--tracking-caption);
   text-transform: uppercase;
-  color: var(--steel-50);
+  color: var(--muted);
 }
 
 @utility lead {
   font-size: clamp(16px, 1.5vw, var(--text-lg));
   line-height: 1.6;
-  color: var(--steel-50);
+  color: var(--muted);
   font-weight: var(--weight-body);
 }
 
 @utility body-copy {
   font-size: var(--text-body);
   line-height: var(--leading-body);
-  color: var(--steel-50);
+  color: var(--muted);
 }
 
 /* ---------- Structure utilities ---------- */
@@ -330,6 +371,53 @@
 
 @utility hairline {
   border-top: 1px solid var(--border);
+}
+
+/* ---------- Ink surfaces ----------
+   Ink is rationed. Operon BRAND.md sets the surface ratio at
+   55% Paper / 25% Cloud / 15% Ink / 05% signal, and reserves Ink for
+   "nav, footer, select heroes". Never let Ink become dominant.
+
+   `surface-ink` re-points the semantic tokens locally, so eyebrow, lead, body-copy,
+   panel and hairline all resolve to on-ink tones with no component changes. Because
+   the container also sets `color`, headings inherit Paper — so inside an ink surface
+   omit explicit `text-ink` and only add `text-on-ink-muted` / `text-on-ink-meta`
+   where you want a step down. */
+
+@utility surface-ink {
+  background-color: var(--ink);
+  color: var(--on-ink);
+
+  --fg: var(--on-ink);
+  --muted: var(--on-ink-muted);
+  --meta: var(--on-ink-meta);
+  --border: var(--on-ink-rule);
+  --border-soft: var(--on-ink-rule-soft);
+  --surface: rgba(255, 255, 255, 0.04);
+  --mark: var(--on-ink);
+}
+
+/* The primary button inverts on an ink surface, or it would be invisible. */
+@utility btn-on-ink {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--paper);
+
+  &:hover {
+    background: var(--steel-15);
+    border-color: var(--steel-15);
+  }
+}
+
+@utility btn-ghost-on-ink {
+  background: transparent;
+  color: var(--on-ink-muted);
+  border: 1px solid var(--on-ink-rule-soft);
+
+  &:hover {
+    color: var(--paper);
+    border-color: var(--paper);
+  }
 }
 
 /* ---------- Controls ---------- */
@@ -411,20 +499,21 @@
 
 /* ---------- Brand backgrounds ----------
    The brand book defines three: 01 Grid · 02 Diagonal · 03 Oversized symbol.
-   All three are decorative, pointer-events-none, and motion-safe. */
+   All three draw with `currentColor`, so they render correctly on Paper and on Ink
+   without a second variant. All are decorative, pointer-events-none, motion-safe. */
 
 @utility bg-grid {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
 @utility bg-diagonal {
   background-image: repeating-linear-gradient(
     -65deg,
-    color-mix(in oklab, var(--ink) 5%, transparent) 0px,
-    color-mix(in oklab, var(--ink) 5%, transparent) 1px,
+    color-mix(in oklab, currentColor 5%, transparent) 0px,
+    color-mix(in oklab, currentColor 5%, transparent) 1px,
     transparent 1px,
     transparent 12px
   );
@@ -441,8 +530,8 @@
 /* Kept for the existing hero: the grid with a soft radial falloff. */
 @utility grid-veil {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 35%, #000 10%, transparent 75%);
 }
@@ -453,7 +542,7 @@
   width: 6px;
   height: 6px;
   border-radius: 9999px;
-  background: var(--ink);
+  background: var(--mark);
   flex: none;
 }
 
@@ -503,8 +592,8 @@
 @utility wip-stripes {
   background-image: repeating-linear-gradient(
     -45deg,
-    color-mix(in oklab, var(--ink) 5%, transparent) 0px,
-    color-mix(in oklab, var(--ink) 5%, transparent) 10px,
+    color-mix(in oklab, currentColor 5%, transparent) 0px,
+    color-mix(in oklab, currentColor 5%, transparent) 10px,
     transparent 10px,
     transparent 28px
   );
