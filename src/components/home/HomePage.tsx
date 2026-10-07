@@ -35,9 +35,9 @@ import {
 import {
   IndustryChip,
   NeuButton,
+  ProblemRow,
   SoftHead,
   StepCard,
-  StrikeRow,
   SystemCore,
   SystemSide,
   TrustCard,
@@ -82,10 +82,10 @@ function Problem() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x">
-        <SoftHead index="02" heading={PROBLEM.heading} />
+        <SoftHead index="01" heading={PROBLEM.heading} />
         <ul className="mt-12 grid gap-6">
           {PROBLEM.items.map((item, i) => (
-            <StrikeRow
+            <ProblemRow
               key={item}
               index={rowIndex(i)}
               text={item}
@@ -109,7 +109,7 @@ function HowItWorks() {
   return (
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
-        <SoftHead index="03" heading={HOW_IT_WORKS.heading} />
+        <SoftHead index="02" heading={HOW_IT_WORKS.heading} />
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOW_IT_WORKS.steps.map((step, i) => (
             <StepCard
@@ -137,7 +137,7 @@ function SpeedAndJudgement() {
     <section className="neu-canvas section-y">
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal from="left">
-          <SoftHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
+          <SoftHead index="03" heading={SPEED_AND_JUDGEMENT.heading} />
         </Reveal>
         <Reveal from="right" y={18} className="neu-flat flex flex-col p-7 md:p-9">
           <p className="body-copy max-w-xl text-[16px] text-fg">{SPEED_AND_JUDGEMENT.body}</p>
@@ -156,7 +156,7 @@ function Trust() {
   return (
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
-        <SoftHead index="05" heading={TRUST.heading} />
+        <SoftHead index="04" heading={TRUST.heading} />
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
           {TRUST.items.map((item, i) => (
             <TrustCard
@@ -181,7 +181,7 @@ function TwoWaysIn() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x">
-        <SoftHead index="06" heading={TWO_WAYS_IN.heading} />
+        <SoftHead index="05" heading={TWO_WAYS_IN.heading} />
         <ul className="mt-12 grid gap-8 md:grid-cols-2">
           {TWO_WAYS_IN.cards.map((card, i) => (
             <WayCard
@@ -204,7 +204,7 @@ function Industries() {
   return (
     <section className="neu-canvas-dark section-y">
       <div className="container-x">
-        <SoftHead index="07" heading={INDUSTRIES_SECTION.heading} />
+        <SoftHead index="06" heading={INDUSTRIES_SECTION.heading} />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {INDUSTRIES_SECTION.items.map((name, i) => (
             <IndustryChip
@@ -226,7 +226,7 @@ function TheSystem() {
   return (
     <section className="neu-canvas section-y">
       <div className="container-x">
-        <SoftHead index="08" heading={THE_SYSTEM.heading} />
+        <SoftHead index="07" heading={THE_SYSTEM.heading} />
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_minmax(260px,340px)]">
           <ul className="grid gap-6 sm:grid-cols-2">
             {THE_SYSTEM.sides.map((side, i) => (
@@ -305,7 +305,7 @@ function Closing() {
         <Reveal y={18} className="neu-raised p-8 md:p-12">
           <div className="flex items-center gap-3">
             <span aria-hidden="true" className="mark-dot" />
-            <p className="eyebrow">09</p>
+            <p className="eyebrow">08</p>
           </div>
           <h2 className="display-lg mt-6 max-w-3xl">{CLOSING.heading}</h2>
           <p className="lead mt-6 max-w-2xl">{CLOSING.body}</p>

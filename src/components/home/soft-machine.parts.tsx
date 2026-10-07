@@ -2,7 +2,7 @@
 // FILE: soft-machine.parts.tsx
 // PURPOSE: The Home page's neumorphic primitives — surfaces pushed out of the canvas and
 //          controls pressed back into it. Adopted from design direction "Soft Machine".
-// CONNECTS TO: motion/react, @tanstack/react-router (Link), @/components/site/Reveal,
+// CONNECTS TO: @tanstack/react-router (Link), @/components/site/Reveal,
 //          HomePage.tsx (the section assembler).
 // ============================================================
 //
@@ -20,11 +20,7 @@
 
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { Reveal } from "@/components/site/Reveal";
-
-/** Mirrors --ease-signal in src/styles.css. A tuple, so Motion's type accepts it. */
-const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
 /**
  * The focus ring for a neumorphic control. The site's global ring is an outline precisely
@@ -90,8 +86,14 @@ export function NeuButton({
   );
 }
 
-/** One complaint, extruded out of the canvas and struck through as the next one arrives. */
-export function StrikeRow({
+/**
+ * One complaint, extruded out of the canvas.
+ *
+ * Deliberately plain: an earlier revision struck each line through as the next one arrived,
+ * and the client asked for that removed. Nothing draws over the copy now — the sentence is
+ * the whole of it. Renamed from `StrikeRow`, which no longer described it.
+ */
+export function ProblemRow({
   index,
   text,
   delay = 0,
@@ -107,22 +109,12 @@ export function StrikeRow({
       <Reveal
         delay={delay}
         from={from}
-        className="neu-flat relative flex items-baseline gap-4 px-5 py-5 md:gap-6 md:px-7 md:py-6"
+        className="neu-flat flex items-baseline gap-4 px-5 py-5 md:gap-6 md:px-7 md:py-6"
       >
         <span className="font-mono text-[10px] leading-none tracking-[0.22em] text-muted tabular-nums">
           {index}
         </span>
-        <span className="relative text-[15px] text-fg md:text-[16px]">
-          {text}
-          <motion.span
-            aria-hidden="true"
-            className="absolute top-1/2 left-0 h-px w-full origin-left bg-border"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: delay + 0.35, ease: EASE }}
-          />
-        </span>
+        <span className="text-[15px] text-fg md:text-[16px]">{text}</span>
       </Reveal>
     </li>
   );
