@@ -1,17 +1,36 @@
+// ============================================================
+// FILE: Header.tsx
+// PURPOSE: The fixed site header — the mark, the primary navigation, the two calls to
+//          action and the mobile panel.
+// CONNECTS TO: @tanstack/react-router (Link), motion/react (the mobile panel), ./types,
+//          src/styles.css (container-x, btn, btn-sm, the brand tokens).
+// ============================================================
+//
+// The bar is deliberately quiet: one frosted Paper wash, one hairline that only appears once
+// scrolled, and no second surface. Legibility over an Ink hero is why the wash is always on
+// rather than transparent — see the note on the header element.
+
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { To } from "./types";
 
+/**
+ * The primary navigation. Kept short on purpose — every extra item costs the bar its
+ * clarity, and the pages not listed here are all reachable from the footer.
+ */
 const NAV: { label: string; to: To }[] = [
   { label: "For Buyers", to: "/for-buyers" },
   { label: "For Suppliers", to: "/for-suppliers" },
   { label: "How It Works", to: "/how-it-works" },
   { label: "Intelligence Layer", to: "/intelligence-layer" },
-  { label: "Trust", to: "/trust" },
   { label: "Industries", to: "/industries" },
   { label: "Insights", to: "/insights" },
 ];
+
+/** The nav-link recipe, shared by the desktop items and Login so they read as one system. */
+const LINK =
+  "whitespace-nowrap px-3 py-2 text-[13px] font-[450] text-muted transition-colors duration-200 hover:text-fg";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,7 +65,7 @@ export function Header() {
         backdropFilter: "blur(14px)",
       }}
     >
-      <div className="container-x flex h-[72px] items-center justify-between gap-6">
+      <div className="container-x flex h-[72px] items-center gap-6">
         <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
           <img src="/brand/graviyx-symbol-ink.png" alt="" className="h-7 w-auto" />
           <img
@@ -56,31 +75,39 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-4 xl:flex">
+        {/* The nav sits immediately after the mark rather than being centred or spread, so
+            the eye reads one continuous left-to-right line instead of three separate groups.
+            The hover rule grows from the left on a transform, never on a layout property. */}
+        <nav className="hidden items-center xl:flex">
           {NAV.map((item) => (
             <Link
               key={item.label}
               to={item.to}
-              className="whitespace-nowrap text-sm font-[450] text-muted transition-colors duration-200 hover:text-fg"
+              className={`group relative ${LINK}`}
               activeProps={{ style: { color: "var(--fg)" } }}
             >
               {item.label}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-3 bottom-1 block h-px origin-left scale-x-0 bg-fg transition-transform duration-200 ease-out group-hover:scale-x-100"
+              />
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 xl:flex">
-          <Link to="/post-a-requirement" className="btn btn-secondary">
+        {/* Actions hold the right edge, separated from the nav by a hairline so there is one
+            clear place to land. Login carries the nav recipe, so it belongs to the same
+            system rather than floating between the links and the buttons. */}
+        <div className="ml-auto hidden items-center gap-3 xl:flex">
+          <Link to="/login" className={LINK}>
+            Login
+          </Link>
+          <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+          <Link to="/post-a-requirement" className="btn btn-secondary btn-sm">
             Post a Requirement
           </Link>
-          <Link to="/for-buyers" className="btn btn-primary">
+          <Link to="/for-buyers" className="btn btn-primary btn-sm">
             Marketplace
-          </Link>
-          <Link
-            to="/login"
-            className="text-sm font-[450] text-muted transition-colors hover:text-fg"
-          >
-            Login
           </Link>
         </div>
 
@@ -89,7 +116,7 @@ export function Header() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 shrink-0 place-items-center border border-border-soft text-ink xl:hidden"
+          className="ml-auto grid h-10 w-10 shrink-0 place-items-center border border-border-soft text-ink transition-colors duration-200 hover:border-ink xl:hidden"
         >
           <span className="relative block h-3 w-4">
             <span
@@ -113,18 +140,22 @@ export function Header() {
             transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
             className="fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
           >
-            <div className="container-x flex flex-col gap-1 py-6">
-              {NAV.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className="border-b border-border py-3 text-[17px] text-ink"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="mt-6 flex flex-col gap-3">
+            <div className="container-x py-4">
+              {/* divide-y rather than a border on every row: one hairline between items,
+                  none dangling under the last one. */}
+              <nav className="divide-y divide-border border-b border-border">
+                {NAV.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    onClick={() => setOpen(false)}
+                    className="block py-4 text-[17px] text-ink transition-colors duration-200 hover:text-muted"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-6 flex flex-col gap-2.5 pb-8">
                 <Link
                   to="/for-buyers"
                   onClick={() => setOpen(false)}

@@ -485,6 +485,14 @@
   }
 }
 
+/* A compact control, for places where the default 13px/26px padding is too heavy — the
+   header bar above all, where a 48px-tall button in a 72px bar leaves the row no air.
+   Pairs with `btn` plus a colour: `btn btn-primary btn-sm`. */
+@utility btn-sm {
+  padding: 9px 18px;
+  font-size: 13px;
+}
+
 @utility btn-primary {
   background: var(--ink);
   color: var(--paper);
