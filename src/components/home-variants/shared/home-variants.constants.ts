@@ -132,17 +132,18 @@ export const CLOSING = {
   secondaryCta: { label: "Post a Requirement", to: "/post-a-requirement" },
 } as const;
 
-/** The seven directions, in preview-bar order.
- *  A1 and A2 share one component language. E–I are the motion-led set, each built on a
- *  different piece of the motion vocabulary documented in Operon BRAND.md:107. */
+/** The six directions, in preview-bar order.
+ *  A2 and E are the two kept from the earlier sets. J and K explore monochrome neumorphism
+ *  (a scoped exception to the hairline rule — see src/styles.css). L and M explore a
+ *  monochrome futuristic / HUD read, where the style comes from geometry, ruled telemetry
+ *  and type at scale rather than from a glow colour. */
 export const VARIANTS = [
-  { id: "a1", slug: "home-variant-a1", label: "A1 · The Ledger", family: "shared" },
   { id: "a2", slug: "home-variant-a2", label: "A2 · The Manifest", family: "shared" },
   { id: "e", slug: "home-variant-e", label: "E · Scrubbed Draw", family: "motion" },
-  { id: "f", slug: "home-variant-f", label: "F · Pinned Rail", family: "motion" },
-  { id: "g", slug: "home-variant-g", label: "G · Spotlight", family: "motion" },
-  { id: "h", slug: "home-variant-h", label: "H · Marquee", family: "motion" },
-  { id: "i", slug: "home-variant-i", label: "I · Float & Shadow", family: "motion" },
+  { id: "j", slug: "home-variant-j", label: "J · Soft Machine", family: "neumorphic" },
+  { id: "k", slug: "home-variant-k", label: "K · Inset Console", family: "neumorphic" },
+  { id: "l", slug: "home-variant-l", label: "L · Heads-Up Display", family: "futuristic" },
+  { id: "m", slug: "home-variant-m", label: "M · Signal Wireframe", family: "futuristic" },
 ] as const;
 
 export type VariantId = (typeof VARIANTS)[number]["id"];

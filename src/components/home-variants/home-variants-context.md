@@ -117,6 +117,58 @@ on-ink tones automatically. It also sets `color`, so headings **inherit Paper**.
 **Ink is rationed — never dominant.** Two bands per page plus the footer. Do not make the middle of
 the page dark.
 
+## Neumorphic variants (J, K) — a scoped exception
+
+Neumorphism is made of paired soft shadows, which is the opposite of this repo's rule *"structure
+with hairlines, not shadows"*. It is permitted **only** in the neumorphic variants, and it must stay
+strictly monochrome. The design system already provides it:
+
+| Utility | Use |
+| --- | --- |
+| `neu-canvas` | Sets a section's background to the neumorphic canvas. **Required on the parent** — see below. |
+| `neu-raised` | An extruded surface. |
+| `neu-flat` | A shallower extruded surface. |
+| `neu-pressed` | A pressed / recessed control. |
+| `neu-inset` | A recessed well. |
+
+**The one rule that makes or breaks it:** an element's background must match its parent canvas
+**exactly**, or the paired shadows read as a drop-shadowed box rather than a surface pushed out of
+the page. So a section using `neu-raised` cards must itself carry `neu-canvas`. Never place a
+neumorphic surface on `bg-paper` or `bg-bg`.
+
+Other constraints:
+- **No new colour.** The highlight is Paper at high alpha, the shadow is Ink at low alpha
+  (`--neu-light`, `--neu-dark`, `--neu-dark-deep`). Do not introduce a hue, and do not use
+  Tailwind's `shadow-*` scale — those are blue-black and will read as a different system.
+- **Radius:** the neumorphic surfaces use `--neu-radius` (14px). Soft shadows on 2px corners look
+  like a mistake. This is part of the same scoped exception — do not apply it to anything outside
+  a neumorphic surface.
+- **Accessibility is not negotiable.** Never place body text on a shaded edge, never communicate
+  state through shadow alone, and always keep a visible `:focus-visible` ring. A pressed state must
+  also change something other than shadow (position, weight or an explicit label) so it survives
+  being printed or viewed in greyscale.
+- Use the neumorphic depth for **surfaces and controls**, not for structure. Hairlines still do the
+  dividing.
+
+## Futuristic variants (L, M) — a monochrome HUD
+
+There is no accent colour, so the futuristic read has to come from **geometry, ruled telemetry and
+type at scale**, not from a glow. The system provides:
+
+| Utility | Use |
+| --- | --- |
+| `hud-scanlines` | A repeating hairline sweep. |
+| `hud-corners` | Corner brackets as four L-shapes — no extra elements needed. |
+
+- Lean on the brand caption (`eyebrow`) and `tabular-nums` for readouts; mono at scale is the
+  strongest futuristic signal available without colour.
+- Ink bands are the natural "screen" surfaces here — a HUD reads well on Ink.
+- Everything still obeys the global rules: hairlines for structure, transform/opacity only, the
+  resting state correct with animation off, and no fabricated data. A readout must carry real copy
+  from the constants module — never an invented number, percentage or status.
+- `hud-corners` is a `background-image`, so the element needs padding for the brackets to have room;
+  do not put them on a bare text node.
+
 ## Two sections that must appear in EVERY variant, unchanged
 
 Every variant must render these two sections, with exactly this copy and these components. They are
@@ -148,7 +200,20 @@ import { EcosystemDiagram } from "@/components/site/EcosystemDiagram";
 
 Notes:
 
-- Place them in the lower half of the page, in that order, after the v2.0 content sections.
+- **Exact page order — CLOSING comes last.** The two required sections go between
+  THE_SYSTEM and CLOSING, so the page ends on the closing call to action rather than
+  trailing off into a light section:
+
+  ```
+  HERO → PROBLEM → HOW_IT_WORKS → SPEED_AND_JUDGEMENT → TRUST → TWO_WAYS_IN
+       → INDUSTRIES_SECTION → THE_SYSTEM
+       → Where we serve → The ecosystem
+       → CLOSING
+       → VariantPreviewBar
+  ```
+
+  An earlier revision of this file said "after the v2.0 content sections", which two
+  variants read as "after CLOSING". CLOSING is a CTA band and must close the page.
 - `Section` and `SectionHead` are **allowed** for these two sections only. Do not use them anywhere
   else — the rest of your page is your own layout.
 - `IndiaCoverageMap` and `EcosystemDiagram` are being reworked in place by the sequencer (the map's
