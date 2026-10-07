@@ -1,0 +1,408 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * GRAVIYX design system — light monochrome (Operon palette), single neon accent.
+ * Tokens are exact per brand spec.
+ */
+
+:root {
+  /* Surface */
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-warm: #f4f4f5;
+
+  /* Foreground */
+  --fg: #000000;
+  --fg-2: #000000;
+  --muted: #52525b;
+  --meta: #71717a;
+
+  /* Border */
+  --border: #e4e4e7;
+  --border-soft: #d4d4d8;
+
+  /* Accent */
+  --accent: #36f4a4;
+  --accent-on: #000000;
+  --accent-hover: #2de097;
+  --accent-active: color-mix(in oklab, #36f4a4, black 14%);
+
+  /* Semantic */
+  --success: #36f4a4;
+  --warn: #eab308;
+  --danger: #dc2626;
+
+  /* Type */
+  --font-display: "NeueHaasGrotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Inter Variable", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 18px;
+  --text-lg: 20px;
+  --text-xl: 32px;
+  --text-2xl: 48px;
+  --text-3xl: 70px;
+  --text-4xl: 96px;
+
+  --leading-body: 1.56;
+  --leading-tight: 1;
+  --tracking-display: 0em;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 28px;
+  --space-8: 36px;
+  --space-12: 64px;
+
+  --section-y-desktop: 96px;
+  --section-y-tablet: 64px;
+  --section-y-phone: 40px;
+
+  /* Radius */
+  --radius-sm: 9999px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+
+  /* Elevation */
+  --elev-flat: none;
+  --elev-ring: 0 0 0 1px var(--border);
+  --elev-raised:
+    rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 2px 2px,
+    rgba(0, 0, 0, 0.1) 0px 4px 4px, rgba(0, 0, 0, 0.1) 0px 8px 8px,
+    rgba(255, 255, 255, 0.03) 0px 1px 0px inset;
+  --focus-ring: 0 0 0 2px #36f4a4;
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --ease-standard: ease;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-gutter-desktop: 64px;
+  --container-gutter-tablet: 32px;
+  --container-gutter-phone: 16px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-warm: var(--surface-warm);
+  --color-foreground: var(--fg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-meta: var(--meta);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-accent: var(--accent);
+  --color-accent-on: var(--accent-on);
+  --color-accent-hover: var(--accent-hover);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    font-weight: 420;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-on);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-md);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 330;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+  }
+}
+
+/* ---------- Typographic utilities ---------- */
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 330;
+  line-height: var(--leading-tight);
+  font-size: clamp(44px, 8.2vw, var(--text-4xl));
+}
+
+@utility display-lg {
+  font-family: var(--font-display);
+  font-weight: 330;
+  line-height: var(--leading-tight);
+  font-size: clamp(36px, 6.4vw, var(--text-3xl));
+}
+
+@utility display-md {
+  font-family: var(--font-display);
+  font-weight: 350;
+  line-height: 1.06;
+  font-size: clamp(28px, 4.2vw, var(--text-2xl));
+}
+
+@utility display-sm {
+  font-family: var(--font-display);
+  font-weight: 380;
+  line-height: 1.12;
+  font-size: clamp(22px, 2.6vw, var(--text-xl));
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 550;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+@utility lead {
+  font-size: clamp(17px, 1.6vw, var(--text-lg));
+  line-height: var(--leading-body);
+  color: var(--muted);
+  font-weight: 420;
+}
+
+@utility body-copy {
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--muted);
+}
+
+/* ---------- Structure utilities ---------- */
+
+@utility container-x {
+  width: 100%;
+  max-width: calc(var(--container-max) + var(--container-gutter-desktop) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter-phone);
+
+  @media (min-width: 768px) {
+    padding-inline: var(--container-gutter-tablet);
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: var(--container-gutter-desktop);
+  }
+}
+
+@utility section-y {
+  padding-block: var(--section-y-phone);
+
+  @media (min-width: 768px) {
+    padding-block: var(--section-y-tablet);
+  }
+
+  @media (min-width: 1024px) {
+    padding-block: var(--section-y-desktop);
+  }
+}
+
+@utility panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+}
+
+@utility hairline {
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Controls ---------- */
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  padding: 13px 26px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition:
+    background-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@utility btn-primary {
+  background: var(--fg);
+  color: #ffffff;
+  border: 1px solid var(--fg);
+
+  &:hover {
+    background: color-mix(in oklab, var(--fg), white 18%);
+  }
+}
+
+@utility btn-secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--border-soft);
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+@utility btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid transparent;
+
+  &:hover {
+    color: var(--fg);
+  }
+}
+
+@utility field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  color: var(--fg);
+  font-size: 16px;
+  font-family: var(--font-body);
+  transition: border-color var(--motion-base) var(--ease-standard);
+
+  &::placeholder {
+    color: var(--meta);
+  }
+
+  &:hover {
+    border-color: var(--border-soft);
+  }
+}
+
+/* ---------- Decorative ---------- */
+
+@utility grid-veil {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 35%, #000 10%, transparent 75%);
+}
+
+@utility accent-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+@keyframes graviyx-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes graviyx-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 72px 72px;
+  }
+}
+
+@keyframes graviyx-stripe {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 56px 0;
+  }
+}
+
+@utility pulse-dot {
+  animation: graviyx-pulse 2.4s ease-in-out infinite;
+}
+
+@utility drift-grid {
+  animation: graviyx-drift 24s linear infinite;
+}
+
+@utility wip-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(54, 244, 164, 0.07) 0px,
+    rgba(54, 244, 164, 0.07) 10px,
+    transparent 10px,
+    transparent 28px
+  );
+  background-size: 56px 56px;
+  animation: graviyx-stripe 3.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
