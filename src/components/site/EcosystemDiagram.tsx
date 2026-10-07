@@ -34,7 +34,7 @@ function FlowPacket({ path, delay }: { path: string; delay: number }) {
 
 export function EcosystemDiagram() {
   return (
-    <div className="reveal mx-auto mt-14 max-w-6xl border-y border-border py-5 md:py-8">
+    <div className="reveal neu-raised mx-auto mt-14 max-w-6xl overflow-hidden p-5 md:p-8">
       <div className="mb-5 flex items-center justify-between border-b border-border pb-4 font-mono text-[9px] uppercase text-meta md:text-[10px]">
         <span>GRAVIYX / Exchange architecture</span>
         <span className="flex items-center gap-2">
@@ -93,7 +93,7 @@ export function EcosystemDiagram() {
 
         {INPUTS.map((node) => (
           <g key={node.code}>
-            <rect x="44" y={node.y - 42} width="208" height="84" fill="var(--bg)" stroke="var(--border-soft)" />
+            <rect x="44" y={node.y - 42} width="208" height="84" fill="var(--neu-surface)" stroke="var(--border-soft)" />
             <text x="62" y={node.y - 18} fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">{node.code}</text>
             <text x="62" y={node.y + 6} fill="var(--fg)" fontSize="16" fontFamily="var(--font-mono)">{node.label}</text>
             <text x="62" y={node.y + 26} fill="var(--muted)" fontSize="9" fontFamily="var(--font-mono)">{node.detail}</text>
@@ -102,7 +102,7 @@ export function EcosystemDiagram() {
 
         {OUTPUTS.map((node) => (
           <g key={node.code}>
-            <rect x="748" y={node.y - 42} width="208" height="84" fill="var(--bg)" stroke="var(--border-soft)" />
+            <rect x="748" y={node.y - 42} width="208" height="84" fill="var(--neu-surface)" stroke="var(--border-soft)" />
             <text x="766" y={node.y - 18} fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">{node.code}</text>
             <text x="766" y={node.y + 6} fill="var(--fg)" fontSize="16" fontFamily="var(--font-mono)">{node.label}</text>
             <text x="766" y={node.y + 26} fill="var(--muted)" fontSize="9" fontFamily="var(--font-mono)">{node.detail}</text>
@@ -127,7 +127,7 @@ export function EcosystemDiagram() {
             </div>
           ))}
         </div>
-        <div className="relative my-4 border-y border-border bg-surface px-5 py-9 text-center">
+        <div className="relative my-4 border-y border-border px-5 py-9 text-center">
           <span className="absolute left-1/4 top-0 h-4 border-l border-border-soft" />
           <span className="absolute right-1/4 top-0 h-4 border-l border-border-soft" />
           <p className="font-mono text-[8px] text-meta">ORCHESTRATION PLANE / 01</p>

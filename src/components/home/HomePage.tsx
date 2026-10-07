@@ -18,7 +18,7 @@
 
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
-import { Section, SectionHead } from "@/components/site/Section";
+import { SectionHead } from "@/components/site/Section";
 import { IndiaCoverageMap } from "@/components/site/IndiaCoverageMap";
 import { EcosystemDiagram } from "@/components/site/EcosystemDiagram";
 import {
@@ -96,10 +96,12 @@ function Problem() {
   );
 }
 
-/** HOW_IT_WORKS — the four steps as extruded cards, lighting up one after another. */
+/** HOW_IT_WORKS — the four steps as extruded cards. Section 03, and the first of the three
+ *  dark bands, so the page alternates: 02 light, 03 dark, 04 light, 05 dark, 06 light,
+ *  07 dark, 08 light. */
 function HowItWorks() {
   return (
-    <section className="neu-canvas section-y">
+    <section className="neu-canvas-dark section-y">
       <div className="container-x">
         <SoftHead index="03" heading={HOW_IT_WORKS.heading} />
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -134,10 +136,11 @@ function SpeedAndJudgement() {
   );
 }
 
-/** TRUST — the three commitments, each extruded out of the canvas. */
+/** TRUST — the three commitments, each extruded out of the canvas. Section 05, the second
+ *  dark band. */
 function Trust() {
   return (
-    <section className="neu-canvas section-y">
+    <section className="neu-canvas-dark section-y">
       <div className="container-x">
         <SoftHead index="05" heading={TRUST.heading} />
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
@@ -169,10 +172,11 @@ function TwoWaysIn() {
   );
 }
 
-/** INDUSTRIES_SECTION — every industry set into the canvas as a link to the register. */
+/** INDUSTRIES_SECTION — every industry set into the canvas as a link to the register.
+ *  Section 07, the third dark band. */
 function Industries() {
   return (
-    <section className="neu-canvas section-y">
+    <section className="neu-canvas-dark section-y">
       <div className="container-x">
         <SoftHead index="07" heading={INDUSTRIES_SECTION.heading} />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -205,29 +209,37 @@ function TheSystem() {
 }
 
 /**
- * The coverage map and the ecosystem diagram, carried over verbatim from the previous Home
- * page. They keep their own light surfaces and are not neumorphic, so they carry no
- * `neu-canvas` — Ink stays rationed to the two bands, and depth stays on the seven soft
- * sections above.
+ * The coverage map and the ecosystem diagram, now in the neumorphic material like the rest
+ * of the page: each sits on a light `neu-canvas` and presents its graphic on a `neu-raised`
+ * panel, so the drawing reads as a surface pushed out of the page rather than a bordered box.
+ *
+ * The two components are neutralised to suit — their own backgrounds were removed so the
+ * raised surface shows through, and their hairlines come from the panel instead of a border.
+ * Their copy is unchanged; only the caption's colour class moved from `text-meta` to
+ * `text-muted`, because `text-meta` (steel-30) fails contrast on a light neumorphic canvas.
  */
 function CoverageAndEcosystem() {
   return (
     <>
-      <Section tone="surface">
-        <SectionHead
-          eyebrow="Where we serve"
-          title="Connected across India's industrial corridors."
-          lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
-        />
-        <IndiaCoverageMap />
-      </Section>
-      <Section tone="warm">
-        <SectionHead eyebrow="The ecosystem" title="Four sides. One orchestrator." align="center" />
-        <EcosystemDiagram />
-        <p className="mt-6 text-center text-sm text-meta">
-          Orchestrated trade, not just listed products.
-        </p>
-      </Section>
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SectionHead
+            eyebrow="Where we serve"
+            title="Connected across India's industrial corridors."
+            lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
+          />
+          <IndiaCoverageMap />
+        </div>
+      </section>
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SectionHead eyebrow="The ecosystem" title="Four sides. One orchestrator." align="center" />
+          <EcosystemDiagram />
+          <p className="mt-6 text-center text-sm text-muted">
+            Orchestrated trade, not just listed products.
+          </p>
+        </div>
+      </section>
     </>
   );
 }

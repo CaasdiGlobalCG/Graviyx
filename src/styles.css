@@ -599,11 +599,19 @@
   /* Neumorphism sits on a MID-TONE, which is the worst possible background for muted grey
      text. The UX guidance is severity-High on all three of: "don't use gray text on gray
      background", "minimum 4.5:1 for normal text", and "use darker text on light
-     backgrounds". Re-pointing --muted to steel-70 lifts body-copy, lead and eyebrow to
-     ~9.4:1 on the canvas without touching a single call site — and it means a neumorphic
-     surface never has to rely on a `text-fg` class winning a cascade-order fight with
-     `body-copy`, which is exactly the kind of fragility that breaks silently later. */
+     backgrounds".
+
+     So BOTH secondary tones are re-pointed here, not just --muted. steel-30 (#9c9c97) is
+     about 2.5:1 on this canvas and fails outright, so --meta steps up to steel-50 (~4.7:1,
+     AA) and --muted to steel-70 (~9.4:1). The two-step hierarchy survives; it just moves
+     down into the range a mid-tone can actually carry.
+
+     Doing it here rather than per-node matters: it fixes every `text-meta` class AND every
+     SVG `fill="var(--meta)"` at once, and it means no neumorphic surface has to rely on a
+     `text-fg` class winning a cascade-order fight with `body-copy` — which is exactly the
+     kind of fragility that breaks silently later. */
   --muted: var(--steel-70);
+  --meta: var(--steel-50);
 }
 
 /* The dark ground. Same four tokens re-pointed the other way, so every surface utility

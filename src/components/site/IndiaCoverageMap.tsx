@@ -24,9 +24,9 @@ export function IndiaCoverageMap() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="reveal mt-12 border-y border-border">
+    <div className="reveal neu-raised mt-12 overflow-hidden">
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
-        <div className="relative min-h-[560px] overflow-hidden bg-bg sm:min-h-[680px] lg:border-r lg:border-border">
+        <div className="relative min-h-[560px] overflow-hidden sm:min-h-[680px] lg:border-r lg:border-border">
           <div className="absolute top-5 left-5 z-10 font-mono text-[10px] tracking-[0.16em] text-meta uppercase sm:top-7 sm:left-8">
             <span className="text-fg">IND / 01</span>
             <span className="mx-2 text-border-soft">—</span>
@@ -152,7 +152,7 @@ export function IndiaCoverageMap() {
           </div>
         </div>
 
-        <div className="bg-surface px-5 py-8 sm:px-8 lg:py-16">
+        <div className="px-5 py-8 sm:px-8 lg:py-16">
           <p className="font-mono text-[11px] tracking-[0.16em] text-meta uppercase">
             Metropolitan centres
           </p>
