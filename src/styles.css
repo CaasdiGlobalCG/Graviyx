@@ -82,11 +82,18 @@
      colour is introduced. Text contrast is unaffected — the shadows sit outside the
      content box, and no text is ever placed on a shaded edge.
      ────────────────────────────────────── */
-  --neu-canvas: var(--paper-2);
+  /* Neumorphic depth. ONE set of surfaces serves two canvases: `neu-canvas` is the light
+     ground and `neu-canvas-dark` the dark one. Each re-points these tokens, so
+     neu-raised / neu-flat / neu-pressed / neu-inset / neu-control / neu-field work
+     unchanged on either — no second set of utilities to keep in sync. */
+  --neu-surface: var(--paper-2);
   --neu-light: rgba(255, 255, 255, 0.92);
   --neu-dark: rgba(0, 0, 0, 0.1);
   --neu-dark-deep: rgba(0, 0, 0, 0.16);
   --neu-radius: 14px;
+  /* The dark canvas is a dark GREY, never pure Ink: black leaves no room for a shadow
+     darker than itself, so the effect collapses into a flat rectangle. */
+  --neu-canvas-dark: var(--steel-90);
 
   /* ──────────────────────────────────────
      DECORATIVE VEILS — the alpha for every faint grid, diagonal, scanline and bracket.
@@ -587,7 +594,7 @@
    page. `neu-canvas` sets that parent tone; the surfaces below share it. */
 
 @utility neu-canvas {
-  background-color: var(--neu-canvas);
+  background-color: var(--neu-surface);
 
   /* Neumorphism sits on a MID-TONE, which is the worst possible background for muted grey
      text. The UX guidance is severity-High on all three of: "don't use gray text on gray
@@ -599,8 +606,32 @@
   --muted: var(--steel-70);
 }
 
+/* The dark ground. Same four tokens re-pointed the other way, so every surface utility
+   above and below works here without a variant. It also re-points the semantic set the way
+   `surface-ink` does, so eyebrow / lead / body-copy / panel / hairline adapt and headings
+   inherit Paper — a neumorphic section on dark is otherwise indistinguishable from an Ink
+   band to every other component on the page. */
+@utility neu-canvas-dark {
+  background-color: var(--neu-canvas-dark);
+  color: var(--on-ink);
+
+  --neu-surface: var(--neu-canvas-dark);
+  --neu-light: rgba(255, 255, 255, 0.07);
+  --neu-dark: rgba(0, 0, 0, 0.55);
+  --neu-dark-deep: rgba(0, 0, 0, 0.72);
+
+  --fg: var(--on-ink);
+  --muted: var(--on-ink-muted);
+  --meta: var(--on-ink-meta);
+  --border: var(--on-ink-rule);
+  --border-soft: var(--on-ink-rule-soft);
+  --mark: var(--on-ink);
+  --veil: rgba(250, 250, 247, 0.06);
+  --veil-strong: rgba(250, 250, 247, 0.28);
+}
+
 @utility neu-raised {
-  background-color: var(--neu-canvas);
+  background-color: var(--neu-surface);
   border-radius: var(--neu-radius);
   box-shadow:
     -6px -6px 14px var(--neu-light),
@@ -608,7 +639,7 @@
 }
 
 @utility neu-flat {
-  background-color: var(--neu-canvas);
+  background-color: var(--neu-surface);
   border-radius: var(--neu-radius);
   box-shadow:
     -3px -3px 8px var(--neu-light),
@@ -616,7 +647,7 @@
 }
 
 @utility neu-pressed {
-  background-color: var(--neu-canvas);
+  background-color: var(--neu-surface);
   border-radius: var(--neu-radius);
   box-shadow:
     inset -5px -5px 10px var(--neu-light),
@@ -624,11 +655,65 @@
 }
 
 @utility neu-inset {
-  background-color: var(--neu-canvas);
+  background-color: var(--neu-surface);
   border-radius: var(--neu-radius);
   box-shadow:
     inset 3px 3px 7px var(--neu-dark),
     inset -3px -3px 7px var(--neu-light);
+}
+
+/* A neumorphic control, so buttons outside the Home page use the same material. Raised at
+   rest, pressed on :active — and the press carries a scale and a shift as well as the
+   shadow, so the state survives greyscale and a low-contrast display. The focus ring is an
+   outline, because every neu-* utility owns box-shadow. */
+@utility neu-control {
+  background-color: var(--neu-surface);
+  border-radius: var(--neu-radius);
+  box-shadow:
+    -4px -4px 10px var(--neu-light),
+    5px 5px 12px var(--neu-dark);
+  transition: transform var(--motion-fast) var(--ease-signal);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    box-shadow:
+      inset -4px -4px 9px var(--neu-light),
+      inset 4px 4px 11px var(--neu-dark-deep);
+    transform: translateY(1px) scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+}
+
+/* A neumorphic field: a well cut into the canvas. Replaces the flat `field` border on pages
+   that adopt the material, and reads correctly on both grounds. */
+@utility neu-field {
+  width: 100%;
+  background-color: var(--neu-surface);
+  border: 0;
+  border-radius: var(--neu-radius);
+  padding: 13px 15px;
+  color: var(--fg);
+  font-size: var(--text-body);
+  font-family: var(--font-body);
+  box-shadow:
+    inset 3px 3px 7px var(--neu-dark),
+    inset -3px -3px 7px var(--neu-light);
+
+  &::placeholder {
+    color: var(--muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
 }
 
 /* ---------- Futuristic / HUD ----------
