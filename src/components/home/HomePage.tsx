@@ -1,28 +1,26 @@
 // ============================================================
-// FILE: HomeVariantJSoftMachine.tsx
-// PURPOSE: Home variant J "Soft Machine" — the complete v2.0 Home page read as real monochrome
-//          neumorphism: cards and controls pushed out of the page, controls pressed back into
-//          it. Seven soft sections share one canvas, framed by the page's two rationed Ink
-//          bands — the hero and the closing — where neumorphism does not read and the page
-//          goes flat with hairlines instead.
-//
-//          This is the accessible "Soft UI Evolution" form the design database prefers over
-//          classic neumorphism (which it flags "⚠ Low contrast"): body copy on the canvas is
-//          `text-fg` and `text-meta` never appears on a neumorphic surface, the press shrinks
-//          to scale(0.97) as well as translating and reweighting, and `box-shadow` is swapped
-//          rather than animated.
-// CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
-//          ./HomeVariantJSoftMachine.parts (the primitives), @/components/site/Reveal,
-//          @/components/site/Section, SectionHead, IndiaCoverageMap, EcosystemDiagram (the two
-//          carried-over sections), @tanstack/react-router (Link).
+// FILE: HomePage.tsx
+// PURPOSE: The live Home page. The complete v2.0 Home content, in the documented order,
+//          read as monochrome neumorphism — cards and controls pushed out of the page,
+//          controls pressed back into it. Seven soft sections share one canvas, framed by
+//          the page's two rationed Ink bands (the hero and the closing), where neumorphism
+//          does not read and the page goes flat with hairlines instead.
+// CONNECTS TO: ./home-content.constants (all copy), ./soft-machine.parts (the primitives),
+//          @/components/site/{Reveal,Section,SectionHead,IndiaCoverageMap,EcosystemDiagram},
+//          @tanstack/react-router.
 // ============================================================
+//
+// ADOPTED DIRECTION: "Soft Machine", chosen from six explored variants. It is the accessible
+// "Soft UI Evolution" form the ui-ux-pro-max database prefers over classic neumorphism (which
+// it flags "⚠ Low contrast"): body copy on the canvas is `text-fg` and `text-meta` never
+// appears on a neumorphic surface, the press shrinks to scale(0.97) as well as translating and
+// reweighting, and `box-shadow` is swapped rather than animated.
 
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
 import { Section, SectionHead } from "@/components/site/Section";
 import { IndiaCoverageMap } from "@/components/site/IndiaCoverageMap";
 import { EcosystemDiagram } from "@/components/site/EcosystemDiagram";
-import { VariantPreviewBar } from "@/components/home-variants/shared/VariantPreviewBar";
 import {
   CLOSING,
   HERO,
@@ -33,7 +31,7 @@ import {
   THE_SYSTEM,
   TRUST,
   TWO_WAYS_IN,
-} from "@/components/home-variants/shared/home-variants.constants";
+} from "./home-content.constants";
 import {
   IndustryChip,
   NeuButton,
@@ -45,7 +43,7 @@ import {
   TrustCard,
   WayCard,
   rowIndex,
-} from "./HomeVariantJSoftMachine.parts";
+} from "./soft-machine.parts";
 
 /**
  * HERO — the page's first Ink band, and deliberately flat: neumorphism does not read on Ink. The
@@ -207,11 +205,12 @@ function TheSystem() {
 }
 
 /**
- * The two sections carried over verbatim from the live Home page. They keep their own light
- * surfaces and are not neumorphic, so they carry no `neu-canvas` — Ink stays rationed to the two
- * bands, and depth stays on the seven soft sections above.
+ * The coverage map and the ecosystem diagram, carried over verbatim from the previous Home
+ * page. They keep their own light surfaces and are not neumorphic, so they carry no
+ * `neu-canvas` — Ink stays rationed to the two bands, and depth stays on the seven soft
+ * sections above.
  */
-function RequiredSections() {
+function CoverageAndEcosystem() {
   return (
     <>
       <Section tone="surface">
@@ -262,14 +261,14 @@ function Closing() {
 }
 
 /**
- * Variant J — "Soft Machine". The complete v2.0 Home content in the documented order, then the
- * two carried-over sections, with the comparison bar last. The two Ink bands are the hero and
- * the closing; every section between them carries `neu-canvas`, so each soft surface sits on a
- * canvas that matches it exactly.
+ * The Home page. The v2.0 content in the documented order, then the coverage and ecosystem
+ * sections, closing on the call to action. The two Ink bands are the hero and the closing;
+ * every section between them carries `neu-canvas`, so each soft surface sits on a canvas that
+ * matches it exactly.
  */
-export function HomeVariantJSoftMachine() {
+export function HomePage() {
   return (
-    <div className="pb-28">
+    <>
       <Hero />
       <Problem />
       <HowItWorks />
@@ -278,9 +277,8 @@ export function HomeVariantJSoftMachine() {
       <TwoWaysIn />
       <Industries />
       <TheSystem />
-      <RequiredSections />
+      <CoverageAndEcosystem />
       <Closing />
-      <VariantPreviewBar current="j" />
-    </div>
+    </>
   );
 }

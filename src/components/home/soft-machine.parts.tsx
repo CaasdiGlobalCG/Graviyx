@@ -1,10 +1,9 @@
 // ============================================================
-// FILE: HomeVariantJSoftMachine.parts.tsx
-// PURPOSE: The Soft Machine primitives — monochrome neumorphism for variant J. Surfaces are
-//          pushed out of the page, controls are pressed back into it, and the pressed state
-//          changes position, scale and weight as well as shadow, so it survives greyscale.
+// FILE: soft-machine.parts.tsx
+// PURPOSE: The Home page's neumorphic primitives — surfaces pushed out of the canvas and
+//          controls pressed back into it. Adopted from design direction "Soft Machine".
 // CONNECTS TO: motion/react, @tanstack/react-router (Link), @/components/site/Reveal,
-//          HomeVariantJSoftMachine.tsx (the section assembler).
+//          HomePage.tsx (the section assembler).
 // ============================================================
 //
 // THE NEUMORPHIC CONTRACT (src/styles.css — a scoped exception to "structure with hairlines"):
@@ -28,9 +27,9 @@ import { Reveal } from "@/components/site/Reveal";
 const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
 /**
- * The focus ring for a neumorphic control. The site's global ring is a box-shadow and every
- * `neu-*` utility sets box-shadow too, so it would be swallowed. This draws an outline outside
- * the box instead, where the soft surface cannot reach it.
+ * The focus ring for a neumorphic control. The site's global ring is an outline precisely
+ * because a box-shadow ring would be swallowed by any `neu-*` utility; this restates it for
+ * the controls that carry their own shadow.
  */
 const FOCUS = "focus-visible:outline-offset-2 focus-visible:[outline:2px_solid_var(--ink)]";
 

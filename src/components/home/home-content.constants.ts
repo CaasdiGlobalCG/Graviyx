@@ -1,17 +1,17 @@
 // ============================================================
-// FILE: home-variants.constants.ts
-// PURPOSE: The single source of v2.0 Home copy and the variant registry, shared by
-//          all five Home variants so the comparison is fair — the only variable
-//          between variants is design, never wording.
-// CONNECTS TO: every HomeVariant*.tsx, shared/VariantPreviewBar.tsx,
+// FILE: home-content.constants.ts
+// PURPOSE: The single source of the Home page's copy. Every string the page renders lives
+//          here, so the section components stay presentation-only and no wording is ever
+//          duplicated between them.
+// CONNECTS TO: HomePage.tsx and soft-machine.parts.tsx (the only consumers),
 //          @/components/site/IndustryChips (INDUSTRIES).
 // ============================================================
 //
 // Source: "GRAVIYX — Website Content v2.0 (Plain-language edition)", section 1 (Home).
-// The live page still carries v1.0 wording. These strings are the first appearance of v2.0.
 //
-// NOTE: the per-section motion cues from the content doc are reproduced verbatim in
-// `motionCue` so each variant can honour them without re-reading the source document.
+// The per-section motion cues from that document are kept verbatim in `motionCue`, so the
+// motion decisions can be traced back to the brief without re-reading the source document.
+// They are notes, not copy — nothing renders them.
 
 import { INDUSTRIES } from "@/components/site/IndustryChips";
 
@@ -131,19 +131,3 @@ export const CLOSING = {
   primaryCta: { label: "Marketplace", to: "/for-buyers" },
   secondaryCta: { label: "Post a Requirement", to: "/post-a-requirement" },
 } as const;
-
-/** The six directions, in preview-bar order.
- *  A2 and E are the two kept from the earlier sets. J and K explore monochrome neumorphism
- *  (a scoped exception to the hairline rule — see src/styles.css). L and M explore a
- *  monochrome futuristic / HUD read, where the style comes from geometry, ruled telemetry
- *  and type at scale rather than from a glow colour. */
-export const VARIANTS = [
-  { id: "a2", slug: "home-variant-a2", label: "A2 · The Manifest", family: "shared" },
-  { id: "e", slug: "home-variant-e", label: "E · Scrubbed Draw", family: "motion" },
-  { id: "j", slug: "home-variant-j", label: "J · Soft Machine", family: "neumorphic" },
-  { id: "k", slug: "home-variant-k", label: "K · Inset Console", family: "neumorphic" },
-  { id: "l", slug: "home-variant-l", label: "L · Heads-Up Display", family: "futuristic" },
-  { id: "m", slug: "home-variant-m", label: "M · Signal Wireframe", family: "futuristic" },
-] as const;
-
-export type VariantId = (typeof VARIANTS)[number]["id"];

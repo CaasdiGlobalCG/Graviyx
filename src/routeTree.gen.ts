@@ -16,12 +16,6 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ForBuyersRouteImport } from './routes/for-buyers'
 import { Route as ForSuppliersRouteImport } from './routes/for-suppliers'
 import { Route as FulfillmentWarehousingRouteImport } from './routes/fulfillment-warehousing'
-import { Route as HomeVariantA2RouteImport } from './routes/home-variant-a2'
-import { Route as HomeVariantERouteImport } from './routes/home-variant-e'
-import { Route as HomeVariantJRouteImport } from './routes/home-variant-j'
-import { Route as HomeVariantKRouteImport } from './routes/home-variant-k'
-import { Route as HomeVariantLRouteImport } from './routes/home-variant-l'
-import { Route as HomeVariantMRouteImport } from './routes/home-variant-m'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -68,36 +62,6 @@ const ForSuppliersRoute = ForSuppliersRouteImport.update({
 const FulfillmentWarehousingRoute = FulfillmentWarehousingRouteImport.update({
   id: '/fulfillment-warehousing',
   path: '/fulfillment-warehousing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantA2Route = HomeVariantA2RouteImport.update({
-  id: '/home-variant-a2',
-  path: '/home-variant-a2',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantERoute = HomeVariantERouteImport.update({
-  id: '/home-variant-e',
-  path: '/home-variant-e',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantJRoute = HomeVariantJRouteImport.update({
-  id: '/home-variant-j',
-  path: '/home-variant-j',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantKRoute = HomeVariantKRouteImport.update({
-  id: '/home-variant-k',
-  path: '/home-variant-k',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantLRoute = HomeVariantLRouteImport.update({
-  id: '/home-variant-l',
-  path: '/home-variant-l',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeVariantMRoute = HomeVariantMRouteImport.update({
-  id: '/home-variant-m',
-  path: '/home-variant-m',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -169,12 +133,6 @@ export interface FileRoutesByFullPath {
   '/for-buyers': typeof ForBuyersRoute
   '/for-suppliers': typeof ForSuppliersRoute
   '/fulfillment-warehousing': typeof FulfillmentWarehousingRoute
-  '/home-variant-a2': typeof HomeVariantA2Route
-  '/home-variant-e': typeof HomeVariantERoute
-  '/home-variant-j': typeof HomeVariantJRoute
-  '/home-variant-k': typeof HomeVariantKRoute
-  '/home-variant-l': typeof HomeVariantLRoute
-  '/home-variant-m': typeof HomeVariantMRoute
   '/how-it-works': typeof HowItWorksRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRoute
@@ -196,12 +154,6 @@ export interface FileRoutesByTo {
   '/for-buyers': typeof ForBuyersRoute
   '/for-suppliers': typeof ForSuppliersRoute
   '/fulfillment-warehousing': typeof FulfillmentWarehousingRoute
-  '/home-variant-a2': typeof HomeVariantA2Route
-  '/home-variant-e': typeof HomeVariantERoute
-  '/home-variant-j': typeof HomeVariantJRoute
-  '/home-variant-k': typeof HomeVariantKRoute
-  '/home-variant-l': typeof HomeVariantLRoute
-  '/home-variant-m': typeof HomeVariantMRoute
   '/how-it-works': typeof HowItWorksRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRoute
@@ -224,12 +176,6 @@ export interface FileRoutesById {
   '/for-buyers': typeof ForBuyersRoute
   '/for-suppliers': typeof ForSuppliersRoute
   '/fulfillment-warehousing': typeof FulfillmentWarehousingRoute
-  '/home-variant-a2': typeof HomeVariantA2Route
-  '/home-variant-e': typeof HomeVariantERoute
-  '/home-variant-j': typeof HomeVariantJRoute
-  '/home-variant-k': typeof HomeVariantKRoute
-  '/home-variant-l': typeof HomeVariantLRoute
-  '/home-variant-m': typeof HomeVariantMRoute
   '/how-it-works': typeof HowItWorksRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRoute
@@ -253,12 +199,6 @@ export interface FileRouteTypes {
     | '/for-buyers'
     | '/for-suppliers'
     | '/fulfillment-warehousing'
-    | '/home-variant-a2'
-    | '/home-variant-e'
-    | '/home-variant-j'
-    | '/home-variant-k'
-    | '/home-variant-l'
-    | '/home-variant-m'
     | '/how-it-works'
     | '/industries'
     | '/insights'
@@ -280,12 +220,6 @@ export interface FileRouteTypes {
     | '/for-buyers'
     | '/for-suppliers'
     | '/fulfillment-warehousing'
-    | '/home-variant-a2'
-    | '/home-variant-e'
-    | '/home-variant-j'
-    | '/home-variant-k'
-    | '/home-variant-l'
-    | '/home-variant-m'
     | '/how-it-works'
     | '/industries'
     | '/insights'
@@ -307,12 +241,6 @@ export interface FileRouteTypes {
     | '/for-buyers'
     | '/for-suppliers'
     | '/fulfillment-warehousing'
-    | '/home-variant-a2'
-    | '/home-variant-e'
-    | '/home-variant-j'
-    | '/home-variant-k'
-    | '/home-variant-l'
-    | '/home-variant-m'
     | '/how-it-works'
     | '/industries'
     | '/insights'
@@ -335,12 +263,6 @@ export interface RootRouteChildren {
   ForBuyersRoute: typeof ForBuyersRoute
   ForSuppliersRoute: typeof ForSuppliersRoute
   FulfillmentWarehousingRoute: typeof FulfillmentWarehousingRoute
-  HomeVariantA2Route: typeof HomeVariantA2Route
-  HomeVariantERoute: typeof HomeVariantERoute
-  HomeVariantJRoute: typeof HomeVariantJRoute
-  HomeVariantKRoute: typeof HomeVariantKRoute
-  HomeVariantLRoute: typeof HomeVariantLRoute
-  HomeVariantMRoute: typeof HomeVariantMRoute
   HowItWorksRoute: typeof HowItWorksRoute
   IndustriesRoute: typeof IndustriesRoute
   InsightsRoute: typeof InsightsRoute
@@ -401,48 +323,6 @@ declare module '@tanstack/react-router' {
       path: '/fulfillment-warehousing'
       fullPath: '/fulfillment-warehousing'
       preLoaderRoute: typeof FulfillmentWarehousingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-a2': {
-      id: '/home-variant-a2'
-      path: '/home-variant-a2'
-      fullPath: '/home-variant-a2'
-      preLoaderRoute: typeof HomeVariantA2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-e': {
-      id: '/home-variant-e'
-      path: '/home-variant-e'
-      fullPath: '/home-variant-e'
-      preLoaderRoute: typeof HomeVariantERouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-j': {
-      id: '/home-variant-j'
-      path: '/home-variant-j'
-      fullPath: '/home-variant-j'
-      preLoaderRoute: typeof HomeVariantJRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-k': {
-      id: '/home-variant-k'
-      path: '/home-variant-k'
-      fullPath: '/home-variant-k'
-      preLoaderRoute: typeof HomeVariantKRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-l': {
-      id: '/home-variant-l'
-      path: '/home-variant-l'
-      fullPath: '/home-variant-l'
-      preLoaderRoute: typeof HomeVariantLRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home-variant-m': {
-      id: '/home-variant-m'
-      path: '/home-variant-m'
-      fullPath: '/home-variant-m'
-      preLoaderRoute: typeof HomeVariantMRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-it-works': {
@@ -554,12 +434,6 @@ const rootRouteChildren: RootRouteChildren = {
   ForBuyersRoute: ForBuyersRoute,
   ForSuppliersRoute: ForSuppliersRoute,
   FulfillmentWarehousingRoute: FulfillmentWarehousingRoute,
-  HomeVariantA2Route: HomeVariantA2Route,
-  HomeVariantERoute: HomeVariantERoute,
-  HomeVariantJRoute: HomeVariantJRoute,
-  HomeVariantKRoute: HomeVariantKRoute,
-  HomeVariantLRoute: HomeVariantLRoute,
-  HomeVariantMRoute: HomeVariantMRoute,
   HowItWorksRoute: HowItWorksRoute,
   IndustriesRoute: IndustriesRoute,
   InsightsRoute: InsightsRoute,
