@@ -73,7 +73,7 @@ function Careers() {
             <motion.div
               key={g.title}
               className="panel p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}

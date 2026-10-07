@@ -96,7 +96,7 @@ export function SectionAnchor() {
           />
           <motion.span
             className="absolute top-0 left-1/2 block h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 border border-ink bg-paper"
-            initial={{ scale: 0.4, opacity: 0 }}
+            initial={{ scale: 0.4 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, ease: EASE }}
@@ -116,7 +116,7 @@ export function SpineNode() {
     <motion.span
       aria-hidden="true"
       className="relative z-10 block h-3 w-3 justify-self-center border border-ink bg-paper"
-      initial={{ scale: 0.4, opacity: 0 }}
+      initial={{ scale: 0.4 }}
       whileInView={{ scale: 1, opacity: 1 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, ease: EASE }}

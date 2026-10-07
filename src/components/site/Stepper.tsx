@@ -36,7 +36,7 @@ export function Stepper({ steps }: { steps: Step[] }) {
           return (
             <motion.li
               key={step.title}
-              initial={{ opacity: 0, x: 18 }}
+              initial={{ x: 18 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.42, delay: i * 0.08, ease: [0.22, 0.61, 0.36, 1] }}
@@ -70,7 +70,7 @@ export function Stepper({ steps }: { steps: Step[] }) {
                 {isOpen ? (
                   <motion.span
                     className="body-copy mt-3 block text-[16px]"
-                    initial={{ opacity: 0, y: -4 }}
+                    initial={{ y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
                   >

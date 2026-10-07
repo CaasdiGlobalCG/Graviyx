@@ -63,7 +63,7 @@ function Fulfillment() {
             <motion.div
               key={tier.title}
               className="panel flex gap-5 p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.14 }}
@@ -87,7 +87,7 @@ function Fulfillment() {
             <motion.div
               key={item.title}
               className="panel p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.12 }}

@@ -18,7 +18,7 @@ export function IndustryChips({ size = "sm" }: { size?: "sm" | "lg" }) {
       {INDUSTRIES.map((name, i) => (
         <motion.span
           key={name}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.4, delay: i * 0.05 }}

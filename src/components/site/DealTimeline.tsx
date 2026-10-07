@@ -32,7 +32,7 @@ export function DealTimeline() {
           {MARKERS.map((m, i) => (
             <motion.li
               key={m.day}
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-70px" }}
               transition={{ duration: 0.5, delay: i * 0.08 }}

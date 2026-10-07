@@ -546,6 +546,62 @@
   flex: none;
 }
 
+/* ---------- Mount stagger (hero) ----------
+   Same reasoning as `reveal`: the base state must be visible. This is a pure CSS
+   entrance that runs on load, needs no JavaScript, and completes instantly when the
+   reduced-motion block sets animation-duration to ~0. */
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hero-y, 18px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility hero-in {
+  animation: hero-in var(--motion-scene) var(--ease-signal) both;
+  animation-delay: var(--hero-delay, 0s);
+}
+
+/* ---------- Scroll reveal ----------
+   Progressive enhancement, and the base state is VISIBLE.
+
+   The old implementation set `initial={{ opacity: 0 }}` through Motion, which meant the
+   server rendered every revealed element at `opacity:0` and only JavaScript could bring it
+   back. If the observer never fired — JS disabled, hydration failure, a viewer that does not
+   scroll, an unusual embed — the page rendered blank.
+
+   Here the element is visible by default. The entrance animation is attached ONLY inside
+   `@supports (animation-timeline: view())` and ONLY when the visitor has not asked for
+   reduced motion. Everywhere else the content simply shows, fully legible, with no JS. */
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 18px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      /* `--reveal-offset` shifts where in the element's journey the reveal starts, which is
+         how the per-item stagger is expressed on a scroll timeline. */
+      animation-range: entry var(--reveal-offset, 0%) cover 30%;
+    }
+  }
+}
+
 /* ---------- Keyframes — transform and opacity only ---------- */
 
 @keyframes graviyx-pulse {

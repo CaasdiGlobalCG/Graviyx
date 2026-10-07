@@ -7,7 +7,7 @@ export function ProblemList({ items }: { items: string[] }) {
         <motion.li
           key={item}
           className="flex items-center gap-5 py-5 md:gap-8 md:py-7"
-          initial={{ opacity: 0, x: -14 }}
+          initial={{ x: -14 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: i * 0.1 }}

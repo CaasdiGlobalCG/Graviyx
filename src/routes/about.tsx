@@ -93,7 +93,7 @@ function About() {
             <motion.div
               key={p.title}
               className="panel p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
@@ -113,7 +113,7 @@ function About() {
             <motion.div
               key={r.term}
               className="panel p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.14 }}

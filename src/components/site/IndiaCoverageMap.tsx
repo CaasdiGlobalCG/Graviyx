@@ -24,7 +24,7 @@ export function IndiaCoverageMap() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="mt-12 border-y border-border">
+    <div className="reveal mt-12 border-y border-border">
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
         <div className="relative min-h-[560px] overflow-hidden bg-bg sm:min-h-[680px] lg:border-r lg:border-border">
           <div className="absolute top-5 left-5 z-10 font-mono text-[10px] tracking-[0.16em] text-meta uppercase sm:top-7 sm:left-8">
@@ -74,22 +74,21 @@ export function IndiaCoverageMap() {
               ))}
             </g>
 
-            {/* The national outline. pathLength is a transform-safe draw-on. */}
-            <motion.path
+            {/* The national outline. Rendered statically — the previous `pathLength: 0`
+                draw-on was gated behind whileInView, so a viewer whose observer never fired
+                saw no outline at all. The map's motion now comes from the corridor packets
+                and the city pulses, which are continuous and cannot leave it blank. */}
+            <path
               d={INDIA_PATH}
               fill="var(--surface-warm)"
               stroke="var(--fg)"
               strokeWidth="2"
               strokeLinejoin="round"
-              initial={{ opacity: 0, pathLength: 0 }}
-              whileInView={{ opacity: 1, pathLength: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1.35, ease: [0.22, 0.61, 0.36, 1] }}
             />
 
             {INDIA_CORRIDORS.map((route, index) => (
               <g key={route}>
-                <motion.path
+                <path
                   id={`corridor-${index}`}
                   d={route}
                   fill="none"
@@ -97,10 +96,6 @@ export function IndiaCoverageMap() {
                   strokeWidth="1"
                   strokeDasharray="2 7"
                   opacity="0.32"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.1, delay: 0.35 + index * 0.09 }}
                 />
                 {/* SMIL is not covered by MotionConfig, so the travelling packet is
                     gated here. The corridor path itself always renders. */}
@@ -118,15 +113,10 @@ export function IndiaCoverageMap() {
             ))}
 
             {INDIA_CITIES.map((city, index) => (
-              <motion.g
-                key={city.name}
-                initial={{ opacity: 0, scale: 0.4 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.65 + index * 0.06 }}
-                style={{ transformOrigin: `${city.x}px ${city.y}px` }}
-              >
-                {/* Scale + opacity only. Animating `r` would be a geometry animation. */}
+              <g key={city.name}>
+                {/* Scale + opacity only. Animating `r` would be a geometry animation.
+                    No `initial`, so the marker is drawn at full size even if the pulse
+                    never runs. */}
                 <motion.circle
                   cx={city.x}
                   cy={city.y}
@@ -152,7 +142,7 @@ export function IndiaCoverageMap() {
                   strokeWidth="1.2"
                 />
                 <circle cx={city.x} cy={city.y} r="2.5" fill="var(--ink)" />
-              </motion.g>
+              </g>
             ))}
           </svg>
 

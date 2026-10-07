@@ -1,5 +1,21 @@
+// ============================================================
+// FILE: Hero.tsx
+// PURPOSE: The page hero — eyebrow, headline, subhead, actions and an optional slot for
+//          extra content, on either a Paper or an Ink surface.
+// CONNECTS TO: src/styles.css (surface-ink, hero-in, grid-veil, drift-grid, btn-on-ink,
+//          btn-ghost-on-ink), @tanstack/react-router, ./types.
+// ============================================================
+//
+// The entrance is a CSS mount stagger, not a Motion animation.
+//
+// It used to be `initial={{ opacity: 0 }}` + `animate`, which meant the headline sat at
+// `opacity:0` in the server HTML and stayed invisible until JavaScript hydrated and ran the
+// animation. The most prominent element on the site should not depend on that. `hero-in`
+// runs on load from CSS alone, so the headline is visible with JS disabled, and the reduced
+// motion block collapses its duration to effectively instant.
+
+import type { CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import type { To } from "./types";
 
@@ -8,6 +24,18 @@ export type HeroAction = {
   to: To;
   variant?: "primary" | "secondary";
 };
+
+/** Stagger steps, mirroring the delays the Motion version used. */
+const STEP = {
+  eyebrow: { delay: "0s", y: "12px" },
+  headline: { delay: "0.08s", y: "22px" },
+  subhead: { delay: "0.2s", y: "18px" },
+  actions: { delay: "0.32s", y: "14px" },
+} as const;
+
+function stepStyle(step: { delay: string; y: string }): CSSProperties {
+  return { "--hero-delay": step.delay, "--hero-y": step.y } as CSSProperties;
+}
 
 export function Hero({
   eyebrow,
@@ -46,43 +74,26 @@ export function Hero({
         className={`container-x relative ${compact ? "pt-28 pb-14 md:pt-36 md:pb-20" : "pt-32 pb-20 md:pt-44 md:pb-28"}`}
       >
         {eyebrow ? (
-          <motion.p
-            className="eyebrow mb-6 flex items-center gap-3"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-          >
+          <p className="eyebrow hero-in mb-6 flex items-center gap-3" style={stepStyle(STEP.eyebrow)}>
             <span className="mark-dot pulse-dot" />
             {eyebrow}
-          </motion.p>
+          </p>
         ) : null}
 
-        <motion.h1
-          className="display-xl max-w-5xl text-fg"
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 0.61, 0.36, 1] }}
-        >
+        <h1 className="display-xl hero-in max-w-5xl text-fg" style={stepStyle(STEP.headline)}>
           {headline}
-        </motion.h1>
+        </h1>
 
         {subhead ? (
-          <motion.p
-            className="lead mt-7 max-w-2xl"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
-          >
+          <p className="lead hero-in mt-7 max-w-2xl" style={stepStyle(STEP.subhead)}>
             {subhead}
-          </motion.p>
+          </p>
         ) : null}
 
         {actions.length > 0 ? (
-          <motion.div
-            className="mt-10 flex flex-wrap gap-3"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
+          <div
+            className="hero-in mt-10 flex flex-wrap gap-3"
+            style={stepStyle(STEP.actions)}
           >
             {actions.map((a) => (
               <Link
@@ -101,7 +112,7 @@ export function Hero({
                 {a.label}
               </Link>
             ))}
-          </motion.div>
+          </div>
         ) : null}
 
         {children ? <div className="mt-14">{children}</div> : null}

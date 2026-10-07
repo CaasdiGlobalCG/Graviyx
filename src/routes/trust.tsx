@@ -61,7 +61,7 @@ function Trust() {
             <motion.div
               key={layer.title}
               className="panel flex gap-5 p-6"
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.12 }}
@@ -108,7 +108,7 @@ function Trust() {
                 <motion.tr
                   key={dim}
                   className="border-b border-border"
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.07 }}

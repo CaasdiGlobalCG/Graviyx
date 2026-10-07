@@ -18,7 +18,7 @@ function PathGlyph({ variant, delay }: { variant: number; delay: number }) {
         fill="none"
         stroke="var(--ink)"
         strokeWidth="1.5"
-        initial={{ pathLength: 0, opacity: 0.2 }}
+        initial={false}
         whileInView={{ pathLength: 1, opacity: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 1.1, delay }}
@@ -26,7 +26,7 @@ function PathGlyph({ variant, delay }: { variant: number; delay: number }) {
       <motion.circle
         r="3"
         fill="var(--ink)"
-        initial={{ opacity: 0 }}
+        initial={false}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: delay + 0.9 }}
@@ -44,7 +44,7 @@ export function PricingLogic({ paths }: { paths: PricingPath[] }) {
         <motion.div
           key={p.name}
           className="panel p-6 md:p-7"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: i * 0.1 }}

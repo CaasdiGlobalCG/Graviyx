@@ -38,7 +38,7 @@ export function HairlineStack({
         <motion.li
           key={item}
           className="border-b border-border py-5 md:py-6"
-          initial={{ opacity: 0, x: -14 }}
+          initial={{ x: -14 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.42, delay: i * 0.1, ease: EASE_SIGNAL }}

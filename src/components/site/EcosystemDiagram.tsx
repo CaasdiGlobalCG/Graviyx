@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 const INPUTS = [
   { code: "IN-01", label: "Buyer demand", detail: "Specification · timing · terms", y: 112 },
@@ -34,7 +34,7 @@ function FlowPacket({ path, delay }: { path: string; delay: number }) {
 
 export function EcosystemDiagram() {
   return (
-    <div className="mx-auto mt-14 max-w-6xl border-y border-border py-5 md:py-8">
+    <div className="reveal mx-auto mt-14 max-w-6xl border-y border-border py-5 md:py-8">
       <div className="mb-5 flex items-center justify-between border-b border-border pb-4 font-mono text-[9px] uppercase text-meta md:text-[10px]">
         <span>GRAVIYX / Exchange architecture</span>
         <span className="flex items-center gap-2">
@@ -62,81 +62,59 @@ export function EcosystemDiagram() {
         <rect x="350" y="54" width="300" height="330" fill="none" stroke="var(--border-soft)" />
         <text x="370" y="78" fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">ORCHESTRATION PLANE / 01</text>
 
+        {/* Rendered statically. These routes are `fill="none"` strokes, so the previous
+            `pathLength: 0` draw-on left them completely invisible for any viewer whose
+            whileInView observer never fired. The diagram's motion is now carried entirely
+            by the SMIL packets below, which cannot leave it blank. */}
         {ROUTES.map((route, index) => (
           <g key={route.path}>
-            <motion.path
+            <path
               d={route.path}
               fill="none"
               stroke="var(--border-soft)"
               strokeWidth={index < 2 ? 1.5 : 1}
               strokeDasharray={index < 2 ? "none" : "4 6"}
-              initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1.2, delay: index * 0.12 }}
             />
             <FlowPacket path={route.path} delay={route.delay} />
           </g>
         ))}
 
-        <motion.path
+        <path
           d="M836 342 V408 H164 V160"
           fill="none"
           stroke="var(--meta)"
           strokeWidth="1"
           strokeDasharray="3 7"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, delay: 0.7 }}
         />
         <path d="M158 168 L164 156 L170 168" fill="none" stroke="var(--fg)" strokeWidth="1.2" />
         <text x="500" y="426" textAnchor="middle" fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">
           CONTINUOUS LEARNING / FUTURE RECOMMENDATIONS
         </text>
 
-        {INPUTS.map((node, index) => (
-          <motion.g
-            key={node.code}
-            initial={{ opacity: 0, x: -18 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.15 }}
-          >
+        {INPUTS.map((node) => (
+          <g key={node.code}>
             <rect x="44" y={node.y - 42} width="208" height="84" fill="var(--bg)" stroke="var(--border-soft)" />
             <text x="62" y={node.y - 18} fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">{node.code}</text>
             <text x="62" y={node.y + 6} fill="var(--fg)" fontSize="16" fontFamily="var(--font-mono)">{node.label}</text>
             <text x="62" y={node.y + 26} fill="var(--muted)" fontSize="9" fontFamily="var(--font-mono)">{node.detail}</text>
-          </motion.g>
+          </g>
         ))}
 
-        {OUTPUTS.map((node, index) => (
-          <motion.g
-            key={node.code}
-            initial={{ opacity: 0, x: 18 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.35 + index * 0.15 }}
-          >
+        {OUTPUTS.map((node) => (
+          <g key={node.code}>
             <rect x="748" y={node.y - 42} width="208" height="84" fill="var(--bg)" stroke="var(--border-soft)" />
             <text x="766" y={node.y - 18} fill="var(--meta)" fontSize="9" fontFamily="var(--font-mono)">{node.code}</text>
             <text x="766" y={node.y + 6} fill="var(--fg)" fontSize="16" fontFamily="var(--font-mono)">{node.label}</text>
             <text x="766" y={node.y + 26} fill="var(--muted)" fontSize="9" fontFamily="var(--font-mono)">{node.detail}</text>
-          </motion.g>
+          </g>
         ))}
 
-        <motion.g
-          initial={{ opacity: 0, scale: 0.92 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.3 }}
-          style={{ transformOrigin: "500px 220px" }}
-        >
+        <g>
           <rect x="414" y="174" width="172" height="92" fill="var(--fg)" />
           <text x="500" y="210" textAnchor="middle" fill="var(--bg)" fontSize="9" fontFamily="var(--font-mono)">VERIFIED MARKETPLACE</text>
           <text x="500" y="239" textAnchor="middle" fill="var(--bg)" fontSize="23" fontFamily="var(--font-mono)">GRAVIYX</text>
           <path d="M430 252 H570" stroke="var(--bg)" strokeWidth="0.7" opacity="0.4" />
-        </motion.g>
+        </g>
       </svg>
 
       <div className="md:hidden" role="img" aria-label="Graviyx exchange network">

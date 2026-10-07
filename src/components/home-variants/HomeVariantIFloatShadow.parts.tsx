@@ -39,7 +39,7 @@ const FLOAT_KEYS: number[] = [0, 0.6, 1];
 /** The resting pair. With motion off the object sits FLAT — no lift, no offset — and the
  *  ground shadow is neutral. Nothing here is reachable only through an animation. */
 const SHADOW_REST = { scale: 1, opacity: 0.14 };
-const OBJECT_REST = { y: 0, opacity: 1 };
+const OBJECT_REST = { y: 0 };
 
 type FloatProps = {
   children: ReactNode;
@@ -66,7 +66,12 @@ export function FloatSurface({ children, delay = 0, className = "" }: FloatProps
   const settle = useMotionValue(0);
 
   const y = useTransform(settle, FLOAT_KEYS, [16, -5, 0]);
-  const opacity = useTransform(settle, [0, 0.35, 1], [0, 1, 1]);
+  // NOTE: there is deliberately no opacity transform on the object.
+  // It previously ran [0, 1, 1] across the settle progress, so at rest the object sat at
+  // opacity 0 — every float surface started invisible and only appeared once the scroll
+  // passed 35% of its range. The lift and the ground shadow carry the motion; the object
+  // itself is always opaque, which is what the "resting state must be correct on its own"
+  // rule requires.
   const shadowScale = useTransform(settle, FLOAT_KEYS, [0.9, 1.07, 1]);
   const shadowOpacity = useTransform(settle, FLOAT_KEYS, [0.03, 0.09, 0.14]);
 
@@ -91,7 +96,7 @@ export function FloatSurface({ children, delay = 0, className = "" }: FloatProps
         className="pointer-events-none absolute inset-x-6 -bottom-1.5 h-4 rounded-sm bg-ink blur-md"
         style={reduce ? SHADOW_REST : { scale: shadowScale, opacity: shadowOpacity }}
       />
-      <motion.div className="relative h-full" style={reduce ? OBJECT_REST : { y, opacity }}>
+      <motion.div className="relative h-full" style={reduce ? OBJECT_REST : { y }}>
         {children}
       </motion.div>
     </div>

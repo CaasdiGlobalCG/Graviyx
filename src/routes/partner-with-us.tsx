@@ -56,7 +56,7 @@ function Partner() {
                 <motion.tr
                   key={gives}
                   className="border-b border-border"
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}

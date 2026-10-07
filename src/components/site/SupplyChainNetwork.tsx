@@ -13,7 +13,7 @@ export function SupplyChainNetwork() {
         <motion.article
           key={stage.code}
           className="relative bg-surface p-7 md:p-8"
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-70px" }}
           transition={{ duration: 0.5, delay: index * 0.14 }}
