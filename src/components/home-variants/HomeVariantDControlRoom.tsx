@@ -1,11 +1,11 @@
 // ============================================================
 // FILE: HomeVariantDControlRoom.tsx
-// PURPOSE: Home variant D — "Control Room". An instrument-panel reading of the v2.0
-//          Home content: mono captions at scale, ruled and tabular layouts, a four-step
-//          table, a coverage register and a system status board around a dark console.
-// CONNECTS TO: shared/home-variants.constants.ts, ./HomeVariantDControlRoom.parts,
-//          shared/VariantPreviewBar, @/components/site/Reveal, motion/react,
-//          @tanstack/react-router (Link).
+// PURPOSE: Home variant D "Control Room" — the v2.0 Home page read as an operator's
+//          console for procurement: mono captions at scale, ruled and tabular layouts,
+//          a compact Ink hero and an Ink closing, and a status-board system diagram.
+// CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
+//          @/components/site/Reveal, @tanstack/react-router (Link),
+//          ./HomeVariantDControlRoom.parts (the instrument primitives).
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
@@ -23,211 +23,237 @@ import {
   TWO_WAYS_IN,
 } from "@/components/home-variants/shared/home-variants.constants";
 import {
-  BoardHead,
-  ConsolePanel,
-  ProblemRow,
+  ConnectorRail,
+  ConsoleCard,
+  ConsoleHead,
+  EntryPanel,
+  FaultRow,
+  MonitorRow,
   RegisterRow,
-  StatusDot,
+  rowIndex,
+  StatusStrip,
   StepRow,
-  SystemRow,
-  TrustRow,
-  WayCard,
 } from "./HomeVariantDControlRoom.parts";
 
-/** HERO — compact and instrument-like: the H1 sits above a ruled status strip. */
-function HeroSection() {
+/** 01 · The Ink console. Headline over a ruled status strip, grid drifting behind. */
+function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-paper">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -inset-24 bg-grid drift-grid" />
-      </div>
-      <div className="container-x relative py-16 md:py-24">
-        <Reveal>
+    <section className="surface-ink section-y relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="bg-grid drift-grid pointer-events-none absolute -inset-24"
+      />
+      <div className="container-x relative">
+        <div className="flex items-center gap-3">
+          <span className="mark-dot pulse-dot" aria-hidden="true" />
           <p className="eyebrow">{HERO.eyebrow}</p>
-          <h1 className="display-xl mt-5 max-w-[16ch] text-ink">{HERO.headline}</h1>
-          <p className="lead mt-6 max-w-[54ch]">{HERO.subhead}</p>
-        </Reveal>
-        <Reveal delay={0.15} className="mt-9 flex flex-wrap gap-3">
-          <Link to={HERO.primaryCta.to} className="btn btn-primary">
+        </div>
+        <h1 className="display-xl mt-6 max-w-4xl">{HERO.headline}</h1>
+        <p className="lead mt-6 max-w-2xl">{HERO.subhead}</p>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Link to={HERO.primaryCta.to} className="btn btn-on-ink">
             {HERO.primaryCta.label}
           </Link>
-          <Link to={HERO.secondaryCta.to} className="btn btn-secondary">
+          <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">
             {HERO.secondaryCta.label}
           </Link>
-        </Reveal>
-        <Reveal delay={0.25}>
-          <div className="mt-12 flex items-center gap-3 border-t border-border pt-5">
-            <StatusDot />
-            <p className="text-[14px] text-steel-50">{HERO.scopeLine}</p>
-          </div>
-        </Reveal>
+        </div>
+        <StatusStrip value={HERO.scopeLine} />
       </div>
     </section>
   );
 }
 
-/** PROBLEM — a ruled fault log; each line is drawn through as the next arrives. */
-function ProblemSection() {
+/** 02 · The fault register. Each line logged, indexed and struck through. */
+function Problem() {
   return (
-    <section id="problem" className="container-x section-y">
-      <BoardHead index="01" title={PROBLEM.heading} />
-      <ul className="mt-8">
-        {PROBLEM.items.map((text, i) => (
-          <ProblemRow key={text} index={i + 1} text={text} delay={i * 0.07} />
-        ))}
-      </ul>
-      <Reveal delay={0.2}>
-        <p className="mt-8 max-w-[60ch] border-t border-border pt-6 text-[15px] text-steel-50">
-          {PROBLEM.closing}
-        </p>
-      </Reveal>
-    </section>
-  );
-}
-
-/** HOW_IT_WORKS — a ruled table. Post / Compare / Order / Track as four rows. */
-function HowItWorksSection() {
-  return (
-    <section id="how" className="container-x section-y">
-      <BoardHead index="02" title={HOW_IT_WORKS.heading} />
-      <div className="mt-8 border-t border-border">
-        {HOW_IT_WORKS.steps.map((step, i) => (
-          <StepRow key={step.key} index={i + 1} stepKey={step.key} body={step.body} delay={i * 0.18} />
-        ))}
-      </div>
-      <Link to={HOW_IT_WORKS.link.to} className="btn btn-secondary mt-8">
-        {HOW_IT_WORKS.link.label}
-      </Link>
-    </section>
-  );
-}
-
-/** SPEED_AND_JUDGEMENT — a wide readout with the link set on the baseline. */
-function JudgementSection() {
-  return (
-    <section id="judgement" className="container-x section-y">
-      <BoardHead index="03" title={SPEED_AND_JUDGEMENT.heading} />
-      <div className="mt-8 grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] md:items-end md:gap-12">
-        <Reveal>
-          <p className="lead max-w-[64ch]">{SPEED_AND_JUDGEMENT.body}</p>
-        </Reveal>
-        <Reveal delay={0.12} className="md:justify-self-end">
-          <Link to={SPEED_AND_JUDGEMENT.link.to} className="btn btn-secondary">
-            {SPEED_AND_JUDGEMENT.link.label}
-          </Link>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/** TRUST — a verification register. */
-function TrustSection() {
-  return (
-    <section id="trust" className="container-x section-y">
-      <BoardHead index="04" title={TRUST.heading} />
-      <ol className="mt-8">
-        {TRUST.items.map((text, i) => (
-          <TrustRow key={text} index={i + 1} text={text} delay={i * 0.08} />
-        ))}
-      </ol>
-      <Link to={TRUST.link.to} className="btn btn-secondary mt-8">
-        {TRUST.link.label}
-      </Link>
-    </section>
-  );
-}
-
-/** TWO_WAYS_IN — two entry panels. */
-function TwoWaysSection() {
-  return (
-    <section id="ways" className="container-x section-y">
-      <BoardHead index="05" title={TWO_WAYS_IN.heading} />
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {TWO_WAYS_IN.cards.map((card, i) => (
-          <Reveal key={card.audience} delay={i * 0.1} className="h-full">
-            <WayCard card={card} />
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/** INDUSTRIES_SECTION — a coverage register rather than a chip cloud. */
-function IndustriesSection() {
-  return (
-    <section id="industries" className="container-x section-y">
-      <BoardHead
-        index="06"
-        title={
-          <Link to={INDUSTRIES_SECTION.to} className="underline-offset-4 hover:underline">
-            {INDUSTRIES_SECTION.heading}
-          </Link>
-        }
-      />
-      <ul className="mt-8 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-        {INDUSTRIES_SECTION.items.map((name, i) => (
-          <RegisterRow key={name} index={i + 1} name={name} delay={i * 0.04} />
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-/** THE_SYSTEM — a status board of four monitored rows beside the GRAVIYX console. */
-function SystemSection() {
-  return (
-    <section id="system" className="container-x section-y">
-      <BoardHead index="07" title={THE_SYSTEM.heading} />
-      <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <ul className="panel divide-y divide-border">
-          {THE_SYSTEM.sides.map((side, i) => (
-            <SystemRow key={side.key} index={i + 1} sideKey={side.key} body={side.body} delay={i * 0.08} />
+    <section className="section-y">
+      <div className="container-x">
+        <ConsoleHead index="02" heading={PROBLEM.heading} />
+        <ul className="mt-10 border-t border-border">
+          {PROBLEM.items.map((item, i) => (
+            <FaultRow key={item} index={rowIndex(i)} text={item} delay={i * 0.08} />
           ))}
         </ul>
-        <ConsolePanel />
+        <Reveal delay={0.1}>
+          <p className="body-copy mt-9 max-w-3xl text-[16px]">{PROBLEM.closing}</p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-/** CLOSING — the final console strip. */
-function ClosingSection() {
+/** 03 · The step table. A ruled table with a rail drawing across it. */
+function HowItWorks() {
   return (
-    <section id="closing" className="container-x section-y">
-      <Reveal>
-        <div className="panel p-6 md:p-12">
-          <span className="eyebrow tabular-nums">08</span>
-          <h2 className="display-lg mt-5 max-w-[22ch] text-ink">{CLOSING.heading}</h2>
-          <p className="lead mt-5 max-w-[54ch]">{CLOSING.body}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to={CLOSING.primaryCta.to} className="btn btn-primary">
-              {CLOSING.primaryCta.label}
-            </Link>
-            <Link to={CLOSING.secondaryCta.to} className="btn btn-secondary">
-              {CLOSING.secondaryCta.label}
-            </Link>
-          </div>
-        </div>
-      </Reveal>
+    <section className="bg-paper-2 section-y">
+      <div className="container-x">
+        <ConsoleHead index="03" heading={HOW_IT_WORKS.heading} />
+        <ConnectorRail count={HOW_IT_WORKS.steps.length} />
+        <ol className="border-t border-border">
+          {HOW_IT_WORKS.steps.map((step, i) => (
+            <StepRow key={step.key} index={rowIndex(i)} step={step} />
+          ))}
+        </ol>
+        <Reveal>
+          <Link to={HOW_IT_WORKS.link.to} className="btn btn-secondary mt-9">
+            {HOW_IT_WORKS.link.label}
+          </Link>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/** Home variant D — "Control Room". The whole v2.0 Home content as an operator console. */
+/** 04 · The judgement split. Instrument caption left, the reading on the right. */
+function SpeedAndJudgement() {
+  return (
+    <section className="section-y">
+      <div className="container-x grid gap-8 md:grid-cols-2 md:gap-16">
+        <ConsoleHead index="04" heading={SPEED_AND_JUDGEMENT.heading} />
+        <div>
+          <Reveal>
+            <p className="body-copy max-w-xl text-[16px]">{SPEED_AND_JUDGEMENT.body}</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Link to={SPEED_AND_JUDGEMENT.link.to} className="btn btn-secondary mt-8">
+              {SPEED_AND_JUDGEMENT.link.label}
+            </Link>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** 05 · The verification checks. Three monitored columns. */
+function Trust() {
+  return (
+    <section className="bg-paper-2 section-y">
+      <div className="container-x">
+        <ConsoleHead index="05" heading={TRUST.heading} />
+        <ul className="mt-10 grid border-t border-border md:grid-cols-3">
+          {TRUST.items.map((item, i) => (
+            <li
+              key={item}
+              className="border-b border-border py-6 md:border-r md:pr-8 md:last:border-r-0"
+            >
+              <Reveal delay={i * 0.08}>
+                <div className="flex items-start gap-3">
+                  <span className="mark-dot mt-2" aria-hidden="true" />
+                  <p className="text-[15px] text-fg">{item}</p>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+        <Reveal>
+          <Link to={TRUST.link.to} className="btn btn-secondary mt-9">
+            {TRUST.link.label}
+          </Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** 06 · The two doors. Buyers and suppliers as paired console panels. */
+function TwoWaysIn() {
+  return (
+    <section className="section-y">
+      <div className="container-x">
+        <ConsoleHead index="06" heading={TWO_WAYS_IN.heading} />
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {TWO_WAYS_IN.cards.map((card, i) => (
+            <EntryPanel key={card.to} index={rowIndex(i)} card={card} delay={i * 0.08} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** 07 · The coverage register. Industries read as logged entries, not chips. */
+function Industries() {
+  return (
+    <section className="bg-paper-2 section-y">
+      <div className="container-x">
+        <ConsoleHead
+          index="07"
+          heading={INDUSTRIES_SECTION.heading}
+          headingTo={INDUSTRIES_SECTION.to}
+        />
+        <ol className="mt-10 grid border-t border-border sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-3">
+          {INDUSTRIES_SECTION.items.map((name, i) => (
+            <RegisterRow key={name} index={rowIndex(i)} name={name} />
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+/** 08 · The status board. Four monitored sides around the GRAVIYX console. */
+function TheSystem() {
+  return (
+    <section className="section-y">
+      <div className="container-x">
+        <ConsoleHead index="08" heading={THE_SYSTEM.heading} />
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_300px]">
+          <ul className="border-t border-border">
+            {THE_SYSTEM.sides.map((side, i) => (
+              <MonitorRow key={side.key} index={rowIndex(i)} side={side} />
+            ))}
+          </ul>
+          <Reveal delay={0.1}>
+            <ConsoleCard label={THE_SYSTEM.centre} />
+          </Reveal>
+        </div>
+        <Reveal>
+          <p className="mt-8 text-[13px] text-muted lg:text-right">{THE_SYSTEM.caption}</p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** 09 · The Ink closing panel. */
+function Closing() {
+  return (
+    <section className="surface-ink section-y">
+      <div className="container-x">
+        <ConsoleHead index="09" heading={CLOSING.heading} />
+        <p className="lead mt-5 max-w-2xl">{CLOSING.body}</p>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">
+            {CLOSING.primaryCta.label}
+          </Link>
+          <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">
+            {CLOSING.secondaryCta.label}
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Variant D — "Control Room". Renders the complete v2.0 Home content as an instrument
+ * console: nine sections, two rationed Ink bands (the hero and the closing) and the
+ * comparison bar last.
+ */
 export function HomeVariantDControlRoom() {
   return (
-    <div className="min-h-screen bg-paper pb-28 text-ink">
-      <HeroSection />
-      <ProblemSection />
-      <HowItWorksSection />
-      <JudgementSection />
-      <TrustSection />
-      <TwoWaysSection />
-      <IndustriesSection />
-      <SystemSection />
-      <ClosingSection />
+    <div className="pb-28">
+      <Hero />
+      <Problem />
+      <HowItWorks />
+      <SpeedAndJudgement />
+      <Trust />
+      <TwoWaysIn />
+      <Industries />
+      <TheSystem />
+      <Closing />
       <VariantPreviewBar current="d" />
     </div>
   );

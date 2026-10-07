@@ -1,13 +1,13 @@
 // ============================================================
 // FILE: HomeVariantA2Manifest.tsx
 // PURPOSE: Home variant A2 — "The Manifest". The same component language as A1
-//          (LedgerRow, HairlineStack, MonoIndex, SystemDiagram, Hero, SectionHead) but a
-//          deliberately different information architecture: a persistent right rail plus
-//          multi-column matrices where A1 uses a single list.
+//          (Hero, SectionHead, HairlineStack, MonoIndex, SystemDiagram) but a
+//          deliberately different information architecture: a persistent right rail
+//          plus multi-column matrices where A1 uses a single list.
 // CONNECTS TO: shared/home-variants.constants.ts, shared/MonoIndex, shared/HairlineStack,
 //          shared/SystemDiagram, shared/VariantPreviewBar, @/components/site/Hero,
 //          @/components/site/Section, @/components/site/LinkOutCard,
-//          @/components/site/IndustryChips.
+//          @/components/site/IndustryChips, @/components/site/Reveal.
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
@@ -59,18 +59,19 @@ export function HomeVariantA2Manifest() {
   return (
     <div className="bg-paper pb-28">
       <Hero
+        tone="ink"
+        compact
         eyebrow={HERO.eyebrow}
         headline={HERO.headline}
         subhead={HERO.subhead}
-        compact
         actions={[
           { label: HERO.primaryCta.label, to: HERO.primaryCta.to },
           { label: HERO.secondaryCta.label, to: HERO.secondaryCta.to, variant: "secondary" },
         ]}
       >
         <div className="grid gap-6 border-t border-border pt-6 md:grid-cols-2">
-          <p className="text-[15px] text-steel-50">{HERO.scopeLine}</p>
-          <p className="font-mono text-[11px] leading-relaxed tracking-[0.22em] text-steel-30 uppercase">
+          <p className="text-[15px] text-on-ink-muted">{HERO.scopeLine}</p>
+          <p className="font-mono text-[11px] leading-relaxed tracking-[0.22em] text-on-ink-meta uppercase">
             Verified suppliers · Structured requests · One record
           </p>
         </div>
@@ -171,19 +172,19 @@ export function HomeVariantA2Manifest() {
           <aside className="hidden lg:block">
             <div className="sticky top-28 border-l border-border pl-8">
               <p className="eyebrow">Manifest</p>
-              <p className="mt-5 text-[15px] text-steel-50">{HERO.scopeLine}</p>
+              <p className="mt-5 text-[15px] text-muted">{HERO.scopeLine}</p>
               <dl className="mt-8 border-t border-border pt-5 text-[14px]">
                 <div className="flex justify-between gap-4 py-2">
-                  <dt className="text-steel-50">Platform</dt>
-                  <dd className="text-ink">One record</dd>
+                  <dt className="text-muted">Platform</dt>
+                  <dd className="text-fg">One record</dd>
                 </div>
                 <div className="flex justify-between gap-4 border-t border-border py-2">
-                  <dt className="text-steel-50">Suppliers</dt>
-                  <dd className="text-ink">Verified first</dd>
+                  <dt className="text-muted">Suppliers</dt>
+                  <dd className="text-fg">Verified first</dd>
                 </div>
                 <div className="flex justify-between gap-4 border-t border-border py-2">
-                  <dt className="text-steel-50">Specialist</dt>
-                  <dd className="text-ink">Named</dd>
+                  <dt className="text-muted">Specialist</dt>
+                  <dd className="text-fg">Named</dd>
                 </div>
               </dl>
               <Link to={HERO.secondaryCta.to} className="btn btn-primary mt-8 w-full">
@@ -194,17 +195,18 @@ export function HomeVariantA2Manifest() {
         </div>
       </div>
 
-      <section className="section-y border-t border-border bg-paper-2">
+      {/* Ink band 2 of 2. The footer is already Ink globally — no third band. */}
+      <section className="surface-ink section-y border-t border-border">
         <div className="container-x">
           <div className="lg:grid lg:grid-cols-[1fr_300px] lg:gap-16">
             <div>
-              <h2 className="display-md text-ink">{CLOSING.heading}</h2>
+              <h2 className="display-md">{CLOSING.heading}</h2>
               <p className="lead mt-5 max-w-2xl">{CLOSING.body}</p>
               <div className="mt-9 flex flex-wrap gap-3">
-                <Link to={CLOSING.primaryCta.to} className="btn btn-primary">
+                <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">
                   {CLOSING.primaryCta.label}
                 </Link>
-                <Link to={CLOSING.secondaryCta.to} className="btn btn-secondary">
+                <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">
                   {CLOSING.secondaryCta.label}
                 </Link>
               </div>

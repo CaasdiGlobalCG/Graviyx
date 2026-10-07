@@ -2,12 +2,12 @@
 // FILE: HomeVariantA1Ledger.tsx
 // PURPOSE: Home variant A1 — "The Ledger". A document-like single column: every section
 //          is a numbered hairline row, with a sticky section index on the left at lg+.
-//          Shares its component language with A2 (LedgerRow, HairlineStack, MonoIndex,
-//          SystemDiagram, Hero, SectionHead) — only the information architecture differs.
+//          Shares its component language with A2 (Hero, SectionHead, LedgerRow,
+//          HairlineStack, MonoIndex, SystemDiagram) — only the IA differs.
 // CONNECTS TO: shared/home-variants.constants.ts, shared/LedgerRow, shared/HairlineStack,
 //          shared/MonoIndex, shared/SystemDiagram, shared/VariantPreviewBar,
-//          @/components/site/Hero, @/components/site/Section, @/components/site/LinkOutCard,
-//          @/components/site/IndustryChips.
+//          @/components/site/Hero, @/components/site/Section,
+//          @/components/site/LinkOutCard, @/components/site/IndustryChips.
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
@@ -32,7 +32,7 @@ import { MonoIndex } from "./shared/MonoIndex";
 import { SystemDiagram } from "./shared/SystemDiagram";
 import { VariantPreviewBar } from "./shared/VariantPreviewBar";
 
-/** The sticky index. Anchors are static — nothing here is derived from data. */
+/** The sticky index. Static anchors — nothing here is derived from data. */
 const INDEX = [
   { id: "problem", label: "Sound familiar?" },
   { id: "how", label: "How it works" },
@@ -47,6 +47,7 @@ export function HomeVariantA1Ledger() {
   return (
     <div className="bg-paper pb-28">
       <Hero
+        tone="ink"
         eyebrow={HERO.eyebrow}
         headline={HERO.headline}
         subhead={HERO.subhead}
@@ -55,7 +56,7 @@ export function HomeVariantA1Ledger() {
           { label: HERO.secondaryCta.label, to: HERO.secondaryCta.to, variant: "secondary" },
         ]}
       >
-        <p className="max-w-2xl border-t border-border pt-5 text-[15px] text-steel-50">
+        <p className="max-w-2xl border-t border-border pt-5 text-[15px] text-on-ink-muted">
           {HERO.scopeLine}
         </p>
       </Hero>
@@ -71,7 +72,7 @@ export function HomeVariantA1Ledger() {
                     <MonoIndex n={i + 1} />
                     <a
                       href={`#${entry.id}`}
-                      className="text-[14px] text-steel-50 transition-colors duration-200 hover:text-ink"
+                      className="text-[14px] text-muted transition-colors duration-200 hover:text-fg"
                     >
                       {entry.label}
                     </a>
@@ -159,18 +160,16 @@ export function HomeVariantA1Ledger() {
         </div>
       </div>
 
-      <section className="section-y bg-ink">
+      {/* Ink band 2 of 2. The footer is already Ink globally — no third band. */}
+      <section className="surface-ink section-y">
         <div className="container-x">
-          <h2 className="display-md text-paper">{CLOSING.heading}</h2>
-          <p className="mt-5 max-w-2xl text-[16px] text-steel-30">{CLOSING.body}</p>
+          <h2 className="display-md">{CLOSING.heading}</h2>
+          <p className="lead mt-5 max-w-2xl">{CLOSING.body}</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Link to={CLOSING.primaryCta.to} className="btn bg-paper text-ink">
+            <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">
               {CLOSING.primaryCta.label}
             </Link>
-            <Link
-              to={CLOSING.secondaryCta.to}
-              className="btn border border-steel-50 text-paper hover:border-paper"
-            >
+            <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">
               {CLOSING.secondaryCta.label}
             </Link>
           </div>

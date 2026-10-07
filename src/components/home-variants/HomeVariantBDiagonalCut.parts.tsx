@@ -1,68 +1,98 @@
 // ============================================================
 // FILE: HomeVariantBDiagonalCut.parts.tsx
-// PURPOSE: Primitives and the upper half of Home variant B — "Diagonal Cut" — where
-//          the GRAVIYX mark's 65° cut organises the page: angled dividers, offset
-//          blocks, a drawing connector line and a bespoke hero.
+// PURPOSE: Primitives and the upper sections of Home variant B — "Diagonal Cut" — where
+//          the GRAVIYX mark's 65° cut organises the page: angled hairline dividers,
+//          blocks offset along the diagonal axis, a connector that draws on through the
+//          four steps, and the full-bleed Ink hero.
 // CONNECTS TO: shared/home-variants.constants.ts (all copy), @/components/site/Reveal,
 //          motion/react, @tanstack/react-router (Link).
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import {
   HERO,
   HOW_IT_WORKS,
-  PROBLEM,
   SPEED_AND_JUDGEMENT,
-  TRUST,
 } from "@/components/home-variants/shared/home-variants.constants";
 
 /** The GRAVIYX mark's decisive cut, measured from horizontal. */
-const CUT_DEG = -65;
-/** A gentler angle, so a spanning divider hairline stays legible at every width. */
-const EDGE_DEG = -5;
-/** Mirrors --ease-cut in src/styles.css. */
-const EASE_CUT: [number, number, number, number] = [0.65, 0, 0.35, 1];
+export const CUT_DEG = -65;
+/** A shallower angle, so a spanning divider hairline stays legible at every width. */
+const EDGE_DEG = -6;
+/** Mirrors --ease-cut in src/styles.css. Shared with the main file's strike-through. */
+export const EASE_CUT: [number, number, number, number] = [0.65, 0, 0.35, 1];
 /** On desktop the four steps descend along the diagonal axis. */
 const STEP_OFFSETS = ["lg:mt-0", "lg:mt-12", "lg:mt-24", "lg:mt-36"];
 
 /** A short, bold slash at the brand cut angle. Decorative — it carries no copy. */
-export function CutMark({ className = "", tone = "ink" }: { className?: string; tone?: "ink" | "paper" }) {
+export function CutMark({
+  className = "",
+  tone = "ink",
+}: {
+  className?: string;
+  tone?: "ink" | "paper";
+}) {
   return (
-    <span className={`relative inline-block h-3 w-[18px] shrink-0 ${className}`} aria-hidden="true">
+    <span className={`relative inline-block h-4 w-5 shrink-0 ${className}`} aria-hidden="true">
       <span
-        className={`absolute left-0 top-1/2 h-[2px] w-full ${tone === "paper" ? "bg-paper" : "bg-ink"}`}
+        className={`absolute top-1/2 left-0 h-[2px] w-full ${
+          tone === "paper" ? "bg-paper" : "bg-ink"
+        }`}
         style={{ transform: `rotate(${CUT_DEG}deg)` }}
       />
     </span>
   );
 }
 
-/** An angled section divider — two hairlines on the diagonal plus one bold cut. */
+/** An angled section divider: two tilted hairlines crossed by the bold cut. */
 export function CutDivider() {
   return (
-    <div className="relative mx-auto h-14 w-full max-w-[1280px] md:h-20" aria-hidden="true">
-      <span className="absolute left-[4%] top-[34%] h-px w-[46%] bg-border" style={{ transform: `rotate(${EDGE_DEG}deg)` }} />
-      <span className="absolute left-[12%] top-[64%] h-px w-[30%] bg-border" style={{ transform: `rotate(${EDGE_DEG}deg)` }} />
-      <span className="absolute left-[6%] top-1/2 h-[2px] w-12 bg-ink" style={{ transform: `rotate(${CUT_DEG}deg)` }} />
+    <div className="container-x" aria-hidden="true">
+      <div className="relative h-16 w-full overflow-hidden md:h-24">
+        <span
+          className="absolute top-[38%] left-[2%] h-px w-[54%] bg-border"
+          style={{ transform: `rotate(${EDGE_DEG}deg)` }}
+        />
+        <span
+          className="absolute top-[72%] left-[28%] h-px w-[34%] bg-border"
+          style={{ transform: `rotate(${EDGE_DEG}deg)` }}
+        />
+        <span
+          className="absolute top-1/2 left-[10%] h-[2px] w-12 bg-ink"
+          style={{ transform: `rotate(${CUT_DEG}deg)` }}
+        />
+      </div>
     </div>
   );
 }
 
-/** A section heading preceded by the cut mark. */
-export function CutHeading({ children, className = "" }: { children: ReactNode; className?: string }) {
+/** A section heading preceded by the cut mark. Colour is inherited, so it reads on Paper and Ink. */
+export function CutHeading({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <div className={`flex items-start gap-4 ${className}`}>
-      <CutMark className="mt-[0.7em]" />
-      <h2 className="display-lg text-fg">{children}</h2>
+      <CutMark className="mt-[0.55em]" />
+      <h2 className="display-lg">{children}</h2>
     </div>
   );
 }
 
 /** The section shell: vertical rhythm plus the container gutter. */
-export function SectionFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function SectionFrame({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <section className={`section-y relative ${className}`}>
       <div className="container-x relative">{children}</div>
@@ -70,36 +100,41 @@ export function SectionFrame({ children, className = "" }: { children: ReactNode
   );
 }
 
-/** The large, confident cut crossing the headline block; draws on with pathLength. */
-function HeroDiagonal() {
+/** The Paper diagonal that cuts across the Ink hero. Both lines draw on with scaleX.
+ *  Under reduced motion MotionConfig suppresses the transform, so it is gated here to
+ *  render the finished line rather than an invisible one. */
+function HeroCut() {
+  const reduced = useReducedMotion();
   return (
-    <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <motion.path
-        d="M4 88 L96 14"
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth="1"
-        vectorEffect="non-scaling-stroke"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.6 }}
-        transition={{ duration: 1.3, delay: 0.45, ease: EASE_CUT }}
-      />
-      <motion.path
-        d="M2 96 L86 26"
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth="1"
-        strokeDasharray="3 7"
-        vectorEffect="non-scaling-stroke"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 0.3 }}
-        transition={{ duration: 1.3, delay: 0.7, ease: EASE_CUT }}
-      />
-    </svg>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <span
+        className="absolute inset-0 m-auto h-[2px] w-[240%]"
+        style={{ transform: `rotate(${CUT_DEG}deg)` }}
+      >
+        <motion.span
+          className="block h-full w-full bg-paper/70"
+          initial={reduced ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.4, delay: 0.35, ease: EASE_CUT }}
+        />
+      </span>
+      <span
+        className="absolute inset-0 m-auto h-px w-[240%]"
+        style={{ transform: `translateX(46px) rotate(${CUT_DEG}deg)` }}
+      >
+        <motion.span
+          className="block h-full w-full bg-paper/25"
+          initial={reduced ? { scaleX: 1 } : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.4, delay: 0.55, ease: EASE_CUT }}
+        />
+      </span>
+    </div>
   );
 }
 
-/** The hero eyebrow, headline and subhead, fading in on load. */
+/** The hero eyebrow, headline and subhead. They fade in on load; no colour class is set,
+ *  so the Ink surface's inherited Paper does the work. */
 function HeroCopy() {
   return (
     <>
@@ -109,11 +144,11 @@ function HeroCopy() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: EASE_CUT }}
       >
-        <CutMark />
+        <CutMark tone="paper" />
         {HERO.eyebrow}
       </motion.p>
       <motion.h1
-        className="display-xl mt-6 max-w-4xl text-fg"
+        className="display-xl mt-6 max-w-4xl"
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.08, ease: EASE_CUT }}
@@ -132,7 +167,7 @@ function HeroCopy() {
   );
 }
 
-/** The hero's two calls to action. */
+/** The hero's two calls to action, inverted for the Ink surface. */
 function HeroActions() {
   return (
     <motion.div
@@ -141,26 +176,28 @@ function HeroActions() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.32, ease: EASE_CUT }}
     >
-      <Link to={HERO.primaryCta.to} className="btn btn-primary">
+      <Link to={HERO.primaryCta.to} className="btn btn-on-ink">
         {HERO.primaryCta.label}
       </Link>
-      <Link to={HERO.secondaryCta.to} className="btn btn-secondary">
+      <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">
         {HERO.secondaryCta.label}
       </Link>
     </motion.div>
   );
 }
 
-/** HERO — the page anchor, crossed by a single confident diagonal. */
+/** HERO — the page anchor: a full-bleed Ink surface crossed by the Paper cut. */
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-bg">
-      <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" aria-hidden="true" />
-      <HeroDiagonal />
-      <div className="container-x relative pt-32 pb-20 md:pt-44 md:pb-28">
-        <HeroCopy />
-        <HeroActions />
-        <p className="mt-8 border-t border-border pt-5 font-mono text-[11px] tracking-[0.06em] text-muted">
+    <section className="surface-ink relative overflow-hidden">
+      <div className="bg-grid drift-grid pointer-events-none absolute -inset-[72px]" aria-hidden="true" />
+      <HeroCut />
+      <div className="container-x relative pt-32 pb-24 md:pt-44 md:pb-32">
+        <div className="lg:pl-14">
+          <HeroCopy />
+          <HeroActions />
+        </div>
+        <p className="mt-12 border-t border-border pt-5 font-mono text-[11px] tracking-[0.06em] text-on-ink-meta">
           {HERO.scopeLine}
         </p>
       </div>
@@ -168,42 +205,27 @@ export function HeroSection() {
   );
 }
 
-/** PROBLEM — the frictions, set as a descending run of statements. */
-export function ProblemSection() {
-  return (
-    <SectionFrame className="bg-paper-2">
-      <CutHeading>{PROBLEM.heading}</CutHeading>
-      <div className="mt-10 max-w-3xl md:mt-14">
-        {PROBLEM.items.map((item, i) => (
-          <Reveal key={item} delay={i * 0.08}>
-            <div className="flex items-start gap-4 border-b border-border py-5">
-              <CutMark className="mt-[0.45em]" />
-              <span className="display-sm text-fg">{item}</span>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal delay={0.1}>
-        <p className="body-copy mt-8 max-w-2xl text-[16px]">{PROBLEM.closing}</p>
-      </Reveal>
-    </SectionFrame>
-  );
-}
-
-/** The diagonal that threads the four steps and draws on as it enters view. */
+/** The diagonal that threads the four steps. It draws on via pathLength, which Motion
+ *  does not suppress under reduced motion, so it is gated here explicitly. */
 function StepsConnector() {
+  const reduced = useReducedMotion();
   return (
-    <svg className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <svg
+      className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
       <motion.path
-        d="M12.5 4 L87.5 66"
+        d="M12.5 6 L87.5 70"
         fill="none"
-        stroke="var(--ink)"
+        stroke="currentColor"
         strokeWidth="1"
         vectorEffect="non-scaling-stroke"
-        initial={{ pathLength: 0, opacity: 0 }}
-        whileInView={{ pathLength: 1, opacity: 0.5 }}
+        initial={reduced ? { pathLength: 1, opacity: 0.55 } : { pathLength: 0, opacity: 0 }}
+        whileInView={{ pathLength: 1, opacity: 0.55 }}
         viewport={{ once: true, margin: "-120px" }}
-        transition={{ duration: 1.1, ease: EASE_CUT }}
+        transition={{ duration: 1.2, ease: EASE_CUT }}
       />
     </svg>
   );
@@ -212,13 +234,15 @@ function StepsConnector() {
 /** One step in HOW_IT_WORKS, offset down the diagonal axis on desktop. */
 function StepCard({ index, step }: { index: number; step: { key: string; body: string } }) {
   return (
-    <Reveal delay={index * 0.12} className={`relative ${STEP_OFFSETS[index]}`}>
+    <Reveal delay={index * 0.12} className={`relative ${STEP_OFFSETS[index] ?? ""}`}>
       <div className="flex items-center gap-3">
         <CutMark />
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-meta">{step.key}</span>
+        <span className="font-mono text-[11px] tracking-[0.18em] text-meta uppercase">
+          {step.key}
+        </span>
       </div>
       <span className="mt-5 block h-px w-full bg-border" />
-      <p className="display-sm mt-5 text-fg">{step.body}</p>
+      <p className="display-sm mt-5">{step.body}</p>
     </Reveal>
   );
 }
@@ -257,30 +281,6 @@ export function SpeedSection() {
           <p className="lead">{SPEED_AND_JUDGEMENT.body}</p>
           <Link to={SPEED_AND_JUDGEMENT.link.to} className="btn btn-secondary mt-8">
             {SPEED_AND_JUDGEMENT.link.label}
-          </Link>
-        </Reveal>
-      </div>
-    </SectionFrame>
-  );
-}
-
-/** TRUST — three verification promises on a hairline grid. */
-export function TrustSection() {
-  return (
-    <SectionFrame className="bg-bg">
-      <div className="lg:pl-12">
-        <CutHeading>{TRUST.heading}</CutHeading>
-        <div className="mt-10 grid gap-px border border-border bg-border md:grid-cols-3">
-          {TRUST.items.map((item, i) => (
-            <Reveal key={item} delay={i * 0.1} className="bg-bg p-6 md:p-8">
-              <CutMark />
-              <p className="mt-6 text-[16px] leading-relaxed text-fg">{item}</p>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal>
-          <Link to={TRUST.link.to} className="btn btn-secondary mt-10">
-            {TRUST.link.label}
           </Link>
         </Reveal>
       </div>

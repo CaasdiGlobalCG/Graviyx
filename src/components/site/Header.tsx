@@ -35,10 +35,15 @@ export function Header() {
     <header
       className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
       style={{
-        backgroundColor:
-          scrolled || open ? "color-mix(in oklab, var(--paper) 88%, transparent)" : "transparent",
+        // Always frosted, never fully transparent. The Home hero is an Ink surface
+        // (Operon rations Ink to "nav, footer, select heroes"), and the mark here is
+        // the Ink one — under a transparent header it would disappear against that
+        // hero until the user scrolled. A persistent Paper wash keeps the logo and
+        // nav legible on both Paper and Ink heroes. The hairline still only appears
+        // once scrolled, so the bar stays quiet at rest.
+        backgroundColor: "color-mix(in oklab, var(--paper) 88%, transparent)",
         borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
-        backdropFilter: scrolled || open ? "blur(14px)" : "none",
+        backdropFilter: "blur(14px)",
       }}
     >
       <div className="container-x flex h-[72px] items-center justify-between gap-6">

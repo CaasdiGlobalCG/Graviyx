@@ -1,12 +1,12 @@
 // ============================================================
 // FILE: HomeVariantCOversizedSymbol.tsx
 // PURPOSE: Home variant C — "Oversized Symbol". Brand background treatment 03: the
-//          GRAVIYX mark at architectural scale, with the H1 sitting inside the counter
-//          of the giant G. Poster-like, quiet, few elements, strong vertical rhythm.
-// CONNECTS TO: shared/home-variants.constants.ts (all copy),
+//          GRAVIYX mark at architectural scale is the structural device the page is
+//          composed against, with the H1 sitting inside the counter of the giant G.
+//          Poster-like, quiet and confident: big type, generous space, vertical rhythm.
+// CONNECTS TO: shared/home-variants.constants.ts (all copy), shared/VariantPreviewBar,
 //          HomeVariantCOversizedSymbol.parts (hero, system, closing, the mark),
-//          shared/VariantPreviewBar, @/components/site/Reveal, motion/react,
-//          @tanstack/react-router.
+//          @/components/site/Reveal, motion/react, @tanstack/react-router.
 // ============================================================
 
 import { Link } from "@tanstack/react-router";
@@ -21,13 +21,16 @@ import {
   TWO_WAYS_IN,
 } from "./shared/home-variants.constants";
 import { VariantPreviewBar } from "./shared/VariantPreviewBar";
-import {
-  ClosingSection,
-  EASE,
-  HeroSection,
-  SystemSection,
-} from "./HomeVariantCOversizedSymbol.parts";
+import { ClosingSection, HeroSection, SystemSection } from "./HomeVariantCOversizedSymbol.parts";
 
+/** Mirrors --ease-signal in src/styles.css. Kept as a tuple so Motion's type accepts it. */
+const EASE: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
+
+/**
+ * The page: nine sections in content order. Exactly two of them are ink bands — the hero
+ * and the closing — which is the whole of this page's Ink ration, the global footer
+ * aside. Ink never becomes dominant, and the middle of the page stays light.
+ */
 export function HomeVariantCOversizedSymbol() {
   return (
     <div className="bg-paper pb-28">
@@ -48,7 +51,7 @@ export function HomeVariantCOversizedSymbol() {
 /**
  * PROBLEM — the five complaints as ruled poster lines. Each row lifts in and is then
  * struck through by a hairline that scales on X, which is the cue the content doc gives
- * for this section. The line is transform-only, so no text ever reflows.
+ * for this section. The strike is transform-only, so no line of type ever reflows.
  */
 function ProblemSection() {
   return (
@@ -95,8 +98,9 @@ function ProblemLine({ line, delay }: { line: string; delay: number }) {
 }
 
 /**
- * HOW_IT_WORKS — four steps as a hairline grid, one cell per step. The hairline comes
- * from a 1px gap showing the grid's background, so no cell needs a shadow or a border.
+ * HOW_IT_WORKS — the four steps as a hairline grid, one cell per step, under a line that
+ * travels across as the steps light up one by one. The hairline is the 1px gap showing
+ * the grid's own background, so no cell needs a border or a shadow.
  */
 function HowItWorksSection() {
   return (
@@ -106,7 +110,16 @@ function HowItWorksSection() {
           <h2 className="display-lg max-w-3xl text-ink">{HOW_IT_WORKS.heading}</h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-px border border-border bg-border sm:grid-cols-2 xl:grid-cols-4">
+        <motion.div
+          aria-hidden="true"
+          className="mt-14 h-px origin-left bg-ink"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, ease: EASE }}
+        />
+
+        <div className="grid gap-px border border-t-0 border-border bg-border sm:grid-cols-2 xl:grid-cols-4">
           {HOW_IT_WORKS.steps.map((step, i) => (
             <StepCell key={step.key} step={step} order={i + 1} />
           ))}
@@ -126,9 +139,7 @@ function StepCell({ step, order }: { step: { key: string; body: string }; order:
   return (
     <div className="bg-paper-2 p-7 md:p-8">
       <Reveal delay={order * 0.07}>
-        <p className="font-mono text-[11px] tracking-[0.22em] text-steel-30">
-          {String(order).padStart(2, "0")}
-        </p>
+        <p className="eyebrow">{String(order).padStart(2, "0")}</p>
         <h3 className="display-md mt-6 text-ink">{step.key}</h3>
         <p className="body-copy mt-3 text-[15px]">{step.body}</p>
       </Reveal>
@@ -159,7 +170,7 @@ function SpeedJudgementSection() {
   );
 }
 
-/** TRUST — three commitments on ruled rows. */
+/** TRUST — three commitments on ruled rows, each opened by the brand mark. */
 function TrustSection() {
   return (
     <section className="section-y">
@@ -189,10 +200,15 @@ function TrustSection() {
   );
 }
 
-/** TWO_WAYS_IN — two panels, equal weight, no accent colour to separate them. */
+/**
+ * TWO_WAYS_IN — two panels of equal weight. There is no accent colour to separate them,
+ * so the card sits as paper on the paper-2 ground and the hairline does the work. The CTA
+ * label mirrors --text-caption and --tracking-caption, the one place the brand caption
+ * recipe needs an ink colour that `eyebrow` cannot carry.
+ */
 function TwoWaysSection() {
   return (
-    <section className="section-y">
+    <section className="section-y bg-paper-2">
       <div className="container-x">
         <Reveal>
           <h2 className="display-lg text-ink">{TWO_WAYS_IN.heading}</h2>
@@ -203,7 +219,7 @@ function TwoWaysSection() {
             <Reveal key={card.audience} delay={i * 0.1} className="h-full">
               <Link
                 to={card.to}
-                className="panel flex h-full flex-col p-8 transition-colors duration-200 hover:border-ink"
+                className="flex h-full flex-col border border-border bg-paper p-8 transition-colors duration-200 hover:border-ink"
               >
                 <p className="eyebrow">{card.audience}</p>
                 <p className="lead mt-5">{card.body}</p>
@@ -220,8 +236,8 @@ function TwoWaysSection() {
 }
 
 /**
- * INDUSTRIES_SECTION — the industries as a large-type list. The module ships no CTA
- * label for this section, so the names themselves are the link to the industries page.
+ * INDUSTRIES_SECTION — the industries as a large-type list. The module ships no CTA label
+ * for this section, so the names themselves are the link to the industries page.
  */
 function IndustriesSection() {
   return (

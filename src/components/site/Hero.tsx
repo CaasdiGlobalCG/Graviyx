@@ -16,6 +16,7 @@ export function Hero({
   actions = [],
   children,
   compact = false,
+  tone = "paper",
 }: {
   eyebrow?: string;
   headline: string;
@@ -23,9 +24,14 @@ export function Hero({
   actions?: HeroAction[];
   children?: ReactNode;
   compact?: boolean;
+  /** `ink` renders the hero as an Ink surface. Operon rations Ink to
+   *  "nav, footer, select heroes", so this is used sparingly. */
+  tone?: "paper" | "ink";
 }) {
+  const isInk = tone === "ink";
+
   return (
-    <section className="relative overflow-hidden bg-bg">
+    <section className={`relative overflow-hidden ${isInk ? "surface-ink" : "bg-bg"}`}>
       {/* Oversized by one background tile (72px) so the drift translate never
           exposes an edge. The drift animates transform, not background-position. */}
       <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" />
@@ -33,7 +39,7 @@ export function Hero({
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent, color-mix(in oklab, var(--ink) 18%, transparent), transparent)",
+            "linear-gradient(to right, transparent, color-mix(in oklab, currentColor 18%, transparent), transparent)",
         }}
       />
       <div
@@ -82,7 +88,15 @@ export function Hero({
               <Link
                 key={a.label}
                 to={a.to}
-                className={`btn ${a.variant === "secondary" ? "btn-secondary" : "btn-primary"}`}
+                className={`btn ${
+                  isInk
+                    ? a.variant === "secondary"
+                      ? "btn-ghost-on-ink"
+                      : "btn-on-ink"
+                    : a.variant === "secondary"
+                      ? "btn-secondary"
+                      : "btn-primary"
+                }`}
               >
                 {a.label}
               </Link>

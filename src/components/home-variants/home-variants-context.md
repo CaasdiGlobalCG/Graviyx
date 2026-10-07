@@ -68,6 +68,54 @@ proven mechanically at adoption, against baseline commit `154db2a`.
    desktop nav switches at `xl:` (1280px), so treat 1024–1279 as a real layout case.
 9. **Import depth:** a file directly in `home-variants/` reaches `src/` with `../../`; a file in
    `home-variants/shared/` needs `../../../`. A wrong depth still parses and only fails at transform.
+   **Safer: use the `@/` alias for anything outside your own folder** and a relative import only for
+   your own sibling file.
+
+## Ink surfaces — required in every variant
+
+Operon's brand system rations Ink: **55% Paper / 25% Cloud / 15% Ink / 05% signal**, with Ink reserved
+for *"nav, footer, select heroes"*. The site was previously ~100% light, which is why it read flat.
+
+Every variant must therefore carry **two Ink bands**:
+
+1. **An Ink hero.** The hero section is an Ink surface. This is the strongest move and the main reason
+   the variants are being rebuilt.
+2. **An Ink closing.** The CLOSING section is an Ink surface.
+
+The Footer is already Ink globally — do not add another one.
+
+### How to build an Ink surface
+
+Add the `surface-ink` utility to the section. It sets the background to Ink **and re-points the
+semantic tokens locally**, so `eyebrow`, `lead`, `body-copy`, `panel` and `hairline` all resolve to
+on-ink tones automatically. It also sets `color`, so headings **inherit Paper**.
+
+```tsx
+<section className="surface-ink section-y">
+  <div className="container-x">
+    <p className="eyebrow">Works — resolves to on-ink-muted</p>
+    <h1 className="display-xl">Works — inherits Paper, no colour class needed</h1>
+    <p className="lead">Works — resolves to on-ink-muted</p>
+    <a className="btn btn-on-ink">Primary on ink</a>
+    <a className="btn btn-ghost-on-ink">Secondary on ink</a>
+  </div>
+</section>
+```
+
+**Critical rules inside an Ink surface:**
+
+- **Do NOT use `text-ink`, `text-fg` is fine** (`--fg` is re-pointed), but `text-ink` resolves to
+  `#000000` and will vanish. Omit colour classes and let inheritance work.
+- **Do NOT use `btn-primary`** — it is Ink-on-Ink and invisible. Use `btn-on-ink`.
+- **Do NOT use `btn-secondary`** — use `btn-ghost-on-ink`.
+- Secondary text on ink: `text-on-ink-muted` (70%) or `text-on-ink-meta` (55%).
+- Hairlines on ink: `border-on-ink-rule` (14%) or `border-on-ink-rule-soft` (30%). Or just
+  `border-border`, which is re-pointed.
+- `bg-grid`, `bg-diagonal`, `grid-veil`, `wip-stripes` and `mark-dot` all draw with `currentColor` or
+  a re-pointed `--mark`, so they work on Ink with no changes. Use them freely.
+
+**Ink is rationed — never dominant.** Two bands per page plus the footer. Do not make the middle of
+the page dark.
 
 ## Important Notes
 
