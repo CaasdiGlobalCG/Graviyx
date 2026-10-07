@@ -117,6 +117,44 @@ on-ink tones automatically. It also sets `color`, so headings **inherit Paper**.
 **Ink is rationed — never dominant.** Two bands per page plus the footer. Do not make the middle of
 the page dark.
 
+## Two sections that must appear in EVERY variant, unchanged
+
+Every variant must render these two sections, with exactly this copy and these components. They are
+carried over verbatim from the live Home page (`src/routes/index.tsx:32-33`) so the variants match it.
+Do not reword, restyle into something else, or substitute your own graphic.
+
+```tsx
+import { Section, SectionHead } from "@/components/site/Section";
+import { IndiaCoverageMap } from "@/components/site/IndiaCoverageMap";
+import { EcosystemDiagram } from "@/components/site/EcosystemDiagram";
+
+<Section tone="surface">
+  <SectionHead
+    eyebrow="Where we serve"
+    title="Connected across India's industrial corridors."
+    lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
+  />
+  <IndiaCoverageMap />
+</Section>
+
+<Section tone="warm">
+  <SectionHead eyebrow="The ecosystem" title="Four sides. One orchestrator." align="center" />
+  <EcosystemDiagram />
+  <p className="mt-6 text-center text-sm text-meta">
+    Orchestrated trade, not just listed products.
+  </p>
+</Section>
+```
+
+Notes:
+
+- Place them in the lower half of the page, in that order, after the v2.0 content sections.
+- `Section` and `SectionHead` are **allowed** for these two sections only. Do not use them anywhere
+  else — the rest of your page is your own layout.
+- `IndiaCoverageMap` and `EcosystemDiagram` are being reworked in place by the sequencer (the map's
+  outline is being corrected). Import them; do not copy their internals or fork them.
+- Both sections are light surfaces. Do not convert them to Ink — Ink stays rationed to your two bands.
+
 ## Important Notes
 
 - **Copy is v2.0 (plain-language).** The live Home page still carries v1.0 wording; these variants

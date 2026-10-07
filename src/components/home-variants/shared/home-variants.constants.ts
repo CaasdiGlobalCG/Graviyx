@@ -132,13 +132,17 @@ export const CLOSING = {
   secondaryCta: { label: "Post a Requirement", to: "/post-a-requirement" },
 } as const;
 
-/** The five directions, in preview-bar order. */
+/** The seven directions, in preview-bar order.
+ *  A1 and A2 share one component language. E–I are the motion-led set, each built on a
+ *  different piece of the motion vocabulary documented in Operon BRAND.md:107. */
 export const VARIANTS = [
   { id: "a1", slug: "home-variant-a1", label: "A1 · The Ledger", family: "shared" },
   { id: "a2", slug: "home-variant-a2", label: "A2 · The Manifest", family: "shared" },
-  { id: "b", slug: "home-variant-b", label: "B · Diagonal Cut", family: "independent" },
-  { id: "c", slug: "home-variant-c", label: "C · Oversized Symbol", family: "independent" },
-  { id: "d", slug: "home-variant-d", label: "D · Control Room", family: "independent" },
+  { id: "e", slug: "home-variant-e", label: "E · Scrubbed Draw", family: "motion" },
+  { id: "f", slug: "home-variant-f", label: "F · Pinned Rail", family: "motion" },
+  { id: "g", slug: "home-variant-g", label: "G · Spotlight", family: "motion" },
+  { id: "h", slug: "home-variant-h", label: "H · Marquee", family: "motion" },
+  { id: "i", slug: "home-variant-i", label: "I · Float & Shadow", family: "motion" },
 ] as const;
 
 export type VariantId = (typeof VARIANTS)[number]["id"];

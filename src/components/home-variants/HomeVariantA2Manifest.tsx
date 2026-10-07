@@ -12,10 +12,12 @@
 
 import { Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
-import { SectionHead } from "@/components/site/Section";
+import { Section, SectionHead } from "@/components/site/Section";
 import { LinkOutCard } from "@/components/site/LinkOutCard";
 import { IndustryChips } from "@/components/site/IndustryChips";
 import { Reveal } from "@/components/site/Reveal";
+import { IndiaCoverageMap } from "@/components/site/IndiaCoverageMap";
+import { EcosystemDiagram } from "@/components/site/EcosystemDiagram";
 import {
   CLOSING,
   HERO,
@@ -194,6 +196,25 @@ export function HomeVariantA2Manifest() {
           </aside>
         </div>
       </div>
+
+      {/* The two sections carried over verbatim from the live Home page. Page-level, so
+          the wide coverage graphic gets full width and Section's container is not nested. */}
+      <Section tone="surface">
+        <SectionHead
+          eyebrow="Where we serve"
+          title="Connected across India's industrial corridors."
+          lead="Our technology-enabled network coordinates demand, verified supply and fulfilment across the country's major metropolitan centres."
+        />
+        <IndiaCoverageMap />
+      </Section>
+
+      <Section tone="warm">
+        <SectionHead eyebrow="The ecosystem" title="Four sides. One orchestrator." align="center" />
+        <EcosystemDiagram />
+        <p className="mt-6 text-center text-sm text-meta">
+          Orchestrated trade, not just listed products.
+        </p>
+      </Section>
 
       {/* Ink band 2 of 2. The footer is already Ink globally — no third band. */}
       <section className="surface-ink section-y border-t border-border">
