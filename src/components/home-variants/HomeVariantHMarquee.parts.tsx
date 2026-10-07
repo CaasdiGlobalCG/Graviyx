@@ -77,7 +77,7 @@ function TickerRow({
     <ul {...rest} className={`flex shrink-0 items-center ${TONE_TEXT[tone]}`}>
       {items.map((item) => (
         <li key={item} className="flex shrink-0 items-center">
-          <span className="px-7 py-4 font-mono text-[11px] tracking-[0.22em] uppercase">{item}</span>
+          <span className={`px-7 py-4 ${TICKER_TYPE}`}>{item}</span>
           <span aria-hidden="true" className="mark-dot" />
         </li>
       ))}
@@ -92,7 +92,7 @@ function StaticRow({ items, tone }: { items: Items; tone: Tone }) {
       {items.map((item) => (
         <li key={item} className="flex items-center gap-3">
           <span aria-hidden="true" className="mark-dot" />
-          <span className="font-mono text-[11px] tracking-[0.22em] uppercase">{item}</span>
+          <span className={TICKER_TYPE}>{item}</span>
         </li>
       ))}
     </ul>
@@ -193,9 +193,7 @@ export function StrikeRow({ order, text }: { order: number; text: string }) {
     <li className="border-b border-border">
       <Reveal delay={order * 0.07}>
         <div className="flex items-baseline gap-4 py-5 md:gap-6">
-          <span className="font-mono text-[11px] leading-none tracking-[0.22em] text-meta">
-            {String(order).padStart(2, "0")}
-          </span>
+          <span className={MONO_INDEX}>{String(order).padStart(2, "0")}</span>
           <span className="relative inline-block text-[17px] text-fg md:text-[19px]">
             {text}
             <motion.span
@@ -257,7 +255,7 @@ export function EntryCard({ card, order }: { card: Card; order: number }) {
 export function IndustryRow({ index, name }: { index: string; name: string }) {
   return (
     <li className="grid grid-cols-[auto_1fr] items-baseline gap-x-5 border-b border-border py-4 md:gap-x-8">
-      <span className="font-mono text-[11px] leading-none tracking-[0.22em] text-meta">{index}</span>
+      <span className={MONO_INDEX}>{index}</span>
       <span className="text-[15px] text-fg">{name}</span>
     </li>
   );

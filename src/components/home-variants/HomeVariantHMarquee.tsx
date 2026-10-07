@@ -46,7 +46,10 @@ const INDUSTRY_NAMES = INDUSTRIES_SECTION.items;
 function Hero() {
   return (
     <section className="surface-ink relative overflow-hidden">
-      <div aria-hidden="true" className="bg-grid drift-grid pointer-events-none absolute -inset-24" />
+      <div
+        aria-hidden="true"
+        className="bg-grid drift-grid pointer-events-none absolute -inset-24"
+      />
       <div className="container-x section-y relative">
         <div className="flex items-center gap-3">
           <span aria-hidden="true" className="mark-dot pulse-dot" />
