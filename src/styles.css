@@ -89,11 +89,16 @@
   --neu-radius: 14px;
 
   /* ──────────────────────────────────────
-     FUTURISTIC / HUD — monochrome, so the "futuristic" read comes from geometry,
-     ruled telemetry and type at scale rather than from a glow colour.
+     DECORATIVE VEILS — the alpha for every faint grid, diagonal, scanline and bracket.
+     Re-pointed on Ink surfaces, so one utility works on both grounds.
+
+     These are tokens rather than `color-mix(in oklab, currentColor 5%, transparent)`
+     because the compiler cannot resolve `currentColor` at build time: it drops the
+     percentage and emits a SOLID line, which made every grid ~20x heavier than intended.
+     A concrete rgba value compiles correctly and is re-pointed per surface instead.
      ────────────────────────────────────── */
-  --hud-rule: rgba(0, 0, 0, 0.22);
-  --hud-scan: rgba(0, 0, 0, 0.05);
+  --veil: rgba(0, 0, 0, 0.05);
+  --veil-strong: rgba(0, 0, 0, 0.22);
 
   /* The bullet mark. Re-pointed on ink so it never disappears into the surface. */
   --mark: var(--ink);
@@ -421,6 +426,8 @@
   --border-soft: var(--on-ink-rule-soft);
   --surface: rgba(255, 255, 255, 0.04);
   --mark: var(--on-ink);
+  --veil: rgba(250, 250, 247, 0.06);
+  --veil-strong: rgba(250, 250, 247, 0.28);
 }
 
 /* The primary button inverts on an ink surface, or it would be invisible. */
@@ -530,16 +537,16 @@
 
 @utility bg-grid {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, var(--veil) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--veil) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
 @utility bg-diagonal {
   background-image: repeating-linear-gradient(
     -65deg,
-    color-mix(in oklab, currentColor 5%, transparent) 0px,
-    color-mix(in oklab, currentColor 5%, transparent) 1px,
+    var(--veil) 0px,
+    var(--veil) 1px,
     transparent 1px,
     transparent 12px
   );
@@ -556,8 +563,8 @@
 /* Kept for the existing hero: the grid with a soft radial falloff. */
 @utility grid-veil {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, currentColor 5%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, var(--veil) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--veil) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 35%, #000 10%, transparent 75%);
 }
@@ -617,14 +624,19 @@
 
 /* ---------- Futuristic / HUD ----------
    Monochrome, so the "futuristic" read comes from geometry, ruled telemetry and type at
-   scale rather than from a glow colour. No new colour is introduced. */
+   scale rather than from a glow colour. No new colour is introduced.
+
+   Both utilities draw with `currentColor`, so they render correctly on Paper AND on Ink
+   without needing a second variant — the same approach as bg-grid and bg-diagonal. They
+   originally used a fixed black token, which made them invisible on the Ink bands; two
+   variants hit that and worked around it locally. */
 
 /* A repeating hairline sweep — reads as a scanline field rather than as decoration. */
 @utility hud-scanlines {
   background-image: repeating-linear-gradient(
     to bottom,
-    var(--hud-scan) 0px,
-    var(--hud-scan) 1px,
+    var(--veil) 0px,
+    var(--veil) 1px,
     transparent 1px,
     transparent 4px
   );
@@ -633,14 +645,14 @@
 /* Corner brackets as four L-shapes: eight 1px gradient segments, no extra elements. */
 @utility hud-corners {
   background-image:
-    linear-gradient(to right, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to bottom, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to right, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to bottom, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to right, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to bottom, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to right, var(--hud-rule), var(--hud-rule)),
-    linear-gradient(to bottom, var(--hud-rule), var(--hud-rule));
+    linear-gradient(to right, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to bottom, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to right, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to bottom, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to right, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to bottom, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to right, var(--veil-strong), var(--veil-strong)),
+    linear-gradient(to bottom, var(--veil-strong), var(--veil-strong));
   background-size:
     16px 1px, 1px 16px, 16px 1px, 1px 16px,
     16px 1px, 1px 16px, 16px 1px, 1px 16px;
@@ -754,8 +766,8 @@
 @utility wip-stripes {
   background-image: repeating-linear-gradient(
     -45deg,
-    color-mix(in oklab, currentColor 5%, transparent) 0px,
-    color-mix(in oklab, currentColor 5%, transparent) 10px,
+    var(--veil) 0px,
+    var(--veil) 10px,
     transparent 10px,
     transparent 28px
   );

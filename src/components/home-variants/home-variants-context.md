@@ -160,6 +160,15 @@ type at scale**, not from a glow. The system provides:
 | `hud-scanlines` | A repeating hairline sweep. |
 | `hud-corners` | Corner brackets as four L-shapes — no extra elements needed. |
 
+Both draw through the shared `--veil` / `--veil-strong` tokens, which are **re-pointed on Ink
+surfaces**, so they render correctly on Paper **and** on Ink with no variant and no extra work —
+the same approach as `bg-grid`, `bg-diagonal` and `grid-veil`.
+
+Do **not** write `color-mix(in oklab, currentColor 5%, transparent)` yourself. The compiler
+cannot resolve `currentColor` at build time, so it silently drops the percentage and emits a
+**solid** line — which is roughly 20× heavier than intended. That is exactly the bug these tokens
+exist to avoid.
+
 - Lean on the brand caption (`eyebrow`) and `tabular-nums` for readouts; mono at scale is the
   strongest futuristic signal available without colour.
 - Ink bands are the natural "screen" surfaces here — a HUD reads well on Ink.
