@@ -66,7 +66,7 @@ function Trust() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.12 }}
             >
-              <span className="accent-dot mt-2 shrink-0" />
+              <span className="mark-dot mt-2 shrink-0" />
               <div>
                 <h3 className="display-sm text-fg">{layer.title}</h3>
                 <p className="body-copy mt-2 text-[16px]">{layer.body}</p>

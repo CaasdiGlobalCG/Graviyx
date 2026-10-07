@@ -16,16 +16,17 @@ export function DealTimeline() {
     target: ref,
     offset: ["start 0.8", "end 0.4"],
   });
-  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <div ref={ref} className="relative mt-12">
       <p className="eyebrow mb-8">Illustrative example. Not a customer case study.</p>
       <div className="relative pl-9 md:pl-12">
         <div className="absolute top-2 bottom-2 left-[7px] w-px bg-border md:left-[11px]" />
+        {/* Scroll-driven fill. Animates scaleY, not height — height is a layout property. */}
         <motion.div
-          className="absolute top-2 left-[7px] w-px md:left-[11px]"
-          style={{ height, background: "var(--accent)" }}
+          className="absolute top-2 bottom-2 left-[7px] w-px origin-top md:left-[11px]"
+          style={{ scaleY, background: "var(--ink)" }}
         />
         <ol className="space-y-8 md:space-y-10">
           {MARKERS.map((m, i) => (
@@ -40,12 +41,11 @@ export function DealTimeline() {
               <span
                 className="absolute top-2 -left-9 h-[15px] w-[15px] rounded-full border-2 md:-left-12"
                 style={{
-                  background: "var(--bg)",
-                  borderColor: "var(--accent)",
-                  boxShadow: "0 0 12px color-mix(in oklab, var(--accent) 45%, transparent)",
+                  background: "var(--paper)",
+                  borderColor: "var(--ink)",
                 }}
               />
-              <p className="font-mono text-[11px] tracking-[0.2em] text-accent">{m.day}</p>
+              <p className="font-mono text-[11px] tracking-[0.2em] text-ink">{m.day}</p>
               <p className="mt-2 text-[19px] text-fg md:text-[22px]">{m.label}</p>
               <p className="body-copy mt-2 max-w-xl text-[16px]">{m.body}</p>
             </motion.li>

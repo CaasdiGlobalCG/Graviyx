@@ -68,7 +68,7 @@ function Fulfillment() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.14 }}
             >
-              <span className="accent-dot mt-2 shrink-0" />
+              <span className="mark-dot mt-2 shrink-0" />
               <div>
                 <h3 className="display-sm text-fg">
                   {tier.title} <span className="text-meta">({tier.tag})</span>

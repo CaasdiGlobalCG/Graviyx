@@ -14,7 +14,7 @@ export function PlatformStrip() {
       <div className="absolute top-[13px] right-0 left-0 hidden h-px bg-border lg:block" />
       <motion.div
         className="absolute top-[13px] left-0 hidden h-px origin-left lg:block"
-        style={{ background: "var(--accent)", width: "100%" }}
+        style={{ background: "var(--ink)", width: "100%" }}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -31,17 +31,8 @@ export function PlatformStrip() {
             transition={{ duration: 0.5, delay: 0.25 + i * 0.28 }}
           >
             <span className="relative mt-1 grid h-[27px] w-[27px] shrink-0 place-items-center lg:mt-0">
-              <span
-                className="h-[11px] w-[11px] rounded-full"
-                style={{
-                  background: "var(--accent)",
-                  boxShadow: "0 0 14px color-mix(in oklab, var(--accent) 55%, transparent)",
-                }}
-              />
-              <span
-                className="absolute inset-0 rounded-full border"
-                style={{ borderColor: "color-mix(in oklab, var(--accent) 30%, transparent)" }}
-              />
+              <span className="h-[11px] w-[11px] rounded-full bg-ink" />
+              <span className="absolute inset-0 rounded-full border border-border-soft" />
             </span>
             <div className="lg:mt-5">
               <p className="font-mono text-[11px] tracking-[0.2em] text-meta">

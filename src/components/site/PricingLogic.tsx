@@ -16,7 +16,7 @@ function PathGlyph({ variant, delay }: { variant: number; delay: number }) {
       <motion.path
         d={paths[variant % paths.length]}
         fill="none"
-        stroke="var(--accent)"
+        stroke="var(--ink)"
         strokeWidth="1.5"
         initial={{ pathLength: 0, opacity: 0.2 }}
         whileInView={{ pathLength: 1, opacity: 1 }}
@@ -25,7 +25,7 @@ function PathGlyph({ variant, delay }: { variant: number; delay: number }) {
       />
       <motion.circle
         r="3"
-        fill="var(--accent)"
+        fill="var(--ink)"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}

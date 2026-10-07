@@ -98,7 +98,7 @@ function About() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <span className="accent-dot mb-4 block" />
+              <span className="mark-dot mb-4 block" />
               <h3 className="display-sm text-fg">{p.title}</h3>
               <p className="body-copy mt-2 text-[15px]">{p.body}</p>
             </motion.div>
@@ -118,7 +118,7 @@ function About() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.14 }}
             >
-              <span className="eyebrow text-accent">{r.term}</span>
+              <span className="eyebrow text-ink">{r.term}</span>
               <p className="body-copy mt-3 text-[16px]">{r.body}</p>
             </motion.div>
           ))}
@@ -131,7 +131,7 @@ function About() {
           <p className="body-copy text-[17px]">
             AI and engineering, procurement specialists, vendor success and verification, and
             logistics and warehouse operations.{" "}
-            <Link to="/careers" className="text-accent underline-offset-4 hover:underline">
+            <Link to="/careers" className="text-ink underline-offset-4 hover:underline">
               Careers →
             </Link>
           </p>

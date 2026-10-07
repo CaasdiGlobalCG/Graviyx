@@ -26,7 +26,7 @@ function Login() {
             resetSent ? (
               <Reveal>
                 <div className="panel flex flex-col items-center px-6 py-14 text-center">
-                  <span className="accent-dot pulse-dot mb-6" />
+                  <span className="mark-dot pulse-dot mb-6" />
                   <h2 className="display-sm text-fg">Check your inbox.</h2>
                   <p className="body-copy mt-3 text-[16px]">
                     If an account exists for this address, a reset link is on its way.
@@ -102,7 +102,7 @@ function Login() {
                   <button
                     type="button"
                     onClick={() => setReset(true)}
-                    className="text-accent underline-offset-4 hover:underline"
+                    className="text-ink underline-offset-4 hover:underline"
                   >
                     Forgot password?
                   </button>
@@ -113,11 +113,11 @@ function Login() {
           <Reveal delay={0.1}>
             <p className="mt-8 text-center text-[15px] text-muted">
               New to Graviyx?{" "}
-              <Link to="/for-buyers" className="text-accent underline-offset-4 hover:underline">
+              <Link to="/for-buyers" className="text-ink underline-offset-4 hover:underline">
                 Browse the Marketplace
               </Link>{" "}
               or{" "}
-              <Link to="/contact" className="text-accent underline-offset-4 hover:underline">
+              <Link to="/contact" className="text-ink underline-offset-4 hover:underline">
                 Apply for Verification
               </Link>{" "}
               (suppliers).

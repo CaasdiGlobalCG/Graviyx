@@ -40,14 +40,14 @@ function Insights() {
             <Reveal key={card.title} delay={index * 0.1}>
               <div className="panel flex h-full flex-col p-6 md:p-8">
                 <span className="eyebrow mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-border px-3 py-1 text-meta">
-                  <span className="accent-dot pulse-dot" />
+                  <span className="mark-dot pulse-dot" />
                   COMING SOON — NOT YET LIVE
                 </span>
                 <h3 className="display-sm text-fg">{card.title}</h3>
                 <p className="body-copy mt-3 flex-1 text-[16px]">{card.body}</p>
                 <p className="mt-6 text-sm text-meta">
                   Not yet available for RFQs. Questions?{" "}
-                  <Link to="/contact" className="text-accent underline-offset-4 hover:underline">
+                  <Link to="/contact" className="text-ink underline-offset-4 hover:underline">
                     Contact
                   </Link>
                 </p>

@@ -12,7 +12,7 @@ export function ProblemList({ items }: { items: string[] }) {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: i * 0.1 }}
         >
-          <span className="font-mono text-[11px] tracking-[0.2em] text-accent">
+          <span className="font-mono text-[11px] tracking-[0.2em] text-ink">
             {String(i + 1).padStart(2, "0")}
           </span>
           <motion.span

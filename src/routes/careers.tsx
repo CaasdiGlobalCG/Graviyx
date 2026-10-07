@@ -78,7 +78,7 @@ function Careers() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <span className="accent-dot mb-4 block" />
+              <span className="mark-dot mb-4 block" />
               <h3 className="display-sm text-fg">{g.title}</h3>
               <p className="body-copy mt-2 text-[16px]">{g.body}</p>
             </motion.div>

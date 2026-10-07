@@ -26,12 +26,14 @@ export function Hero({
 }) {
   return (
     <section className="relative overflow-hidden bg-bg">
-      <div className="grid-veil drift-grid pointer-events-none absolute inset-0" />
+      {/* Oversized by one background tile (72px) so the drift translate never
+          exposes an edge. The drift animates transform, not background-position. */}
+      <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" />
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
         style={{
           background:
-            "linear-gradient(to right, transparent, color-mix(in oklab, var(--accent) 35%, transparent), transparent)",
+            "linear-gradient(to right, transparent, color-mix(in oklab, var(--ink) 18%, transparent), transparent)",
         }}
       />
       <div
@@ -44,7 +46,7 @@ export function Hero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="accent-dot pulse-dot" />
+            <span className="mark-dot pulse-dot" />
             {eyebrow}
           </motion.p>
         ) : null}

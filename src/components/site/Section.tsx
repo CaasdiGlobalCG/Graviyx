@@ -44,7 +44,7 @@ export function SectionHead({
     >
       {eyebrow ? (
         <p className="eyebrow mb-4 flex items-center gap-3">
-          {align === "left" ? <span className="accent-dot shrink-0" /> : null}
+          {align === "left" ? <span className="mark-dot shrink-0" /> : null}
           {eyebrow}
         </p>
       ) : null}

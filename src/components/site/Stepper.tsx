@@ -1,3 +1,9 @@
+// ============================================================
+// FILE: Stepper.tsx
+// PURPOSE: An expandable numbered step list with a travelling connector line.
+// CONNECTS TO: motion/react. Used by how-it-works and post-a-requirement.
+// ============================================================
+
 import { useState } from "react";
 import { motion } from "motion/react";
 
@@ -15,11 +21,11 @@ export function Stepper({ steps }: { steps: Step[] }) {
       <div className="absolute top-0 bottom-0 left-[15px] w-px bg-border md:left-[19px]" />
       <motion.div
         className="absolute top-0 left-[15px] w-px origin-top md:left-[19px]"
-        style={{ background: "var(--accent)" }}
+        style={{ background: "var(--ink)" }}
         initial={{ scaleY: 0 }}
         whileInView={{ scaleY: 1 }}
         viewport={{ once: true, margin: "-120px" }}
-        transition={{ duration: 1.8, ease: "easeInOut" }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="h-full w-px" style={{ height: "100%" }} />
       </motion.div>
@@ -33,15 +39,15 @@ export function Stepper({ steps }: { steps: Step[] }) {
               initial={{ opacity: 0, x: 18 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.42, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="relative pl-12 md:pl-16"
             >
               <span
                 className="absolute top-5 left-0 grid h-8 w-8 place-items-center rounded-full border font-mono text-[11px] md:h-10 md:w-10 md:text-xs"
                 style={{
-                  background: "var(--bg)",
-                  borderColor: isOpen ? "var(--accent)" : "var(--border)",
-                  color: isOpen ? "var(--accent)" : "var(--meta)",
+                  background: "var(--paper)",
+                  borderColor: isOpen ? "var(--ink)" : "var(--border)",
+                  color: isOpen ? "var(--ink)" : "var(--steel-50)",
                 }}
               >
                 {String(i + 1).padStart(2, "0")}
@@ -53,22 +59,24 @@ export function Stepper({ steps }: { steps: Step[] }) {
                 className="panel w-full px-5 py-5 text-left transition-colors duration-200 hover:border-border-soft md:px-7"
               >
                 <span className="flex items-center justify-between gap-4">
-                  <span className="display-sm text-fg">{step.title}</span>
+                  <span className="display-sm text-ink">{step.title}</span>
                   <span
-                    className="text-accent transition-transform duration-200"
+                    className="text-ink transition-transform duration-200"
                     style={{ transform: isOpen ? "rotate(45deg)" : "none" }}
                   >
                     +
                   </span>
                 </span>
-                <motion.span
-                  className="block overflow-hidden"
-                  initial={false}
-                  animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  <span className="body-copy mt-3 block text-[16px]">{step.body}</span>
-                </motion.span>
+                {isOpen ? (
+                  <motion.span
+                    className="body-copy mt-3 block text-[16px]"
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {step.body}
+                  </motion.span>
+                ) : null}
               </button>
             </motion.li>
           );

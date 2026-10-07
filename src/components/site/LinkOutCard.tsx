@@ -28,14 +28,14 @@ export function LinkOutCard({
     >
       <Link
         to={to}
-        className="panel group flex h-full flex-col justify-between p-7 transition-colors duration-200 hover:border-accent md:p-9"
+        className="panel group flex h-full flex-col justify-between p-7 transition-colors duration-200 hover:border-ink md:p-9"
       >
         <div>
           {eyebrow ? <p className="eyebrow mb-4">{eyebrow}</p> : null}
           <h3 className="display-sm text-fg">{title}</h3>
           <p className="body-copy mt-3 text-[16px]">{body}</p>
         </div>
-        <span className="mt-8 inline-flex items-center gap-2 text-sm font-[550] text-accent">
+        <span className="mt-8 inline-flex items-center gap-2 text-sm font-[550] text-ink">
           {cta}
           <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
         </span>

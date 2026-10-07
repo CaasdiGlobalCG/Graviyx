@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 const INDIA_PATH =
   "M210.5 35 L225.6 56.3 224.2 71.1 229.8 80.4 229.3 89.7 219.2 87.2 223.2 107.3 237 118.8 256.5 131.5 247.6 139.7 242.1 156.7 255.7 163.6 268.9 172.5 287.2 182.7 306.4 185 314.5 194.2 325.4 196 342.3 200.2 353.9 199.9 355.5 192.7 353.7 181.2 354.8 173.4 363.3 169.5 364.5 183.8 364.8 187.5 377.6 194.4 386.4 191.5 398.2 192.8 409.7 192.2 410.7 181.1 405 175.3 416.3 173 429 159.5 445.2 147.9 457 152.4 467 144.7 473.6 156 468.8 163.6 483.9 166.4 485 173.2 480.1 176.6 481.2 187.8 471.2 184.5 453 197 453.5 207.4 445.7 222.7 445 231.5 438.8 246.5 427.8 242.3 427.3 261.1 424.1 267.3 425.6 275 418.6 279.3 411.3 250.5 407.4 250.6 405.1 262.2 397.4 252.8 401.7 242.4 408 241.4 414.5 226 406.4 222.9 393.4 223.2 380 220.7 378.8 208.1 372.1 207.2 361 199.3 356 211.7 366.2 221.3 357.4 228 354.3 234.7 362.9 239.5 360.5 250.5 365.4 264.1 367.6 279.1 365.6 285.7 356 285.5 338.7 289.3 339.5 302.9 332 313.7 311.9 325.9 296.2 347.3 285.6 358.7 271.6 370.6 271.6 379 264.6 383.4 252 389.9 245.4 390.9 241.2 404.8 244.1 428.4 244.9 443.4 238.9 460.7 238.9 491.6 231.6 492.4 225.2 506.3 229.5 512.3 216.7 517.4 212 529.8 206.4 535 193.1 518 186.6 492.6 181.2 474.3 176.3 465.7 168.8 448.2 165.3 425.5 162.9 414.2 150.2 389.2 144.3 354 140.2 330.8 140.2 308.8 137.5 291.8 117.1 302.7 107.2 300.5 88.9 278.5 95.6 271.9 91.5 264.8 75 249.4 84.3 237.2 115.2 237.3 112.4 221.7 104.5 212.5 102.9 198.5 93.8 190.3 109.2 171.3 125.5 172.7 140.2 153.6 149 135.2 162.6 117 162.4 104 174.4 93.5 163 84.6 158.2 72.3 153.2 56.4 160.1 48.5 181.3 53 197 50.3 210.5 35Z";
@@ -33,6 +33,8 @@ const REGIONAL_LINES = [
 ] as const;
 
 export function IndiaCoverageMap() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="mt-12 border-y border-border">
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
@@ -101,9 +103,13 @@ export function IndiaCoverageMap() {
                   viewport={{ once: true }}
                   transition={{ duration: 1.1, delay: 0.35 + index * 0.09 }}
                 />
-                <circle r="2.5" fill="var(--accent)">
-                  <animateMotion dur={`${4.8 + index * 0.35}s`} begin={`${index * 0.4}s`} repeatCount="indefinite" path={route} />
-                </circle>
+                {/* SMIL is not covered by MotionConfig, so the travelling packet is
+                    gated here. The corridor path itself always renders. */}
+                {reduceMotion ? null : (
+                  <circle r="2.5" fill="var(--ink)">
+                    <animateMotion dur={`${4.8 + index * 0.35}s`} begin={`${index * 0.4}s`} repeatCount="indefinite" path={route} />
+                  </circle>
+                )}
               </g>
             ))}
 
@@ -116,18 +122,20 @@ export function IndiaCoverageMap() {
                 transition={{ duration: 0.35, delay: 0.65 + index * 0.06 }}
                 style={{ transformOrigin: `${city.x}px ${city.y}px` }}
               >
+                {/* Scale + opacity only. Animating `r` was a geometry animation. */}
                 <motion.circle
                   cx={city.x}
                   cy={city.y}
                   r="9"
                   fill="none"
-                  stroke="var(--accent)"
+                  stroke="var(--ink)"
                   strokeWidth="1.2"
-                  animate={{ r: [6, 14], opacity: [0.8, 0] }}
+                  style={{ transformOrigin: `${city.x}px ${city.y}px` }}
+                  animate={{ scale: [0.7, 1.6], opacity: [0.8, 0] }}
                   transition={{ duration: 2.4, repeat: Infinity, delay: index * 0.2, ease: "easeOut" }}
                 />
-                <circle cx={city.x} cy={city.y} r="5.5" fill="var(--bg)" stroke="var(--fg)" strokeWidth="1.2" />
-                <circle cx={city.x} cy={city.y} r="2.5" fill="var(--accent)" />
+                <circle cx={city.x} cy={city.y} r="5.5" fill="var(--paper)" stroke="var(--ink)" strokeWidth="1.2" />
+                <circle cx={city.x} cy={city.y} r="2.5" fill="var(--ink)" />
               </motion.g>
             ))}
           </svg>
@@ -149,7 +157,7 @@ export function IndiaCoverageMap() {
             ))}
           </div>
           <div className="mt-8 flex items-start gap-3">
-            <span className="accent-dot pulse-dot mt-2 shrink-0" />
+            <span className="mark-dot pulse-dot mt-2 shrink-0" />
             <p className="text-sm leading-relaxed text-muted">
               Technology connects requirements, verified suppliers and fulfilment visibility across every active corridor.
             </p>

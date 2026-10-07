@@ -19,11 +19,11 @@ export function SupplyChainNetwork() {
           transition={{ duration: 0.5, delay: index * 0.14 }}
         >
           <div className="mb-8 flex items-center gap-3">
-            <span className="grid h-8 w-8 place-items-center rounded-full border border-border-soft font-mono text-[10px] text-accent">
+            <span className="grid h-8 w-8 place-items-center rounded-full border border-border-soft font-mono text-[10px] text-ink">
               {stage.code}
             </span>
             <motion.span
-              className="h-px flex-1 bg-accent"
+              className="h-px flex-1 bg-ink"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}

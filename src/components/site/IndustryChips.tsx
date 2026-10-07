@@ -22,7 +22,7 @@ export function IndustryChips({ size = "sm" }: { size?: "sm" | "lg" }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.4, delay: i * 0.05 }}
-          whileHover={{ rotate: -1.2, scale: 1.04, borderColor: "var(--accent)" }}
+          whileHover={{ rotate: -1.2, scale: 1.04, borderColor: "var(--ink)" }}
           className={`cursor-default rounded-full border border-border bg-surface text-fg ${
             size === "lg" ? "px-6 py-4 text-[16px] md:text-[18px]" : "px-5 py-3 text-[15px]"
           }`}

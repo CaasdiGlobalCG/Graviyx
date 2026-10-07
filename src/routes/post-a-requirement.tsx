@@ -30,10 +30,10 @@ function PostRequirement() {
       <Section tone="surface">
         <div className="mx-auto max-w-2xl">
           <Reveal>
-            <p className="panel mb-6 border-l-2 border-l-accent p-5 text-[15px] text-muted">
+            <p className="panel mb-6 border-l-2 border-l-ink p-5 text-[15px] text-muted">
               Graviyx currently sources <strong className="text-fg">finished goods</strong>. Custom
               parts built to your drawings and semi-finished goods are not yet available. See{" "}
-              <Link to="/insights" className="text-accent underline-offset-4 hover:underline">
+              <Link to="/insights" className="text-ink underline-offset-4 hover:underline">
                 Insights
               </Link>
               .
@@ -43,7 +43,7 @@ function PostRequirement() {
           {sent ? (
             <Reveal>
               <div className="panel flex flex-col items-center px-6 py-14 text-center">
-                <span className="accent-dot pulse-dot mb-6" />
+                <span className="mark-dot pulse-dot mb-6" />
                 <h2 className="display-sm text-fg">Requirement received.</h2>
                 <p className="body-copy mt-3 max-w-md text-[16px]">
                   Your reference is <strong className="text-fg">{reference}</strong>. A specialist

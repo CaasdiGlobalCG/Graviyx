@@ -29,7 +29,7 @@ function Industries() {
         <Reveal className="mt-10">
           <p className="body-copy text-[16px]">
             Not sure your sector fits?{" "}
-            <Link to="/post-a-requirement" className="text-accent underline-offset-4 hover:underline">
+            <Link to="/post-a-requirement" className="text-ink underline-offset-4 hover:underline">
               Post a requirement
             </Link>{" "}
             and tell us what you source.

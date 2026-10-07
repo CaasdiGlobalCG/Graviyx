@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 const INPUTS = [
   { code: "IN-01", label: "Buyer demand", detail: "Specification · timing · terms", y: 112 },
@@ -18,8 +18,15 @@ const ROUTES = [
 ] as const;
 
 function FlowPacket({ path, delay }: { path: string; delay: number }) {
+  const reduceMotion = useReducedMotion();
+
+  // SMIL <animateMotion> is not covered by <MotionConfig reducedMotion="user">,
+  // so it is gated here. The routes and nodes still render, which keeps the
+  // diagram fully legible without the travelling packet.
+  if (reduceMotion) return null;
+
   return (
-    <circle r="4" fill="var(--fg)">
+    <circle r="4" fill="var(--ink)">
       <animateMotion dur="5.6s" begin={`${delay}s`} repeatCount="indefinite" path={path} />
     </circle>
   );

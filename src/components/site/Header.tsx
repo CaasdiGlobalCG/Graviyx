@@ -1,8 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import wordmark from "@/assets/graviyx-wordmark.png.asset.json";
-import symbol from "@/assets/graviyx-symbol.png.asset.json";
 import type { To } from "./types";
 
 const NAV: { label: string; to: To }[] = [
@@ -37,15 +35,20 @@ export function Header() {
     <header
       className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
       style={{
-        backgroundColor: scrolled || open ? "color-mix(in oklab, #ffffff 88%, transparent)" : "transparent",
+        backgroundColor:
+          scrolled || open ? "color-mix(in oklab, var(--paper) 88%, transparent)" : "transparent",
         borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
         backdropFilter: scrolled || open ? "blur(14px)" : "none",
       }}
     >
       <div className="container-x flex h-[72px] items-center justify-between gap-6">
         <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <img src={symbol.url} alt="" className="h-7 w-auto invert" />
-          <img src={wordmark.url} alt="Graviyx" className="hidden h-[15px] w-auto invert sm:block" />
+          <img src="/brand/graviyx-symbol-ink.png" alt="" className="h-7 w-auto" />
+          <img
+            src="/brand/graviyx-wordmark-ink.png"
+            alt="GRAVIYX"
+            className="hidden h-[15px] w-auto sm:block"
+          />
         </Link>
 
         <nav className="hidden items-center gap-4 xl:flex">
@@ -81,16 +84,16 @@ export function Header() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border-soft text-fg xl:hidden"
+          className="grid h-10 w-10 shrink-0 place-items-center border border-border-soft text-ink xl:hidden"
         >
           <span className="relative block h-3 w-4">
             <span
-              className="absolute left-0 block h-px w-4 bg-current transition-transform duration-200"
-              style={{ top: open ? 6 : 1, transform: open ? "rotate(45deg)" : "none" }}
+              className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
+              style={{ transform: open ? "rotate(45deg)" : "translateY(-5px)" }}
             />
             <span
-              className="absolute left-0 block h-px w-4 bg-current transition-transform duration-200"
-              style={{ top: open ? 6 : 11, transform: open ? "rotate(-45deg)" : "none" }}
+              className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
+              style={{ transform: open ? "rotate(-45deg)" : "translateY(5px)" }}
             />
           </span>
         </button>
@@ -99,12 +102,11 @@ export function Header() {
       <AnimatePresence>
         {open ? (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden xl:hidden"
-            style={{ backgroundColor: "var(--bg)" }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
           >
             <div className="container-x flex flex-col gap-1 py-6">
               {NAV.map((item) => (
@@ -112,7 +114,7 @@ export function Header() {
                   key={item.label}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className="border-b border-border py-3 text-lg text-fg"
+                  className="border-b border-border py-3 text-[17px] text-ink"
                 >
                   {item.label}
                 </Link>

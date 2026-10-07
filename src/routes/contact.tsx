@@ -41,7 +41,7 @@ function Contact() {
           {sent ? (
             <Reveal>
               <div className="panel flex flex-col items-center px-6 py-14 text-center">
-                <span className="accent-dot pulse-dot mb-6" />
+                <span className="mark-dot pulse-dot mb-6" />
                 <h2 className="display-sm text-fg">
                   {type === "supplier" || type === "franchise" ? "Thank you." : "Message received."}
                 </h2>
@@ -169,11 +169,11 @@ function Contact() {
           <Reveal delay={0.1}>
             <p className="mt-8 text-center text-[15px] text-muted">
               Sourcing finished goods?{" "}
-              <Link to="/for-buyers" className="text-accent underline-offset-4 hover:underline">
+              <Link to="/for-buyers" className="text-ink underline-offset-4 hover:underline">
                 Browse the Marketplace
               </Link>{" "}
               or{" "}
-              <Link to="/post-a-requirement" className="text-accent underline-offset-4 hover:underline">
+              <Link to="/post-a-requirement" className="text-ink underline-offset-4 hover:underline">
                 post a requirement
               </Link>
               .

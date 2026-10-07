@@ -25,9 +25,9 @@ export function PillarCard({
     >
       <div className="mb-5 flex items-center gap-3">
         {icon ? (
-          <span className="text-accent">{icon}</span>
+          <span className="text-ink">{icon}</span>
         ) : index ? (
-          <span className="font-mono text-xs tracking-[0.2em] text-accent">{index}</span>
+          <span className="font-mono text-xs tracking-[0.2em] text-ink">{index}</span>
         ) : null}
         <span className="h-px flex-1 bg-border transition-colors duration-300 group-hover:bg-border-soft" />
       </div>
