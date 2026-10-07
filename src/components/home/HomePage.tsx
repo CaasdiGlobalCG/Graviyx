@@ -233,28 +233,33 @@ function CoverageAndEcosystem() {
 }
 
 /**
- * CLOSING — the page's second and last Ink band, flat for the same reason as the hero. The
- * heading inherits Paper, the copy resolves to on-ink tones and the controls are the on-ink pair.
+ * CLOSING — the page's second and last dark band, and the one place the DARK neumorphic
+ * material is used. `neu-canvas-dark` grounds it on steel-90 and re-points the semantic
+ * tokens exactly as `surface-ink` does, so the eyebrow, lead and heading read correctly with
+ * no per-node colour classes. The CTA then sits on a `neu-raised` console, which is what
+ * makes the dark material visible at all — a flat dark band shows none of it.
  */
 function Closing() {
   return (
-    <section className="surface-ink section-y relative overflow-hidden">
+    <section className="neu-canvas-dark section-y relative overflow-hidden">
       <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
       <div className="container-x relative">
-        <div className="flex items-center gap-3">
-          <span aria-hidden="true" className="mark-dot" />
-          <p className="eyebrow">09</p>
-        </div>
-        <h2 className="display-lg mt-6 max-w-3xl">{CLOSING.heading}</h2>
-        <p className="lead mt-6 max-w-2xl">{CLOSING.body}</p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">
-            {CLOSING.primaryCta.label}
-          </Link>
-          <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">
-            {CLOSING.secondaryCta.label}
-          </Link>
-        </div>
+        <Reveal y={18} className="neu-raised p-8 md:p-12">
+          <div className="flex items-center gap-3">
+            <span aria-hidden="true" className="mark-dot" />
+            <p className="eyebrow">09</p>
+          </div>
+          <h2 className="display-lg mt-6 max-w-3xl">{CLOSING.heading}</h2>
+          <p className="lead mt-6 max-w-2xl">{CLOSING.body}</p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link to={CLOSING.primaryCta.to} className="btn btn-on-ink">
+              {CLOSING.primaryCta.label}
+            </Link>
+            <Link to={CLOSING.secondaryCta.to} className="btn btn-ghost-on-ink">
+              {CLOSING.secondaryCta.label}
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,141 +1,169 @@
+// ============================================================
+// FILE: fulfillment-warehousing.tsx
+// PURPOSE: The Fulfilment & Warehousing page, read in the adopted "Soft Machine" direction —
+//          monochrome neumorphism. An Ink hero and an Ink closing frame four soft sections;
+//          three sit on the light `neu-canvas` and "See every shipment" on the dark
+//          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 6.
+// CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, @tanstack/react-router,
+//          src/styles.css (the neu-* material).
+// ============================================================
+
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
+import type { ReactNode } from "react";
 import { Hero } from "@/components/site/Hero";
-import { Section, SectionHead } from "@/components/site/Section";
-import { CtaBar } from "@/components/site/CtaBar";
 import { Reveal } from "@/components/site/Reveal";
 import { pageMeta } from "@/lib/seo";
 
 const description =
-  "A master, state and district warehouse architecture that gives Graviyx control over lead time, stock positioning and last-mile delivery.";
+  "A three-tier warehouse network that puts stock closer to buyers, for shorter and more predictable lead times.";
 export const Route = createFileRoute("/fulfillment-warehousing")({
-  head: () => pageMeta("Fulfilment & Warehousing — A Three-Tier Network | GRAVIYX", description),
+  head: () =>
+    pageMeta("Fulfilment & Warehousing — Delivery You Can Plan Around | GRAVIYX", description),
   component: Fulfillment,
 });
 
 const TIERS = [
   {
-    title: "Tier 1 · Master Warehouse",
-    tag: "company-owned",
-    body: "The central hub. Holds strategic stock across key categories and is the primary consolidation point for manufacturing outputs and longer-term inventory. Feeds the state tier through planned transfer orders and replenishment cycles, not ad hoc shipments.",
+    title: "Master warehouse",
+    tag: "owned by Graviyx",
+    body: "The central hub. Holds strategic stock and restocks the state warehouses on a plan, not on a scramble.",
   },
   {
-    title: "Tier 2 · State Warehouses",
-    tag: "company-owned",
-    body: "Regional buffer stock, positioned closer to major demand centres. Responsible for state-level fulfilment, shorter lead times than a single national hub, and support for local procurement programmes. Each supplies multiple district warehouses.",
+    title: "State warehouses",
+    tag: "owned by Graviyx",
+    body: "Regional stock, closer to where demand is. They give shorter lead times than one national hub and supply the district warehouses.",
   },
   {
-    title: "Tier 3 · District Warehouses",
+    title: "District warehouses",
     tag: "franchise-owned",
-    body: "Last-mile industrial delivery, rapid response to local buyers and micro-inventory management at district or city level. Replenished from the state tier and run under Graviyx's operating procedures.",
+    body: "Last-mile delivery, fast local response and small local stock, run to Graviyx standards.",
   },
 ];
 
 const DATA_LOOP = [
-  {
-    title: "Stock positions → demand forecasting",
-    body: "Shows where inventory already exists and where new production or transfer orders are needed.",
-  },
-  {
-    title: "Stockout and lead-time risk → exception management",
-    body: "Escalated through the same pathway as a vendor-side exception, so a specialist can step in before the buyer feels a shortfall.",
-  },
-  {
-    title: "Warehouse data → planning recommendations",
-    body: "Closes the loop between physical inventory and the guidance given to buyers and suppliers.",
-  },
+  { title: "Stock levels", body: "feed the forecasts." },
+  { title: "Stockout or delay risk", body: "alerts a specialist before you feel it." },
+  { title: "Warehouse data", body: "sharpens the advice we give buyers and suppliers." },
 ];
+
+/**
+ * A section head: a recessed mono index chip, then the heading and optional lead, both
+ * inheriting the canvas they sit on. The chip is a `neu-inset` surface, so every section
+ * that renders one carries `neu-canvas` or `neu-canvas-dark`.
+ */
+function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
+  return (
+    <Reveal className="max-w-3xl">
+      <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
+        {index}
+      </span>
+      <h2 className="display-lg mt-6">{heading}</h2>
+      {lead ? <p className="lead mt-5 text-fg">{lead}</p> : null}
+    </Reveal>
+  );
+}
+
+/** A neumorphic control: extruded at rest, pressed into the canvas on :active. */
+function NeuButton({ to, children }: { to: string; children: ReactNode }) {
+  return (
+    <Link
+      to={to}
+      className="neu-raised inline-flex items-center justify-center gap-2 px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase transition-transform duration-150 ease-out hover:-translate-y-px active:neu-pressed active:translate-y-px active:scale-[0.97] active:font-semibold focus-visible:outline-offset-2 focus-visible:[outline:2px_solid_var(--fg)]"
+    >
+      {children}
+    </Link>
+  );
+}
 
 function Fulfillment() {
   return (
     <>
       <Hero
         eyebrow="Fulfilment & warehousing"
-        headline="Delivery reliability, built into the network."
-        subhead="Graviyx does not leave fulfilment to whichever vendor happens to ship on time. A three-tier warehouse architecture gives control over lead time, stock positioning and delivery."
+        headline="Delivery you can plan around."
+        subhead="Graviyx doesn't leave delivery to chance. A three-tier warehouse network puts stock closer to you, so lead times are shorter and more predictable."
         compact
+        tone="ink"
       />
 
-      <Section tone="surface">
-        <SectionHead eyebrow="Three tiers" title="Master, state, district." />
-        <div className="mt-12 space-y-3">
-          {TIERS.map((tier, index) => (
-            <motion.div
-              key={tier.title}
-              className="panel flex gap-5 p-6"
-              initial={{ y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.14 }}
-            >
-              <span className="mark-dot mt-2 shrink-0" />
-              <div>
-                <h3 className="display-sm text-fg">
-                  {tier.title} <span className="text-meta">({tier.tag})</span>
-                </h3>
-                <p className="body-copy mt-2 text-[16px]">{tier.body}</p>
-              </div>
-            </motion.div>
-          ))}
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead index="02" heading="Three tiers" />
+          <ul className="mt-12 space-y-3">
+            {TIERS.map((tier, i) => (
+              <Reveal
+                key={tier.title}
+                delay={i * 0.1}
+                y={16}
+                className="neu-raised flex gap-5 p-6 md:p-8"
+              >
+                <span aria-hidden="true" className="mark-dot mt-2 shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="display-sm text-fg">
+                    {tier.title} <span className="text-muted">({tier.tag})</span>
+                  </h3>
+                  <p className="body-copy mt-2 text-[16px] text-fg">{tier.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
         </div>
-      </Section>
+      </section>
 
-      <Section>
-        <SectionHead eyebrow="The data loop" title="How warehouse data feeds the AI." />
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {DATA_LOOP.map((item, index) => (
-            <motion.div
-              key={item.title}
-              className="panel p-6"
-              initial={{ y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.12 }}
-            >
-              <h3 className="display-sm text-fg">{item.title}</h3>
-              <p className="body-copy mt-2 text-[16px]">{item.body}</p>
-            </motion.div>
-          ))}
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead index="03" heading="Warehouses feed the AI" />
+          <ul className="mt-12 grid gap-5 md:grid-cols-3">
+            {DATA_LOOP.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.08} y={14} className="neu-flat p-6">
+                <span aria-hidden="true" className="mark-dot mb-5 block" />
+                <p className="body-copy text-[16px] text-fg">
+                  <strong className="text-fg">{item.title}</strong> {item.body}
+                </p>
+              </Reveal>
+            ))}
+          </ul>
+          <Reveal className="mt-10">
+            <NeuButton to="/intelligence-layer">See the Intelligence Layer</NeuButton>
+          </Reveal>
         </div>
-        <Reveal className="mt-8">
-          <Link to="/intelligence-layer" className="btn btn-secondary">
-            See the Intelligence Layer →
-          </Link>
-        </Reveal>
-      </Section>
+      </section>
 
-      <Section tone="surface">
-        <SectionHead eyebrow="Shipment visibility" title="One shared view of status." />
-        <Reveal className="mt-8 max-w-3xl">
-          <p className="body-copy text-[17px]">
-            Once a PO is issued, specialists and the platform manage milestones, estimated delivery
-            times and exceptions together. Buyers and vendors work from one shared view of status. A
-            delay, a quality concern or a vendor capacity constraint is surfaced through the same
-            exception pathway, so it is handled before it reaches the buyer's operation.
+      <section className="neu-canvas-dark section-y">
+        <div className="container-x">
+          <SoftHead
+            index="04"
+            heading="See every shipment"
+            lead="Once an order is placed, you and the supplier share one view of status. Delays and quality issues are flagged early, so they're handled before they reach your operation."
+          />
+        </div>
+      </section>
+
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead
+            index="05"
+            heading="Franchise doesn't mean looser"
+            lead="Every district warehouse runs to Graviyx procedures and service levels. Performance is measured on on-time delivery and stock accuracy. Graviyx keeps control of the data and the scorecards."
+          />
+        </div>
+      </section>
+
+      <section className="surface-ink section-y relative overflow-hidden">
+        <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+        <div className="container-x relative">
+          <div className="flex flex-wrap gap-3">
+            <Link to="/for-buyers" className="btn btn-on-ink">
+              Marketplace
+            </Link>
+          </div>
+          <p className="mt-6 text-[13px] text-on-ink-muted">
+            <Link to="/partner-with-us" className="underline-offset-4 hover:underline">
+              Interested in running a district warehouse?
+            </Link>
           </p>
-        </Reveal>
-      </Section>
-
-      <Section>
-        <SectionHead eyebrow="Governance" title="Franchise ownership does not mean lost standards." />
-        <Reveal className="mt-8 max-w-3xl">
-          <p className="body-copy text-[17px]">
-            Operating procedures, service-level agreements, compliance requirements and audit
-            obligations are defined centrally and enforced through reporting and scorecarding.
-            Performance is measured on delivery SLA adherence and stock accuracy and logged in the
-            same record as vendor performance. Graviyx retains control of the data, orchestration
-            and scorecards for every district warehouse.
-          </p>
-        </Reveal>
-      </Section>
-
-      <CtaBar
-        title="Delivery you can plan around."
-        actions={[
-          { label: "Marketplace", to: "/for-buyers" },
-          { label: "Interested in operating a district warehouse?", to: "/partner-with-us", variant: "secondary" },
-        ]}
-      />
+        </div>
+      </section>
     </>
   );
 }

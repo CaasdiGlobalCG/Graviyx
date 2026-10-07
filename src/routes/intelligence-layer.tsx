@@ -1,21 +1,198 @@
+// ============================================================
+// FILE: intelligence-layer.tsx
+// PURPOSE: The Intelligence Layer page, read in the adopted "Soft Machine" direction —
+//          monochrome neumorphism. An Ink hero and an Ink closing frame four soft sections;
+//          three sit on the light `neu-canvas` and "What stays human" on the dark
+//          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 5.
+// CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, @tanstack/react-router,
+//          src/styles.css (the neu-* material).
+// ============================================================
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
-import { Section, SectionHead } from "@/components/site/Section";
-import { PillarGrid } from "@/components/site/PillarCard";
-import { CtaBar } from "@/components/site/CtaBar";
+import { Reveal } from "@/components/site/Reveal";
 import { pageMeta } from "@/lib/seo";
-const description="Graviyx's AI is a decision engine, not a chatbot. Four functions embedded in the procurement flow, each with a defined hand-off to a human specialist.";
-export const Route=createFileRoute("/intelligence-layer")({head:()=>pageMeta("The Intelligence Layer — AI for Procurement Decisions | GRAVIYX",description),component:IntelligenceLayer});
-const functions=[
-{title:"01 · Intelligent Client Interaction",stage:"Stage 01, RFQ Intake",trigger:"A buyer enquiry or an incomplete requirement.",action:"Handles the initial enquiry, collects specifications, confirms product availability and generates quotations from live procurement data.",handoff:"Anything it cannot structure or confirm goes to a specialist."},
-{title:"02 · Intelligent Procurement Routing",stage:"Stage 02, Review & Shortlist",trigger:"A structured RFQ.",action:"Analyses supplier capabilities and pricing, identifies the most efficient fulfilment route and recommends the fulfilment strategy.",handoff:"The specialist reviews and adjusts the shortlist against human context."},
-{title:"03 · Demand Forecasting & Rollout Planning",stage:"Stage 03, Quotations & Compare",trigger:"Confirmed POs and active enquiries accumulate.",action:"Aggregates them into a Rollout Forecast so suppliers can prepare capacity and buyers can hold stable inventory.",handoff:"Specialists turn signals into buying calendars, stocking recommendations and category strategy."},
-{title:"04 · Exception Management",stage:"Stage 04, Negotiate & Confirm",trigger:"Activity outside standard parameters.",action:"Surfaces off-spec quotations, price outliers, material shortages, supplier constraints and unresponsive vendors.",handoff:"Escalates automatically to the specialist team. The AI does not attempt to resolve them."}
+
+const description =
+  "Graviyx's AI isn't a chatbot. It handles the repetitive work in procurement and hands anything tricky to a specialist.";
+export const Route = createFileRoute("/intelligence-layer")({
+  head: () => pageMeta("The Intelligence Layer — AI That Does the Legwork | GRAVIYX", description),
+  component: IntelligenceLayer,
+});
+
+/**
+ * The four jobs. `title`, `action` and `handoff` carry the v2.0 copy and are the fields the
+ * page renders. `stage` and `trigger` are left as they were: the array may not be
+ * restructured, and v2.0 gives no equivalent for either, so they are no longer rendered.
+ */
+const functions = [
+  {
+    title: "1 · It talks to buyers",
+    stage: "Stage 01, RFQ Intake",
+    trigger: "A buyer enquiry or an incomplete requirement.",
+    action:
+      "Answers first enquiries, gathers your spec, checks availability and drafts quotes from live pricing.",
+    handoff: "it can't confirm something, or the request is unusual.",
+  },
+  {
+    title: "2 · It finds the best route",
+    stage: "Stage 02, Review & Shortlist",
+    trigger: "A structured RFQ.",
+    action:
+      "Compares suppliers and prices, checks our internal pricing and partner network, and recommends the best way to fulfil your order.",
+    handoff: "a specialist reviews and adjusts the shortlist.",
+  },
+  {
+    title: "3 · It sees demand coming",
+    stage: "Stage 03, Quotations & Compare",
+    trigger: "Confirmed POs and active enquiries accumulate.",
+    action:
+      "Combines confirmed orders and open requests into a forecast, so suppliers can prepare and buyers avoid stockouts.",
+    handoff: "specialists turn the forecast into buying plans.",
+  },
+  {
+    title: "4 · It flags the unusual",
+    stage: "Stage 04, Negotiate & Confirm",
+    trigger: "Activity outside standard parameters.",
+    action:
+      "Watches for odd quantities, special requirements, unusual delivery locations, shortages and price anomalies.",
+    handoff: "always. The AI never tries to fix these itself.",
+  },
 ];
-function IntelligenceLayer(){return <>
-<Hero eyebrow="The Intelligence Layer" headline="A decision engine, not a chatbot." subhead="Graviyx's AI is an operational intelligence layer embedded in the procurement flow. It moves fast on what is patterned and hands off what needs judgement." />
-<Section tone="surface"><SectionHead eyebrow="The principle" title="Bound to stages, not floating." lead="Each function is tied to a specific stage of the RFQ flow. None operates as a general-purpose assistant. When a case falls outside standard parameters, the AI does not decide. It escalates to a specialist." /></Section>
-<Section><SectionHead eyebrow="Four functions" title="Trigger → AI action → Human hand-off." /><div className="mt-12 grid gap-4 lg:grid-cols-2">{functions.map(item=><article key={item.title} className="panel p-6 md:p-8"><p className="eyebrow">{item.stage}</p><h3 className="display-sm mt-3 text-fg">{item.title}</h3><dl className="mt-6 space-y-4 text-[15px]"><div><dt className="font-medium text-fg">Trigger</dt><dd className="body-copy mt-1">{item.trigger}</dd></div><div><dt className="font-medium text-fg">AI action</dt><dd className="body-copy mt-1">{item.action}</dd></div><div><dt className="font-medium text-fg">Human hand-off</dt><dd className="body-copy mt-1">{item.handoff}</dd></div></dl></article>)}</div></Section>
-<Section tone="warm"><SectionHead eyebrow="What stays with people" title="Negotiation. Escalation. Accountability." lead="First-time and unusual buys stay with people. The AI drafts a PO; a person signs it." /><div className="mt-10"><SectionHead eyebrow="What the AI learns from" title="Every completed deal improves the next." lead="Vendor scorecards, demand signals, warehouse stock positions and the evidence attached to each vendor record improve forecasting and routing accuracy." /><Link to="/fulfillment-warehousing" className="btn btn-secondary mt-7">Fulfilment & Warehousing →</Link></div></Section>
-<CtaBar title="See the hand-off on your own requirement." actions={[{label:"Marketplace",to:"/for-buyers"},{label:"Post a Requirement",to:"/post-a-requirement",variant:"secondary"}]} />
-</>}
+
+/**
+ * A section head: a recessed mono index chip, then the heading and optional lead, both
+ * inheriting the canvas they sit on. The chip is a `neu-inset` surface, so every section
+ * that renders one carries `neu-canvas` or `neu-canvas-dark`.
+ */
+function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
+  return (
+    <Reveal className="max-w-3xl">
+      <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
+        {index}
+      </span>
+      <h2 className="display-lg mt-6">{heading}</h2>
+      {lead ? <p className="lead mt-5 text-fg">{lead}</p> : null}
+    </Reveal>
+  );
+}
+
+/** 02 — the rule: where the AI stops and a person takes over. */
+function TheRule() {
+  return (
+    <section className="neu-canvas section-y">
+      <div className="container-x">
+        <SoftHead
+          index="02"
+          heading="The rule"
+          lead="It never guesses on the hard stuff. When something falls outside the normal, it escalates to a person."
+        />
+      </div>
+    </section>
+  );
+}
+
+/** 03 — the four jobs, each extruded out of the canvas with its human hand-off. */
+function Jobs() {
+  return (
+    <section className="neu-canvas section-y">
+      <div className="container-x">
+        <SoftHead index="03" heading="Four jobs" />
+        <ul className="mt-12 grid gap-6 lg:grid-cols-2">
+          {functions.map((job, i) => (
+            <li key={job.title} className="h-full">
+              <Reveal delay={i * 0.08} y={16} className="neu-flat flex h-full flex-col p-6 md:p-8">
+                <h3 className="display-sm text-fg">{job.title}</h3>
+                <p className="body-copy mt-4 text-[15px] text-fg">{job.action}</p>
+                <p className="body-copy mt-4 text-[15px] text-fg">
+                  <strong className="text-fg">A person steps in when:</strong> {job.handoff}
+                </p>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/** 04 — what stays human. The page's single dark band. */
+function WhatStaysHuman() {
+  return (
+    <section className="neu-canvas-dark section-y">
+      <div className="container-x">
+        <SoftHead
+          index="04"
+          heading="What stays human"
+          lead="Negotiation. Escalation. First-time and unusual buys. Accountability. The AI drafts the PO. A person signs it."
+        />
+      </div>
+    </section>
+  );
+}
+
+/** 05 — what the layer learns from. Carries the link through to the warehousing page, which
+ *  is the topically adjacent one: warehouse stock is one of the signals this layer learns from. */
+function WhatItLearnsFrom() {
+  return (
+    <section className="neu-canvas section-y">
+      <div className="container-x">
+        <SoftHead
+          index="05"
+          heading="What it learns from"
+          lead="Supplier scorecards, demand signals, warehouse stock and the evidence on each supplier's record. Every deal makes the next one better."
+        />
+        <Reveal className="mt-10">
+          <Link
+            to="/fulfillment-warehousing"
+            className="neu-control inline-flex items-center px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase"
+          >
+            Fulfilment &amp; Warehousing
+          </Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** The closing Ink band, flat for the same reason as the hero. */
+function Closing() {
+  return (
+    <section className="surface-ink section-y relative overflow-hidden">
+      <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+      <div className="container-x relative">
+        <Reveal className="max-w-3xl">
+          <h2 className="display-md text-fg">See where software stops and a person starts.</h2>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link to="/for-buyers" className="btn btn-on-ink">
+              Marketplace
+            </Link>
+            <Link to="/post-a-requirement" className="btn btn-ghost-on-ink">
+              Post a Requirement
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** The Intelligence Layer page: Ink hero, four soft sections, Ink closing. */
+function IntelligenceLayer() {
+  return (
+    <>
+      <Hero
+        compact
+        tone="ink"
+        eyebrow="The Intelligence Layer"
+        headline="AI that does the legwork. People who make the call."
+        subhead="Not a chatbot. Graviyx's AI sits inside the buying process, handling the repetitive work and handing anything tricky to a specialist."
+      />
+      <TheRule />
+      <Jobs />
+      <WhatStaysHuman />
+      <WhatItLearnsFrom />
+      <Closing />
+    </>
+  );
+}

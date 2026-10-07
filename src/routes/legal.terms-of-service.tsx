@@ -1,6 +1,17 @@
+// ============================================================
+// FILE: legal.terms-of-service.tsx
+// PURPOSE: The Terms of Service route. The finalisation notice, held in one dark neumorphic
+//          panel on a dark canvas — the page's single dark ground.
+// CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, src/styles.css (the neu-* layer),
+//          @tanstack/react-router.
+// ============================================================
+//
+// NEUMORPHIC CONTRACT: the section below carries `neu-canvas-dark`, so the `neu-raised`
+// panel sits on a canvas of exactly its own tone. No Tailwind `shadow-*` is used. The notice
+// copy is verbatim from the content doc.
+
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
-import { Section } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { pageMeta } from "@/lib/seo";
 
@@ -17,16 +28,20 @@ function TermsOfService() {
   return (
     <>
       <Hero eyebrow="Legal" headline="Terms of Service." compact />
-      <Section tone="surface">
-        <Reveal className="mx-auto max-w-3xl">
-          <p className="body-copy text-[17px]">
-            <strong className="text-fg">
-              This document is being finalised and will be published here.
-            </strong>{" "}
-            For questions in the meantime, contact hello@graviyx.com.
-          </p>
-        </Reveal>
-      </Section>
+      <section className="neu-canvas-dark section-y">
+        <div className="container-x">
+          <Reveal className="mx-auto max-w-3xl">
+            <div className="neu-raised p-7 md:p-9">
+              <p className="body-copy text-[17px]">
+                <strong className="text-fg">
+                  This document is being finalised and will be published here.
+                </strong>{" "}
+                For questions in the meantime, contact hello@graviyx.com.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

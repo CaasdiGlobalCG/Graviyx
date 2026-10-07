@@ -1,163 +1,176 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "motion/react";
+// ============================================================
+// FILE: trust.tsx
+// PURPOSE: The Trust page, read in the adopted "Soft Machine" direction — monochrome
+//          neumorphism. An Ink hero and an Ink closing frame five soft sections; four sit on
+//          the light `neu-canvas` and "Trust that compounds" on the dark `neu-canvas-dark`.
+//          Copy is the v2.0 plain-language edition, section 7.
+// CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, @tanstack/react-router,
+//          src/styles.css (the neu-* material).
+// ============================================================
+
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
-import { Section, SectionHead } from "@/components/site/Section";
-import { PillarGrid } from "@/components/site/PillarCard";
-import { EmptyState } from "@/components/site/EmptyState";
-import { CtaBar } from "@/components/site/CtaBar";
 import { Reveal } from "@/components/site/Reveal";
 import { pageMeta } from "@/lib/seo";
 
 const description =
-  "Vendor verification, continuous scorecards, evidence records and buyer-side governance. How trust is checked, updated and compounded on Graviyx.";
+  "Suppliers are verified before they quote, scored after every deal and backed by evidence you can see.";
 export const Route = createFileRoute("/trust")({
-  head: () => pageMeta("Trust — Verification as a Layer, Not a Badge | GRAVIYX", description),
+  head: () => pageMeta("Trust — Verified Before They Quote | GRAVIYX", description),
   component: Trust,
 });
 
 const LAYERS = [
   {
-    title: "Layer 01 · Vendor verification",
-    body: "Company standing, demonstrated capability and compliance documents are checked before onboarding. Site verification and capacity assessment apply where physical capability affects buyer risk.",
+    title: "Verified up front",
+    body: "We check company standing, capability and compliance documents before onboarding. Where physical capability affects your risk, we check the site too.",
   },
   {
-    title: "Layer 02 · Continuous scorecard",
-    body: "On-time performance, quality, returns and dispute rate, updated deal by deal. A vendor's standing reflects current performance, not a one-time approval.",
+    title: "Scored every deal",
+    body: "On-time delivery, quality, returns and disputes update after every order. A supplier's standing reflects how they perform now.",
   },
   {
-    title: "Layer 03 · Evidence, not claims",
-    body: "Test reports, certificates and past-shipment records are attached to the vendor record. They inform the AI's shortlisting and a specialist's negotiating position.",
+    title: "Proof, not promises",
+    body: "Test reports, certificates and shipment records sit on each supplier's profile. The AI and our specialists use them when shortlisting and negotiating.",
   },
   {
-    title: "Layer 04 · Buyer-side governance",
-    body: "Approver hierarchies, spend caps and audit-ready trails are built into every PO. Trust runs in both directions: platform to vendor, and platform to buying organisation.",
+    title: "Controls for your team",
+    body: "Approval levels, spend limits and audit-ready records are built into every PO.",
   },
 ];
 
 const COMPARISON: [string, string, string][] = [
-  ["Vendor discovery", "Referrals and guesswork", "Verified network with continuous scorecards"],
-  ["Quotations", "Scattered email threads", "Normalised and compared side by side"],
-  ["Decisions", "Gut instinct and phone calls", "AI-flagged, specialist-owned"],
-  ["Record keeping", "Nothing logged", "Every event captured on the record"],
-  ["Vendor performance", "Anecdotal", "Continuous, evidence-based scorecard"],
-  ["Demand planning", "Reactive", "AI-generated demand signals"],
-  ["Trust", "Personal relationships", "Evidence-based and compounding"],
+  ["Finding suppliers", "Referrals and guesswork", "A verified network"],
+  ["Quotes", "Scattered emails", "Side by side"],
+  ["Decisions", "Gut feel and phone calls", "AI-flagged, specialist-led"],
+  ["Records", "Nothing logged", "Every step recorded"],
+  ["Supplier performance", "Hearsay", "Scores based on evidence"],
+  ["Planning", "Reactive", "AI-led forecasts"],
+  ["Trust", "Personal relationships", "Evidence that builds over time"],
 ];
+
+/**
+ * A section head: a recessed mono index chip, then the heading and optional lead, both
+ * inheriting the canvas they sit on. The chip is a `neu-inset` surface, so every section
+ * that renders one carries `neu-canvas` or `neu-canvas-dark`.
+ */
+function SoftHead({ index, heading, lead }: { index: string; heading: string; lead?: string }) {
+  return (
+    <Reveal className="max-w-3xl">
+      <span className="neu-inset inline-block px-4 py-2.5 font-mono text-[10px] leading-none tracking-[0.22em] text-fg tabular-nums uppercase">
+        {index}
+      </span>
+      <h2 className="display-lg mt-6">{heading}</h2>
+      {lead ? <p className="lead mt-5 text-fg">{lead}</p> : null}
+    </Reveal>
+  );
+}
 
 function Trust() {
   return (
     <>
       <Hero
         eyebrow="Trust"
-        headline="Verification is a layer, not a badge."
-        subhead="Trust on Graviyx is checked before a supplier quotes, updated after every deal and evidenced in the record."
+        headline="Trust you can check."
+        subhead="Suppliers are verified before they quote, scored after every deal and backed by evidence you can see."
         compact
+        tone="ink"
       />
 
-      <Section tone="surface">
-        <SectionHead eyebrow="The four trust layers" title="Trust has a structure. This is ours." />
-        <div className="mt-12 space-y-3">
-          {LAYERS.map((layer, index) => (
-            <motion.div
-              key={layer.title}
-              className="panel flex gap-5 p-6"
-              initial={{ y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.12 }}
-            >
-              <span className="mark-dot mt-2 shrink-0" />
-              <div>
-                <h3 className="display-sm text-fg">{layer.title}</h3>
-                <p className="body-copy mt-2 text-[16px]">{layer.body}</p>
-              </div>
-            </motion.div>
-          ))}
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead index="02" heading="Four layers" />
+          <ul className="mt-12 space-y-3">
+            {LAYERS.map((layer, i) => (
+              <Reveal
+                key={layer.title}
+                delay={i * 0.08}
+                y={16}
+                className="neu-raised flex gap-5 p-6 md:p-8"
+              >
+                <span aria-hidden="true" className="mark-dot mt-2 shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="display-sm text-fg">{layer.title}</h3>
+                  <p className="body-copy mt-2 text-[16px] text-fg">{layer.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
         </div>
-      </Section>
+      </section>
 
-      <Section>
-        <SectionHead
-          eyebrow="How trust compounds"
-          title="Most procurement starts from zero. Graviyx does not."
-        />
-        <Reveal className="mt-8 max-w-3xl space-y-6">
-          <p className="body-copy text-[17px]">
-            Each completed deal updates the vendor's scorecard, evidence record and demand signal.
-            Two things grow together. <strong className="text-fg">Coverage widens:</strong> more
-            categories, geographies and deal types gain a verified record.{" "}
-            <strong className="text-fg">Depth increases:</strong> the quality and granularity of
-            trust data for any vendor or category improves. That record cannot be shortcut.
-          </p>
-        </Reveal>
-      </Section>
-
-      <Section tone="surface">
-        <SectionHead eyebrow="The contrast" title="Traditional procurement vs Graviyx." />
-        <div className="mt-12 overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="eyebrow py-4 pr-6">Dimension</th>
-                <th className="eyebrow py-4 pr-6">Traditional procurement</th>
-                <th className="eyebrow py-4">Graviyx</th>
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARISON.map(([dim, trad, grav], index) => (
-                <motion.tr
-                  key={dim}
-                  className="border-b border-border"
-                  initial={{ y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.07 }}
-                >
-                  <td className="py-4 pr-6 text-[15px] font-medium text-fg">{dim}</td>
-                  <td className="py-4 pr-6 text-[15px] text-meta">{trad}</td>
-                  <td className="py-4 text-[15px] text-muted">{grav}</td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Section>
-
-      <Section>
-        <SectionHead eyebrow="Structural differentiation" title="Four elements, one system of record." />
-        <Reveal className="mt-8 max-w-3xl space-y-6">
-          <p className="body-copy text-[17px]">
-            Pure software tools digitise workflow but cannot supply vendor trust or negotiating
-            judgement. Human-broker models supply judgement and relationships but do not scale or
-            leave an auditable record. Generic marketplaces supply discovery but lack continuous
-            verification and physical fulfilment infrastructure.
-          </p>
-          <p className="body-copy text-[17px]">
-            Graviyx combines a verified network, an AI decision engine, a standing team of
-            procurement specialists and a multi-tier warehouse network under one record. Each
-            element is worth more because of the others, which is why the combination is hard to
-            replicate piecemeal.
-          </p>
-        </Reveal>
-      </Section>
-
-      <Section tone="surface">
-        <SectionHead eyebrow="Customer stories" title="Reserved." />
-        <div className="mt-12">
-          <EmptyState
-            title="No customer stories published yet."
-            body="Customer stories will appear here once verified deals are complete and customers have agreed to share them. None are published yet."
+      <section className="neu-canvas-dark section-y">
+        <div className="container-x">
+          <SoftHead
+            index="03"
+            heading="Most buying starts from zero. Graviyx doesn't."
+            lead="Every deal adds to the record: more suppliers, more categories, more detail. That history can't be copied overnight."
           />
         </div>
-      </Section>
+      </section>
 
-      <CtaBar
-        title="Trust you can inspect."
-        actions={[
-          { label: "Marketplace", to: "/for-buyers" },
-          { label: "See verification in the flow →", to: "/how-it-works", variant: "secondary" },
-        ]}
-      />
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead index="04" heading="The old way vs Graviyx" />
+          <Reveal className="mt-12 overflow-x-auto">
+            <table className="w-full min-w-[640px] border-collapse text-left">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="eyebrow py-4 pr-6" />
+                  <th className="eyebrow py-4 pr-6">The old way</th>
+                  <th className="eyebrow py-4">Graviyx</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARISON.map(([dim, old, grav]) => (
+                  <tr key={dim} className="border-b border-border">
+                    <td className="py-4 pr-6 text-[15px] font-medium text-fg">{dim}</td>
+                    <td className="py-4 pr-6 text-[15px] text-muted">{old}</td>
+                    <td className="py-4 text-[15px] text-fg">{grav}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead
+            index="05"
+            heading="Why it's hard to copy"
+            lead="Software alone can't vouch for a supplier. Brokers can't scale or leave a record. Marketplaces list sellers but don't verify them or deliver. Graviyx brings verified suppliers, AI, specialists and warehouses together in one record."
+          />
+        </div>
+      </section>
+
+      <section className="neu-canvas section-y">
+        <div className="container-x">
+          <SoftHead index="06" heading="Customer stories" />
+          <Reveal className="neu-inset mt-12 px-6 py-14 text-center md:py-20">
+            <span aria-hidden="true" className="mark-dot pulse-dot mx-auto mb-6 block" />
+            <p className="body-copy mx-auto max-w-xl text-[16px] text-fg">
+              Customer stories will appear here once verified deals are complete and customers agree
+              to share them.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="surface-ink section-y relative overflow-hidden">
+        <div aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+        <div className="container-x relative">
+          <div className="flex flex-wrap gap-3">
+            <Link to="/for-buyers" className="btn btn-on-ink">
+              Marketplace
+            </Link>
+            <Link to="/how-it-works" className="btn btn-ghost-on-ink">
+              See how it works
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,6 +1,21 @@
+// ============================================================
+// FILE: insights.tsx
+// PURPOSE: The Insights route. What Graviyx is building next, and the articles empty state,
+//          read in the adopted "Soft Machine" material: the two roadmap cards extruded out
+//          of a dark canvas, the articles empty state set on the light one.
+// CONNECTS TO: @/components/site/{Hero,SectionHead,EmptyState,Reveal}, @/lib/seo,
+//          src/styles.css (the neu-* layer), @tanstack/react-router.
+// ============================================================
+//
+// NEUMORPHIC CONTRACT: each section below that renders a `neu-*` surface carries
+// `neu-canvas-dark` or `neu-canvas`, so every surface sits on a canvas of exactly its own
+// tone. No Tailwind `shadow-*` is used. The COMING SOON badge is a factual status and is
+// left exactly as it was; it sits on the dark canvas, where `text-meta` resolves to
+// on-ink-meta rather than the steel-30 that is forbidden on a light neumorphic surface.
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
-import { Section, SectionHead } from "@/components/site/Section";
+import { SectionHead } from "@/components/site/Section";
 import { EmptyState } from "@/components/site/EmptyState";
 import { Reveal } from "@/components/site/Reveal";
 import { pageMeta } from "@/lib/seo";
@@ -23,6 +38,56 @@ const ROADMAP = [
   },
 ];
 
+/** The roadmap band on the dark canvas: each card extruded out of the dark ground. */
+function WhatNext() {
+  return (
+    <section className="neu-canvas-dark section-y">
+      <div className="container-x">
+        <SectionHead eyebrow="What's next" title="In build, not yet live." />
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {ROADMAP.map((card, index) => (
+            <Reveal
+              key={card.title}
+              delay={index * 0.1}
+              className="neu-raised flex h-full flex-col p-6 md:p-8"
+            >
+              <span className="eyebrow mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-border px-3 py-1 text-meta">
+                <span className="mark-dot pulse-dot" />
+                COMING SOON — NOT YET LIVE
+              </span>
+              <h3 className="display-sm text-fg">{card.title}</h3>
+              <p className="body-copy mt-3 flex-1 text-[16px] text-fg">{card.body}</p>
+              <p className="mt-6 text-sm text-muted">
+                Not yet available for RFQs. Questions?{" "}
+                <Link to="/contact" className="text-fg underline-offset-4 hover:underline">
+                  Contact
+                </Link>
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** The articles band on the light canvas: the empty state, set into the canvas. */
+function Articles() {
+  return (
+    <section className="neu-canvas section-y">
+      <div className="container-x">
+        <SectionHead eyebrow="Articles" title="Field notes." />
+        <div className="mt-12">
+          <EmptyState
+            title="New content is on the way."
+            body="Articles will appear here as they are published."
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Insights() {
   return (
     <>
@@ -32,37 +97,8 @@ function Insights() {
         subhead="Perspective on industrial procurement, and a look at what Graviyx is building next."
         compact
       />
-
-      <Section tone="surface">
-        <SectionHead eyebrow="What's next" title="In build, not yet live." />
-        <div className="mt-12 grid gap-4 md:grid-cols-2">
-          {ROADMAP.map((card, index) => (
-            <Reveal key={card.title} delay={index * 0.1}>
-              <div className="panel flex h-full flex-col p-6 md:p-8">
-                <span className="eyebrow mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-border px-3 py-1 text-meta">
-                  <span className="mark-dot pulse-dot" />
-                  COMING SOON — NOT YET LIVE
-                </span>
-                <h3 className="display-sm text-fg">{card.title}</h3>
-                <p className="body-copy mt-3 flex-1 text-[16px]">{card.body}</p>
-                <p className="mt-6 text-sm text-meta">
-                  Not yet available for RFQs. Questions?{" "}
-                  <Link to="/contact" className="text-ink underline-offset-4 hover:underline">
-                    Contact
-                  </Link>
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
-      <Section>
-        <SectionHead eyebrow="Articles" title="Field notes." />
-        <div className="mt-12">
-          <EmptyState title="New content is on the way." body="Articles will appear here as they are published." />
-        </div>
-      </Section>
+      <WhatNext />
+      <Articles />
     </>
   );
 }
