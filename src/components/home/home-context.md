@@ -61,6 +61,27 @@ regressed:
 
 ## Important Notes
 
+- **The page alternates grounds through its middle.** Section 03, 05 and 07 are dark; 02, 04,
+  06 and 08 are light; the hero is `surface-ink` and the closing is `neu-canvas-dark`:
+
+  ```
+  01 HERO              surface-ink        (flat — neumorphism does not read on Ink)
+  02 Problem           neu-canvas
+  03 How it works      neu-canvas-dark
+  04 Speed             neu-canvas
+  05 Trust             neu-canvas-dark
+  06 Two ways in       neu-canvas
+  07 Industries        neu-canvas-dark
+  08 The system        neu-canvas
+  09 Where we serve    neu-canvas        (map on a neu-raised panel)
+  10 The ecosystem     neu-canvas        (diagram on a neu-raised panel)
+  11 Closing           neu-canvas-dark   (CTA on a neu-raised console)
+  ```
+
+- **The coverage and ecosystem sections are neumorphic too**, so `IndiaCoverageMap` and
+  `EcosystemDiagram` were neutralised: their own backgrounds were removed so the raised
+  surface shows through, and the diagram's node rects fill with `var(--neu-surface)` so they
+  match the canvas rather than sitting a shade lighter. Neither component's copy changed.
 - **The page order ends on CLOSING.** The coverage and ecosystem sections sit between
   THE_SYSTEM and CLOSING, so the page finishes on the call to action.
 - **`text-fg` on `body-copy` is redundant but harmless.** `neu-canvas` already re-points
