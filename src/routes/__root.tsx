@@ -1,18 +1,28 @@
+// ============================================================
+// FILE: __root.tsx
+// PURPOSE: The root route — the site chrome every page renders inside, plus the 404 and
+//          error states, and the per-page metadata hook.
+// CONNECTS TO: src/lib/seo.ts (useSeo applies the route's title and description),
+//          src/components/site/{Header,Footer}, src/router.tsx (provides the query client),
+//          index.html (the document this renders into).
+// ============================================================
+//
+// This was a TanStack Start root route: it declared `head()`, rendered an `<html>` shell
+// through `shellComponent`, and mounted `HeadContent`/`Scripts` for server rendering. A plain
+// client-rendered build has no server, so the shell moved into index.html and the metadata
+// moved into src/lib/seo.ts. The chrome and both error states are unchanged.
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 
-import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useSeo } from "@/lib/seo";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 
@@ -38,9 +48,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-paper px-4">
@@ -70,60 +77,17 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GRAVIYX — Buy Industrial Goods from Verified Suppliers" },
-      {
-        name: "description",
-        content:
-          "Post what you need, compare quotes from verified suppliers and track every order to delivery. One platform, one record, a specialist on your account.",
-      },
-      { name: "author", content: "GRAVIYX" },
-      { name: "theme-color", content: "#fafaf7" },
-      { property: "og:site_name", content: "GRAVIYX" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@GRAVIYX" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Applies the current route's title and description. There is one document for every route
+  // in a client-rendered SPA, so this is what keeps them in step with navigation.
+  useSeo();
 
   return (
     <QueryClientProvider client={queryClient}>

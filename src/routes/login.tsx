@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FILE: login.tsx
 // PURPOSE: The Login page. Buyer/supplier tabs, the sign-in form with its error state and
 //          the two-step forgot-password state, read as monochrome neumorphism: the form is
@@ -12,10 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/login")({
-  head: () => pageMeta("Login | GRAVIYX", "Sign in to GRAVIYX as a buyer or supplier."),
   component: Login,
 });
 
@@ -107,7 +105,7 @@ function Login() {
                   </label>
                   <label className="block">
                     <span className="eyebrow mb-2 block text-fg">Password</span>
-                    <input required type="password" className="neu-field" placeholder="••••••••" />
+                    <input required type="password" className="neu-field" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
                   </label>
                   {error && (
                     <p className="text-sm text-danger">Email or password is incorrect.</p>

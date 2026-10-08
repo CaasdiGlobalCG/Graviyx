@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: about.tsx
-// PURPOSE: The About page, read in the adopted "Soft Machine" direction — monochrome
+// PURPOSE: The About page, read in the adopted "Soft Machine" direction â€” monochrome
 //          neumorphism. The v2.0 About section carries no hero, so the page opens on the
 //          Mission and runs six soft sections; five sit on the light `neu-canvas` and
 //          "The name" on the dark `neu-canvas-dark`. Copy is the v2.0 plain-language
@@ -11,12 +11,8 @@
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Graviyx is building the default operating system for complex industrial procurement: verified supply, with AI and specialists working together.";
 export const Route = createFileRoute("/about")({
-  head: () => pageMeta("About GRAVIYX | Mission, Vision and Roadmap", description),
   component: About,
 });
 

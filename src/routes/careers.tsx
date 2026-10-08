@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: careers.tsx
-// PURPOSE: The Careers page, read in the adopted "Soft Machine" direction — monochrome
+// PURPOSE: The Careers page, read in the adopted "Soft Machine" direction â€” monochrome
 //          neumorphism. An Ink hero frames three soft sections; "What a specialist owns" and
 //          "Open roles" sit on the light `neu-canvas` and "Four teams" on the dark
 //          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 11.
@@ -12,12 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Graviyx pairs AI with a named team of procurement specialists. See how the team is organised and get in touch.";
 export const Route = createFileRoute("/careers")({
-  head: () => pageMeta("Careers | GRAVIYX", description),
   component: Careers,
 });
 

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FILE: legal.tsx
 // PURPOSE: The Legal index route. The finalisation notice, held in one dark neumorphic
 //          panel, above the three document cards set on the light neumorphic canvas.
@@ -15,14 +15,8 @@ import { Hero } from "@/components/site/Hero";
 import { SectionHead } from "@/components/site/Section";
 import { LinkOutCard } from "@/components/site/LinkOutCard";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal")({
-  head: () =>
-    pageMeta(
-      "Legal | GRAVIYX",
-      "Graviyx legal documents: Privacy Policy, Terms of Service, and Security & Data Handling."
-    ),
   component: Legal,
 });
 

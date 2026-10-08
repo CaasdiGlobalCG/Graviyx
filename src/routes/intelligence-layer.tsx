@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: intelligence-layer.tsx
-// PURPOSE: The Intelligence Layer page, read in the adopted "Soft Machine" direction —
+// PURPOSE: The Intelligence Layer page, read in the adopted "Soft Machine" direction â€”
 //          monochrome neumorphism. An Ink hero and an Ink closing frame four soft sections;
 //          three sit on the light `neu-canvas` and "What stays human" on the dark
 //          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 5.
@@ -11,12 +11,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Graviyx's AI isn't a chatbot. It handles the repetitive work in procurement and hands anything tricky to a specialist.";
 export const Route = createFileRoute("/intelligence-layer")({
-  head: () => pageMeta("The Intelligence Layer — AI That Does the Legwork | GRAVIYX", description),
   component: IntelligenceLayer,
 });
 
@@ -27,7 +23,7 @@ export const Route = createFileRoute("/intelligence-layer")({
  */
 const functions = [
   {
-    title: "1 · It talks to buyers",
+    title: "1 Â· It talks to buyers",
     stage: "Stage 01, RFQ Intake",
     trigger: "A buyer enquiry or an incomplete requirement.",
     action:
@@ -35,7 +31,7 @@ const functions = [
     handoff: "it can't confirm something, or the request is unusual.",
   },
   {
-    title: "2 · It finds the best route",
+    title: "2 Â· It finds the best route",
     stage: "Stage 02, Review & Shortlist",
     trigger: "A structured RFQ.",
     action:
@@ -43,7 +39,7 @@ const functions = [
     handoff: "a specialist reviews and adjusts the shortlist.",
   },
   {
-    title: "3 · It sees demand coming",
+    title: "3 Â· It sees demand coming",
     stage: "Stage 03, Quotations & Compare",
     trigger: "Confirmed POs and active enquiries accumulate.",
     action:
@@ -51,7 +47,7 @@ const functions = [
     handoff: "specialists turn the forecast into buying plans.",
   },
   {
-    title: "4 · It flags the unusual",
+    title: "4 Â· It flags the unusual",
     stage: "Stage 04, Negotiate & Confirm",
     trigger: "Activity outside standard parameters.",
     action:
@@ -77,7 +73,7 @@ function SoftHead({ index, heading, lead }: { index: string; heading: string; le
   );
 }
 
-/** 02 — the rule: where the AI stops and a person takes over. */
+/** 02 â€” the rule: where the AI stops and a person takes over. */
 function TheRule() {
   return (
     <section className="neu-canvas section-y">
@@ -92,7 +88,7 @@ function TheRule() {
   );
 }
 
-/** 03 — the four jobs, each extruded out of the canvas with its human hand-off. */
+/** 03 â€” the four jobs, each extruded out of the canvas with its human hand-off. */
 function Jobs() {
   return (
     <section className="neu-canvas section-y">
@@ -121,7 +117,7 @@ function Jobs() {
   );
 }
 
-/** 04 — what stays human. The page's single dark band. */
+/** 04 â€” what stays human. The page's single dark band. */
 function WhatStaysHuman() {
   return (
     <section className="neu-canvas-dark section-y">
@@ -136,7 +132,7 @@ function WhatStaysHuman() {
   );
 }
 
-/** 05 — what the layer learns from. Carries the link through to the warehousing page, which
+/** 05 â€” what the layer learns from. Carries the link through to the warehousing page, which
  *  is the topically adjacent one: warehouse stock is one of the signals this layer learns from. */
 function WhatItLearnsFrom() {
   return (

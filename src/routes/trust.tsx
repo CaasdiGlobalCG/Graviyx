@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: trust.tsx
-// PURPOSE: The Trust page, read in the adopted "Soft Machine" direction — monochrome
+// PURPOSE: The Trust page, read in the adopted "Soft Machine" direction â€” monochrome
 //          neumorphism. An Ink hero and an Ink closing frame five soft sections; four sit on
 //          the light `neu-canvas` and "Trust that compounds" on the dark `neu-canvas-dark`.
 //          Copy is the v2.0 plain-language edition, section 7.
@@ -11,12 +11,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Suppliers are verified before they quote, scored after every deal and backed by evidence you can see.";
 export const Route = createFileRoute("/trust")({
-  head: () => pageMeta("Trust — Verified Before They Quote | GRAVIYX", description),
   component: Trust,
 });
 

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FILE: industries.tsx
 // PURPOSE: The Industries route. The nine sectors Graviyx serves, read in the adopted
 //          "Soft Machine" material: a light neumorphic canvas holding the sectors and the
@@ -10,19 +10,15 @@
 // NEUMORPHIC CONTRACT: every section below that renders a `neu-*` surface carries
 // `neu-canvas` or `neu-canvas-dark`, so each surface sits on a canvas of exactly its own
 // tone. No Tailwind `shadow-*` is used, and `text-meta` never appears on a neumorphic
-// surface — the lightest a label goes is `text-muted`.
+// surface â€” the lightest a label goes is `text-muted`.
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { SectionHead } from "@/components/site/Section";
 import { IndustryChips } from "@/components/site/IndustryChips";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Graviyx serves buyers across manufacturing, engineering, construction, oil and gas, electrical, automotive, healthcare supplies, FMCG and packaging.";
 export const Route = createFileRoute("/industries")({
-  head: () => pageMeta("Industries — Sectors Served | GRAVIYX", description),
   component: Industries,
 });
 

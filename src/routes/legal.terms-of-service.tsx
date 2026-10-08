@@ -1,7 +1,7 @@
-// ============================================================
+﻿// ============================================================
 // FILE: legal.terms-of-service.tsx
 // PURPOSE: The Terms of Service route. The finalisation notice, held in one dark neumorphic
-//          panel on a dark canvas — the page's single dark ground.
+//          panel on a dark canvas â€” the page's single dark ground.
 // CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, src/styles.css (the neu-* layer),
 //          @tanstack/react-router.
 // ============================================================
@@ -13,14 +13,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/terms-of-service")({
-  head: () =>
-    pageMeta(
-      "Terms of Service | GRAVIYX",
-      "The Graviyx Terms of Service are being finalised and will be published here."
-    ),
   component: TermsOfService,
 });
 

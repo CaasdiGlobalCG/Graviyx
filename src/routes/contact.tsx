@@ -1,7 +1,7 @@
-// ============================================================
+﻿// ============================================================
 // FILE: contact.tsx
-// PURPOSE: The Contact page. The enquiry form — four enquiry types, their conditional
-//          fields and the sent state — read as monochrome neumorphism: the form is a
+// PURPOSE: The Contact page. The enquiry form â€” four enquiry types, their conditional
+//          fields and the sent state â€” read as monochrome neumorphism: the form is a
 //          surface pushed out of a light canvas with its fields cut into it, and the
 //          closing "sourcing finished goods?" note on the dark ground.
 // CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, src/styles.css (the neu-* and
@@ -12,12 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Apply for supplier verification, discuss a warehouse franchise, or send a general or press enquiry to Graviyx.";
 export const Route = createFileRoute("/contact")({
-  head: () => pageMeta("Contact | GRAVIYX", description),
   component: Contact,
 });
 
@@ -113,7 +109,7 @@ function Contact() {
                     </label>
                     <label className="block">
                       <span className="eyebrow mb-2 block text-fg">Phone (optional)</span>
-                      <input type="tel" className="neu-field" placeholder="+91 …" />
+                      <input type="tel" className="neu-field" placeholder="+91 â€¦" />
                     </label>
                   </div>
 
@@ -135,11 +131,11 @@ function Contact() {
                       </div>
                       <label className="block">
                         <span className="eyebrow mb-2 block text-fg">Products and categories supplied</span>
-                        <input required className="neu-field" placeholder="e.g. industrial fasteners, switchgear…" />
+                        <input required className="neu-field" placeholder="e.g. industrial fasteners, switchgearâ€¦" />
                       </label>
                       <label className="block">
                         <span className="eyebrow mb-2 block text-fg">Website (optional)</span>
-                        <input type="url" className="neu-field" placeholder="https://…" />
+                        <input type="url" className="neu-field" placeholder="https://â€¦" />
                       </label>
                     </>
                   )}
@@ -179,7 +175,7 @@ function Contact() {
                     {active.button}
                   </button>
                   <p className="text-sm text-muted">
-                    Graviyx Procurement Pvt. Ltd. · hello@graviyx.com
+                    Graviyx Procurement Pvt. Ltd. Â· hello@graviyx.com
                   </p>
                 </form>
               </Reveal>

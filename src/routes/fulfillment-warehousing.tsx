@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: fulfillment-warehousing.tsx
-// PURPOSE: The Fulfilment & Warehousing page, read in the adopted "Soft Machine" direction —
+// PURPOSE: The Fulfilment & Warehousing page, read in the adopted "Soft Machine" direction â€”
 //          monochrome neumorphism. An Ink hero and an Ink closing frame four soft sections;
 //          three sit on the light `neu-canvas` and "See every shipment" on the dark
 //          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 6.
@@ -12,13 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "A three-tier warehouse network that puts stock closer to buyers, for shorter and more predictable lead times.";
 export const Route = createFileRoute("/fulfillment-warehousing")({
-  head: () =>
-    pageMeta("Fulfilment & Warehousing — Delivery You Can Plan Around | GRAVIYX", description),
   component: Fulfillment,
 });
 

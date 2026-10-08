@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: how-it-works.tsx
-// PURPOSE: The How It Works page, read in the adopted "Soft Machine" direction — monochrome
+// PURPOSE: The How It Works page, read in the adopted "Soft Machine" direction â€” monochrome
 //          neumorphism. An Ink hero and an Ink closing frame four soft sections; three sit on
 //          the light `neu-canvas` and "Under the hood" on the dark `neu-canvas-dark`. Copy is
 //          the v2.0 plain-language edition, section 4.
@@ -11,12 +11,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Six steps from request to delivery, on one shared record. AI does the legwork. A specialist makes the calls.";
 export const Route = createFileRoute("/how-it-works")({
-  head: () => pageMeta("How It Works — From Request to Delivery | GRAVIYX", description),
   component: HowItWorks,
 });
 
@@ -121,7 +117,7 @@ function SoftHead({ index, heading, lead }: { index: string; heading: string; le
   );
 }
 
-/** 02 — the six steps as extruded cards, each lighting up in sequence. */
+/** 02 â€” the six steps as extruded cards, each lighting up in sequence. */
 function Steps() {
   return (
     <section className="neu-canvas section-y">
@@ -151,7 +147,7 @@ function Steps() {
   );
 }
 
-/** 03 — the three things that keep working, extruded out of the canvas. */
+/** 03 â€” the three things that keep working, extruded out of the canvas. */
 function KeepsWorking() {
   return (
     <section className="neu-canvas section-y">
@@ -178,7 +174,7 @@ function KeepsWorking() {
   );
 }
 
-/** 04 — the four layers, extruded shallowly out of the dark canvas. */
+/** 04 â€” the four layers, extruded shallowly out of the dark canvas. */
 function UnderTheHood() {
   return (
     <section className="neu-canvas-dark section-y">
@@ -207,7 +203,7 @@ function UnderTheHood() {
   );
 }
 
-/** 05 — the two doors deeper in, each whole card a link. */
+/** 05 â€” the two doors deeper in, each whole card a link. */
 function GoDeeper() {
   return (
     <section className="neu-canvas section-y">

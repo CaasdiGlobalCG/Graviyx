@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FILE: post-a-requirement.tsx
 // PURPOSE: The Post a Requirement page. The finished-goods scope note and the RFQ form
 //          (with its generated reference and sent state), read as monochrome neumorphism:
@@ -16,12 +16,8 @@ import { Section, SectionHead } from "@/components/site/Section";
 import { Stepper } from "@/components/site/Stepper";
 import { Reveal } from "@/components/site/Reveal";
 import { INDUSTRIES } from "@/components/site/IndustryChips";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Tell us what you need. Graviyx turns it into a clear request, shortlists verified suppliers and brings back quotes you can compare.";
 export const Route = createFileRoute("/post-a-requirement")({
-  head: () => pageMeta("Post a Requirement | GRAVIYX", description),
   component: PostRequirement,
 });
 
@@ -130,7 +126,7 @@ function PostRequirement() {
                     </label>
                     <label className="block">
                       <span className="eyebrow mb-2 block text-fg">Phone (optional)</span>
-                      <input type="tel" className="neu-field" placeholder="+91 …" />
+                      <input type="tel" className="neu-field" placeholder="+91 â€¦" />
                     </label>
                   </div>
                   <label className="block">

@@ -1,15 +1,38 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+// ============================================================
+// FILE: vite.config.ts
+// PURPOSE: Plain Vite build for a client-rendered React SPA, deployable as static files.
+// CONNECTS TO: index.html (the entry document), src/main.tsx (the mount point),
+//          src/router.tsx (the router factory), src/routes/** (generates routeTree.gen.ts).
+// ============================================================
+//
+// This replaced @lovable.dev/vite-tanstack-config, which bundled TanStack Start, nitro, the
+// Lovable devtools and a Cloudflare server target. None of that is wanted here: the site is
+// static and is served from GitHub Pages, so there is no server to render it.
+//
+// The router plugin is kept, because it is what generates src/routeTree.gen.ts from the files
+// in src/routes/. It is pointed at the plain `react` target rather than `react-start`, so the
+// generated tree no longer imports anything from TanStack Start.
+
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+  plugins: [
+    // Must run before react(): it generates routeTree.gen.ts, which the entry imports.
+    tanstackRouter({ target: "react", autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+    tsconfigPaths(),
+  ],
+
+  // Served from a custom domain at the root, so assets resolve from "/".
+  base: "/",
+
+  build: {
+    outDir: "dist",
+    sourcemap: false,
   },
 });

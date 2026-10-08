@@ -1,7 +1,7 @@
-// ============================================================
+﻿// ============================================================
 // FILE: legal.privacy-policy.tsx
 // PURPOSE: The Privacy Policy route. The finalisation notice, held in one dark neumorphic
-//          panel on a dark canvas — the page's single dark ground.
+//          panel on a dark canvas â€” the page's single dark ground.
 // CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, src/styles.css (the neu-* layer),
 //          @tanstack/react-router.
 // ============================================================
@@ -13,14 +13,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/privacy-policy")({
-  head: () =>
-    pageMeta(
-      "Privacy Policy | GRAVIYX",
-      "The Graviyx Privacy Policy is being finalised and will be published here."
-    ),
   component: PrivacyPolicy,
 });
 

@@ -1,7 +1,7 @@
-// ============================================================
+﻿// ============================================================
 // FILE: legal.security.tsx
 // PURPOSE: The Security & Data Handling route. The finalisation notice, held in one dark
-//          neumorphic panel on a dark canvas — the page's single dark ground.
+//          neumorphic panel on a dark canvas â€” the page's single dark ground.
 // CONNECTS TO: @/components/site/{Hero,Reveal}, @/lib/seo, src/styles.css (the neu-* layer),
 //          @tanstack/react-router.
 // ============================================================
@@ -13,14 +13,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/security")({
-  head: () =>
-    pageMeta(
-      "Security & Data Handling | GRAVIYX",
-      "The Graviyx Security & Data Handling document is being finalised and will be published here."
-    ),
   component: Security,
 });
 

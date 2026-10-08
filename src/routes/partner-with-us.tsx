@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: partner-with-us.tsx
-// PURPOSE: The Partner With Us page, read in the adopted "Soft Machine" direction —
+// PURPOSE: The Partner With Us page, read in the adopted "Soft Machine" direction â€”
 //          monochrome neumorphism. An Ink hero and an Ink closing frame four soft sections;
 //          three sit on the light `neu-canvas` and "How we measure performance" on the dark
 //          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 12.
@@ -11,12 +11,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Run a Graviyx district warehouse: last-mile industrial delivery, demand from the platform and clear performance standards.";
 export const Route = createFileRoute("/partner-with-us")({
-  head: () => pageMeta("Partner With Us — District Warehouse Franchise | GRAVIYX", description),
   component: Partner,
 });
 

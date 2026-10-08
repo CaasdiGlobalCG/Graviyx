@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FILE: insights.tsx
 // PURPOSE: The Insights route. What Graviyx is building next, and the articles empty state,
 //          read in the adopted "Soft Machine" material: the two roadmap cards extruded out
@@ -18,12 +18,8 @@ import { Hero } from "@/components/site/Hero";
 import { SectionHead } from "@/components/site/Section";
 import { EmptyState } from "@/components/site/EmptyState";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Perspective on industrial procurement, and what Graviyx is building next: Build-to-Spec and Semi-Finished Goods, both coming soon.";
 export const Route = createFileRoute("/insights")({
-  head: () => pageMeta("Insights | GRAVIYX", description),
   component: Insights,
 });
 
@@ -56,7 +52,7 @@ function WhatNext() {
             >
               <span className="eyebrow mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-border px-3 py-1 text-meta">
                 <span className="mark-dot pulse-dot" />
-                COMING SOON — NOT YET LIVE
+                COMING SOON â€” NOT YET LIVE
               </span>
               <h3 className="display-sm text-fg">{card.title}</h3>
               <p className="body-copy mt-3 flex-1 text-[16px] text-fg">{card.body}</p>

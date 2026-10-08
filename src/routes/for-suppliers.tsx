@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: for-suppliers.tsx
-// PURPOSE: The For Suppliers page, read in the adopted "Soft Machine" direction —
+// PURPOSE: The For Suppliers page, read in the adopted "Soft Machine" direction â€”
 //          monochrome neumorphism. An Ink hero and an Ink closing frame three soft sections;
 //          two sit on the light `neu-canvas` and the three-check verification section on the
 //          dark `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 3.
@@ -12,12 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Get verified once and reach buyers who are actively sourcing. A named specialist helps you onboard and grow.";
 export const Route = createFileRoute("/for-suppliers")({
-  head: () => pageMeta("For Suppliers — Get Verified, Reach Serious Buyers | GRAVIYX", description),
   component: ForSuppliers,
 });
 
@@ -69,7 +65,7 @@ function SoftHead({ index, heading, lead }: { index: string; heading: string; le
   );
 }
 
-/** 02 — the five cards, each extruded out of the canvas. */
+/** 02 â€” the five cards, each extruded out of the canvas. */
 function WhatYouGet() {
   return (
     <section className="neu-canvas section-y">
@@ -95,7 +91,7 @@ function WhatYouGet() {
   );
 }
 
-/** 03 — verification: the three checks, then the scorecard. The page's dark band. */
+/** 03 â€” verification: the three checks, then the scorecard. The page's dark band. */
 function Verification() {
   return (
     <section className="neu-canvas-dark section-y">
@@ -138,7 +134,7 @@ function Verification() {
   );
 }
 
-/** 04 — pricing: the two supplier models. */
+/** 04 â€” pricing: the two supplier models. */
 function Pricing() {
   return (
     <section className="neu-canvas section-y">

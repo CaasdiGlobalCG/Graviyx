@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // FILE: for-buyers.tsx
-// PURPOSE: The For Buyers page, read in the adopted "Soft Machine" direction — monochrome
+// PURPOSE: The For Buyers page, read in the adopted "Soft Machine" direction â€” monochrome
 //          neumorphism. An Ink hero and an Ink closing frame four soft sections; three sit
 //          on the light `neu-canvas` and "A named specialist on your account" on the dark
 //          `neu-canvas-dark`. Copy is the v2.0 plain-language edition, section 2.
@@ -12,13 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { Reveal } from "@/components/site/Reveal";
 import { PricingLogic } from "@/components/site/PricingLogic";
-import { pageMeta } from "@/lib/seo";
 
-const description =
-  "Source from verified suppliers, compare quotes side by side and follow every order to delivery, with a named specialist on your account.";
 export const Route = createFileRoute("/for-buyers")({
-  head: () =>
-    pageMeta("For Buyers — Compare Verified Quotes, Track Every Order | GRAVIYX", description),
   component: ForBuyers,
 });
 
@@ -74,7 +69,7 @@ function SoftHead({ index, heading, lead }: { index: string; heading: string; le
   );
 }
 
-/** 02 — the five cards, each extruded out of the canvas. */
+/** 02 â€” the five cards, each extruded out of the canvas. */
 function WhatYouGet() {
   return (
     <section className="neu-canvas section-y">
@@ -100,7 +95,7 @@ function WhatYouGet() {
   );
 }
 
-/** 03 — the named specialist. The page's single dark band. */
+/** 03 â€” the named specialist. The page's single dark band. */
 function NamedSpecialist() {
   return (
     <section className="neu-canvas-dark section-y">
@@ -115,7 +110,7 @@ function NamedSpecialist() {
   );
 }
 
-/** 04 — the seven stages, each extruded out of the canvas as a row. */
+/** 04 â€” the seven stages, each extruded out of the canvas as a row. */
 function Stages() {
   return (
     <section className="neu-canvas section-y">
@@ -145,7 +140,7 @@ function Stages() {
   );
 }
 
-/** 05 — pricing: the three models, rendered through the existing PricingLogic. */
+/** 05 â€” pricing: the three models, rendered through the existing PricingLogic. */
 function Pricing() {
   return (
     <section className="neu-canvas section-y">
