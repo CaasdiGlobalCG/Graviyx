@@ -145,7 +145,7 @@ export function Header() {
             true centre. With `1fr auto 1fr` the nav sits noticeably right of where it reads
             as balanced, because the actions are much wider than the mark. Columns are placed
             explicitly so hiding the nav (below xl) still leaves the burger on the right. */}
-        <div className="header-x grid h-[var(--header-h)] grid-cols-[1fr_auto_1.35fr] items-center gap-6">
+        <div className="header-x grid h-[var(--header-h)] grid-cols-[1fr_auto_1.40fr] items-center gap-6">
           <Link
             to="/"
             className="col-start-1 flex shrink-0 items-center gap-3 justify-self-start"
