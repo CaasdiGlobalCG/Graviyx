@@ -28,9 +28,16 @@ const NAV: { label: string; to: To }[] = [
   { label: "Insights", to: "/insights" },
 ];
 
-/** The nav-link recipe, shared by the desktop items and Login so they read as one system. */
+/**
+ * The nav-link recipe, shared by the desktop items and Login so they read as one system.
+ *
+ * The colour is `text-fg`, not `text-muted`. A muted tone fails AA on this surface: the bar
+ * is translucent, so over the pinned Ink hero the glass resolves to roughly rgb(190,190,188),
+ * where steel-50 lands at 2.9:1 against the 4.5:1 that 13px text needs. Ink on the same glass
+ * is 11.3:1. Hover feedback comes from the underline, not from a colour change.
+ */
 const LINK =
-  "whitespace-nowrap px-3 py-2 text-[13px] font-[450] text-muted transition-colors duration-200 hover:text-fg";
+  "whitespace-nowrap px-3 py-2 text-[13px] font-[450] text-fg transition-colors duration-200";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,17 +59,17 @@ export function Header() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+      className="glass-bar fixed inset-x-0 top-0 z-50 transition-colors duration-300"
       style={{
-        // Always frosted, never fully transparent. The Home hero is an Ink surface
-        // (Operon rations Ink to "nav, footer, select heroes"), and the mark here is
-        // the Ink one — under a transparent header it would disappear against that
-        // hero until the user scrolled. A persistent Paper wash keeps the logo and
-        // nav legible on both Paper and Ink heroes. The hairline still only appears
-        // once scrolled, so the bar stays quiet at rest.
-        backgroundColor: "color-mix(in oklab, var(--paper) 88%, transparent)",
+        // The glass surface — translucent Paper wash, backdrop blur, saturation boost and
+        // the lit top edge — lives in the `glass-bar` utility in src/styles.css. Only the
+        // hairline is inline, because it depends on scroll state.
+        //
+        // The wash is 76% rather than the 20-40% typical of glass, and that is deliberate:
+        // this bar floats over the pinned Ink hero, so a thinner wash would let the black
+        // surface through and the Ink logo and muted nav text would lose contrast against
+        // it. 76% reads as glass while staying legible on both Paper and Ink heroes.
         borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
-        backdropFilter: "blur(14px)",
       }}
     >
       <div className="container-x flex h-[72px] items-center gap-6">

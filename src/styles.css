@@ -820,6 +820,28 @@
   );
 }
 
+/* ---------- Glass ----------
+   A translucent, blurred pane — the header bar's surface.
+
+   Three parts make it read as glass rather than as a flat translucent overlay:
+   a real backdrop blur so content passing underneath is visibly refracted, a saturation
+   boost so what shows through keeps its colour, and an inset highlight along the top edge
+   that reads as the lit rim of a pane.
+
+   The wash sits at 76% rather than the 20-40% typical of the style. That is deliberate and
+   load-bearing: the header floats over the pinned Ink hero, so a thinner wash lets the black
+   surface through and the Ink logo and muted nav text lose contrast against it. 76% keeps it
+   legible on both Paper and Ink heroes while still reading as glass. */
+@utility glass-bar {
+  background-color: color-mix(in oklab, var(--paper) 76%, transparent);
+  /* The prefixed form must come FIRST. With it last, the minifier collapses the pair and
+     emits only `-webkit-backdrop-filter`, which Firefox does not support — so the blur
+     silently disappears there while working in Chrome and Safari. Order is load-bearing. */
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 0 color-mix(in oklab, #ffffff 60%, transparent);
+}
+
 /* ---------- Mount stagger (hero) ----------
    Same reasoning as `reveal`: the base state must be visible. This is a pure CSS
    entrance that runs on load, needs no JavaScript, and completes instantly when the
