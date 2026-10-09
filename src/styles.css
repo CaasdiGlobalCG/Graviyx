@@ -967,6 +967,10 @@
    (`z-50`). */
 .hero-pin {
   position: sticky;
+  /* Back to 0: the hero now starts at the viewport top and carries the 72px offset as its
+     own padding, so its surface sits behind the fixed header rather than below it. Pinning
+     at 0 keeps that true while scrolled — with `top: 72px` the surface would slide out from
+     under the header and leave a bare strip. */
   top: 0;
   z-index: 0;
 }

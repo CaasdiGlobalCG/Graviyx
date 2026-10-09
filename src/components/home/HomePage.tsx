@@ -49,10 +49,15 @@ import {
  * HERO — the page's first Ink band, and deliberately flat: neumorphism does not read on Ink. The
  * eyebrow, lead and scope line resolve through the re-pointed semantic tokens and the heading
  * inherits Paper, so no `text-ink`, `btn-primary` or `btn-secondary` appears inside it.
+ *
+ * The 72px header offset is PADDING, not margin, and that is the whole point: a margin would
+ * leave a bare strip above the hero for the glass header to sit on, whereas padding is painted
+ * by the section's own surface. So the Ink ground and its grid run the full height behind the
+ * header while the copy still starts below it.
  */
 function Hero() {
   return (
-    <section className="hero-pin surface-ink section-y overflow-hidden">
+    <section className="hero-pin surface-ink min-h-[100svh] overflow-hidden pt-[112px] pb-10 md:pt-[136px] md:pb-16 lg:pt-[168px] lg:pb-24">
       <div aria-hidden="true" className="bg-grid drift-grid pointer-events-none absolute -inset-24" />
       <div className="container-x hero-depth relative">
         <div className="flex items-center gap-3">

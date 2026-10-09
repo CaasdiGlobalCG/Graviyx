@@ -59,7 +59,9 @@ export function Hero({
   const isInk = tone === "ink";
 
   return (
-    <section className={`hero-pin overflow-hidden ${isInk ? "surface-ink" : "bg-bg"}`}>
+    <section
+      className={`hero-pin min-h-[100svh] overflow-hidden pt-[72px] ${isInk ? "surface-ink" : "bg-bg"}`}
+    >
       {/* Oversized by one background tile (72px) so the drift translate never
           exposes an edge. The drift animates transform, not background-position. */}
       <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" />
