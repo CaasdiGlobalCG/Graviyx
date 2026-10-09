@@ -36,9 +36,13 @@ const NAV: { label: string; to: To }[] = [
  * page's ink one — `text-fg` would be black on near-black. Hover feedback comes from the
  * underline rather than a colour change, which keeps the contrast constant while the pointer
  * is over the link.
+ *
+ * Type and padding step up at `2xl` rather than sitting at one size. Six links plus the mark
+ * plus three actions do not fit a 1280px bar at 15px: the row needs roughly 1314px against the
+ * 1216px available, and now that the labels cannot wrap it would push out of the row. At 13px
+ * with a tighter gutter it fits with room to spare, and it reaches 15px once there is space.
  */
-const LINK =
-  "whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
+const LINK = "nav-link whitespace-nowrap py-2 text-on-ink transition-colors duration-200";
 
 /** The mark on a dark bar. `brightness-0 invert` forces the Ink assets to Paper, so the
  *  header does not need a second set of white exports. */
@@ -189,14 +193,14 @@ export function Header() {
             <Link
               to="/post-a-requirement"
               activeProps={{ className: "neu-selected" }}
-              className="neu-control inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+              className="neu-control nav-cta inline-flex items-center justify-center whitespace-nowrap py-2.5 font-mono text-[11px] tracking-[0.14em] text-on-ink uppercase"
             >
               Post a Requirement
             </Link>
             <Link
               to="/for-buyers"
               activeProps={{ className: "neu-selected" }}
-              className="neu-control inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+              className="neu-control nav-cta inline-flex items-center justify-center whitespace-nowrap py-2.5 font-mono text-[11px] tracking-[0.14em] text-on-ink uppercase"
             >
               Marketplace
             </Link>
@@ -238,7 +242,12 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
-            className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto border-t border-border neu-canvas xl:hidden"
+            // `z-40` is load-bearing. The sections below the hero carry `z-index: 10`
+            // (`.hero-pin ~ *`), and `main` creates no stacking context of its own — so with no
+            // z-index here the panel sat at `auto` (0) and every section painted OVER it. The
+            // panel opened and was immediately covered, which is why the burger looked broken
+            // on a phone. 40 clears the content and stays under the bar's 50.
+            className="fixed inset-x-0 top-[var(--header-h)] bottom-0 z-40 overflow-y-auto border-t border-border neu-canvas xl:hidden"
           >
             <div className="header-x py-4">
               {/* divide-y rather than a border on every row: one hairline between items,
@@ -259,21 +268,21 @@ export function Header() {
                 <Link
                   to="/for-buyers"
                   onClick={() => setOpen(false)}
-                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
+                  className="neu-control inline-flex w-full items-center justify-center whitespace-nowrap px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
                 >
                   Marketplace
                 </Link>
                 <Link
                   to="/post-a-requirement"
                   onClick={() => setOpen(false)}
-                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
+                  className="neu-control inline-flex w-full items-center justify-center whitespace-nowrap px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
                 >
                   Post a Requirement
                 </Link>
                 <Link
                   to="/login"
                   onClick={() => setOpen(false)}
-                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
+                  className="neu-control inline-flex w-full items-center justify-center whitespace-nowrap px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
                 >
                   Login
                 </Link>

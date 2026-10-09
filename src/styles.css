@@ -940,6 +940,42 @@
   color: var(--ink);
 }
 
+/* ---------- Nav link ----------
+   Mono and uppercase, matching the bar's call-to-action buttons so the whole bar speaks one
+   typographic language — the brand uses JetBrains Mono for captions, and a technical nav is
+   exactly that.
+
+   The size steps by breakpoint because mono is much wider per character than Inter: JetBrains
+   Mono advances 0.60em against Inter's ~0.50em, so the six labels go from ~462px of text to
+   ~578px at the same nominal size. With the mark and the three actions alongside, 11px does not
+   fit a 1280px bar — the nav column alone needs ~722px against the ~586px available. 9px fits
+   there, and the full 11px arrives at 1536px where there is room.
+
+   Padding also steps, which is the gap between the items: 8px a side at 1280, 12px at 1536. */
+@utility nav-link {
+  padding-inline: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 10.8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  @media (min-width: 1536px) {
+    padding-inline: 0.75rem;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+  }
+}
+
+/* The same step for the bar's two calls to action. Kept a step below the nav links so the
+   buttons read as controls rather than competing with the navigation. */
+@utility nav-cta {
+  padding-inline: 0.75rem;
+
+  @media (min-width: 1536px) {
+    padding-inline: 1rem;
+  }
+}
+
 /* ---------- Mount stagger (hero) ----------
    Same reasoning as `reveal`: the base state must be visible. This is a pure CSS
    entrance that runs on load, needs no JavaScript, and completes instantly when the
