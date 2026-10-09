@@ -75,10 +75,16 @@ function Hero() {
             <h1 className="display-xl mt-6 max-w-4xl">{HERO.headline}</h1>
             <p className="lead mt-6 max-w-2xl">{HERO.subhead}</p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link to={HERO.primaryCta.to} className="btn btn-on-ink">
+              <Link
+                to={HERO.primaryCta.to}
+                className="neu-control inline-flex items-center justify-center px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase"
+              >
                 {HERO.primaryCta.label}
               </Link>
-              <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">
+              <Link
+                to={HERO.secondaryCta.to}
+                className="neu-control inline-flex items-center justify-center px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase"
+              >
                 {HERO.secondaryCta.label}
               </Link>
             </div>

@@ -2,8 +2,8 @@
 // FILE: Hero.tsx
 // PURPOSE: The page hero — eyebrow, headline, subhead, actions and an optional slot for
 //          extra content, on either a Paper or an Ink surface.
-// CONNECTS TO: src/styles.css (surface-ink, hero-in, grid-veil, drift-grid, btn-on-ink,
-//          btn-ghost-on-ink), @tanstack/react-router, ./types.
+// CONNECTS TO: src/styles.css (neu-canvas-dark, neu-canvas, neu-raised, neu-control,
+//          hero-in, hero-pin, bg-diagonal), @tanstack/react-router, ./types.
 // ============================================================
 //
 // The entrance is a CSS mount stagger, not a Motion animation.
@@ -110,15 +110,11 @@ export function Hero({
                   <Link
                     key={a.label}
                     to={a.to}
-                    className={`btn ${
-                      isInk
-                        ? a.variant === "secondary"
-                          ? "btn-ghost-on-ink"
-                          : "btn-on-ink"
-                        : a.variant === "secondary"
-                          ? "btn-secondary"
-                          : "btn-primary"
-                    }`}
+                    // `neu-control` rather than the `btn` family: it carries the neumorphic
+                    // surface, the press and the focus ring, and it reads its colours from the
+                    // canvas it sits on — so there is no ink/paper branch here. `text-fg` is
+                    // re-pointed to Paper inside `neu-canvas-dark` and stays ink on a light one.
+                    className="neu-control inline-flex items-center justify-center px-6 py-3.5 font-mono text-[11px] tracking-[0.14em] text-fg uppercase"
                   >
                     {a.label}
                   </Link>

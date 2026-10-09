@@ -3,7 +3,8 @@
 // PURPOSE: The fixed site header — the mark, the primary navigation, the two calls to
 //          action and the mobile panel.
 // CONNECTS TO: @tanstack/react-router (Link), motion/react (the mobile panel), ./types,
-//          src/styles.css (container-x, btn, btn-sm, the brand tokens).
+//          src/styles.css (glass-bar, header-x, neu-canvas, neu-control, --header-h, the
+//          brand tokens).
 // ============================================================
 //
 // The bar is deliberately quiet: one frosted Paper wash, one hairline that only appears once
@@ -37,7 +38,7 @@ const NAV: { label: string; to: To }[] = [
  * is over the link.
  */
 const LINK =
-  "whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
+  "nav-active whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
 
 /** The mark on a dark bar. `brightness-0 invert` forces the Ink assets to Paper, so the
  *  header does not need a second set of white exports. */
@@ -161,19 +162,10 @@ export function Header() {
 
           {/* The nav sits between the mark and the actions — one link per section, in the
               order the sections appear in the content document. */}
-          <nav className="col-start-2 hidden items-center xl:flex">
+          <nav className="col-start-2 hidden items-center gap-2 xl:flex">
             {NAV.map((item) => (
-              <Link
-                key={item.label}
-                to={item.to}
-                className={`group relative ${LINK}`}
-                activeProps={{ style: { color: "var(--fg)" } }}
-              >
+              <Link key={item.label} to={item.to} className={LINK}>
                 {item.label}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-3 bottom-1 block h-px origin-left scale-x-0 bg-fg transition-transform duration-200 ease-out group-hover:scale-x-100"
-                />
               </Link>
             ))}
           </nav>
@@ -185,10 +177,16 @@ export function Header() {
               Login
             </Link>
             <span aria-hidden="true" className="mx-1 h-5 w-px bg-on-ink-rule" />
-            <Link to="/post-a-requirement" className="btn btn-ghost-on-ink btn-sm">
+            <Link
+              to="/post-a-requirement"
+              className="neu-control neu-control-invert inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+            >
               Post a Requirement
             </Link>
-            <Link to="/for-buyers" className="btn btn-on-ink btn-sm">
+            <Link
+              to="/for-buyers"
+              className="neu-control neu-control-invert inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+            >
               Marketplace
             </Link>
           </div>
@@ -229,7 +227,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
-            className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
+            className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto border-t border-border neu-canvas xl:hidden"
           >
             <div className="header-x py-4">
               {/* divide-y rather than a border on every row: one hairline between items,
@@ -250,18 +248,22 @@ export function Header() {
                 <Link
                   to="/for-buyers"
                   onClick={() => setOpen(false)}
-                  className="btn btn-primary w-full"
+                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
                 >
                   Marketplace
                 </Link>
                 <Link
                   to="/post-a-requirement"
                   onClick={() => setOpen(false)}
-                  className="btn btn-secondary w-full"
+                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
                 >
                   Post a Requirement
                 </Link>
-                <Link to="/login" onClick={() => setOpen(false)} className="btn btn-ghost w-full">
+                <Link
+                  to="/login"
+                  onClick={() => setOpen(false)}
+                  className="neu-control inline-flex w-full items-center justify-center px-6 py-3.5 font-mono text-[13px] tracking-[0.14em] text-fg uppercase"
+                >
                   Login
                 </Link>
               </div>
