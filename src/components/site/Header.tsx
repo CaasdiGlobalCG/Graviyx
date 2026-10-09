@@ -38,7 +38,7 @@ const NAV: { label: string; to: To }[] = [
  * is over the link.
  */
 const LINK =
-  "nav-active whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
+  "whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
 
 /** The mark on a dark bar. `brightness-0 invert` forces the Ink assets to Paper, so the
  *  header does not need a second set of white exports. */
@@ -162,10 +162,19 @@ export function Header() {
 
           {/* The nav sits between the mark and the actions — one link per section, in the
               order the sections appear in the content document. */}
-          <nav className="col-start-2 hidden items-center gap-2 xl:flex">
+          <nav className="col-start-2 hidden items-center xl:flex">
             {NAV.map((item) => (
-              <Link key={item.label} to={item.to} className={LINK}>
+              <Link
+                key={item.label}
+                to={item.to}
+                className={`group relative ${LINK}`}
+                activeProps={{ className: "nav-active" }}
+              >
                 {item.label}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-3 bottom-1 block h-px origin-left scale-x-0 bg-on-ink transition-transform duration-200 ease-out group-hover:scale-x-100"
+                />
               </Link>
             ))}
           </nav>
@@ -179,13 +188,15 @@ export function Header() {
             <span aria-hidden="true" className="mx-1 h-5 w-px bg-on-ink-rule" />
             <Link
               to="/post-a-requirement"
-              className="neu-control neu-control-invert inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+              activeProps={{ className: "neu-selected" }}
+              className="neu-control inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
             >
               Post a Requirement
             </Link>
             <Link
               to="/for-buyers"
-              className="neu-control neu-control-invert inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
+              activeProps={{ className: "neu-selected" }}
+              className="neu-control inline-flex items-center justify-center px-5 py-3 font-mono text-[13px] tracking-[0.14em] text-on-ink uppercase"
             >
               Marketplace
             </Link>

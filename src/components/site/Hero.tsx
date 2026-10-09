@@ -110,6 +110,7 @@ export function Hero({
                   <Link
                     key={a.label}
                     to={a.to}
+                    activeProps={{ className: "neu-selected" }}
                     // `neu-control` rather than the `btn` family: it carries the neumorphic
                     // surface, the press and the focus ring, and it reads its colours from the
                     // canvas it sits on — so there is no ink/paper branch here. `text-fg` is

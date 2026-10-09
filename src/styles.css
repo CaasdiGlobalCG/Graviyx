@@ -885,70 +885,59 @@
      white streak against the Ink hero, which now runs behind the header. Removed on request. */
 }
 
-/* ---------- Active CTA in the bar ----------
-   When a call to action is the current page, its material inverts: the control becomes the
-   LIGHT neumorphic surface — Paper-2 with a white highlight and a black shadow — instead of
-   the dark one the bar gives it.
+/* ---------- Nav active pill ----------
+   The selected nav item.
 
-   That is the right signal here. On a dark ground a tint would read as "slightly different
-   dark"; inverting the material reads as a physically different object, which is what
-   "you are here" should feel like. `neu-control` reads its surface and both shadow colours
-   from custom properties, so re-pointing them on the active link is enough — no second
-   button implementation.
+   It used to change colour only, and the colour it changed to (`--fg`) is the ROOT ink value —
+   black — on a bar that is now near-black, so the selected item simply disappeared. `--fg` is
+   re-pointed to Paper inside `neu-canvas-dark`, but the header's `glass-bar` is not a canvas and
+   does not re-point it.
 
-   The colour override needs to beat the `text-on-ink` utility on the element. It does: this
-   selector is (0,2,0) against Tailwind's (0,1,0), so specificity wins regardless of order. */
-@utility neu-control-invert {
-  &[data-status="active"] {
-    --neu-surface: var(--paper-2);
-    /* The highlight is pulled well down from the light canvas's own 0.92. At full strength a
-       92%-white 10px blur on a Paper-2 button throws a bright halo onto the dark bar, which
-       reads as a gradient wash around the button rather than as a lit edge. At 0.3 it lifts
-       the top edge only. The shadow is a touch deeper than the light canvas's 0.1 so the
-       control still reads as raised without leaning on the highlight to do it. */
-    --neu-light: rgba(255, 255, 255, 0.3);
-    --neu-dark: rgba(0, 0, 0, 0.16);
-    color: var(--ink);
-  }
+   This gives the item a light tinted wash instead: a two-stop gradient, lightest at the top, so
+   it reads as a soft surface rather than a flat block, plus a wide low-opacity glow that blurs
+   its edge into the bar. The text stays `text-on-ink` from the base link recipe, which is what
+   actually makes it legible.
+
+   Built from the existing on-ink rule tokens rather than `color-mix`, and that is deliberate.
+   Lightning CSS cannot resolve `color-mix` when the colour is a custom property, so it emits a
+   fallback with the alpha stripped — an OPAQUE paper pill with a solid white glow, which is
+   worse than no styling at all. These tokens are already rgba, so there is no fallback to get
+   wrong and the wash is translucent everywhere. */
+@utility nav-active {
+  background-image: linear-gradient(180deg, var(--on-ink-rule-soft), var(--on-ink-rule));
+  box-shadow: 0 0 14px 0 var(--on-ink-rule);
+  border-radius: var(--neu-radius);
 }
 
-/* ---------- Active / hovered nav item ----------
-   Both states are the same material — a translucent light gradient — rather than a colour
-   change or an underline.
+/* ---------- Neumorphic control, SELECTED ----------
+   The current-page state for a control — the CTA equivalent of `nav-active`.
 
-   The active state used to set the text colour to `var(--fg)`, which at the root resolves to
-   `--ink`: black. The bar is a dark surface that is NOT an ink canvas, so `--fg` is never
-   re-pointed there and the selected item turned black on near-black. The hover state had the
-   same fault through its underline (`bg-fg`), which drew a black rule across the bar.
+   `neu-control` on a dark canvas is a dark raised surface. Selected inverts it to a LIGHT one,
+   so the current item reads at a glance, and the shadow flips to an inset so it also reads as
+   pressed in rather than sitting proud of the bar.
 
-   Hover is deliberately lighter than active — the same surface at lower opacity, not the same
-   value. Identical states would make a hovered item indistinguishable from the current page.
+   The text colour is set here rather than inherited. The consumer paints `text-on-ink` (Paper)
+   on the dark control, and Paper on a Paper fill would be invisible — the same class of mistake
+   that made the selected nav item disappear.
 
-   Tailwind's Link sets `data-status="active"`, so the active half keys off that, not a prop. */
-@utility nav-active {
-  border-radius: var(--neu-radius);
-  transition:
-    background-image var(--motion-fast) var(--ease-signal),
-    color var(--motion-fast) var(--ease-signal);
+   The inset values are literal rgba rather than `--neu-light`/`--neu-dark`, and that is
+   deliberate: those tokens are re-pointed to their DARK values inside `glass-bar` and
+   `neu-canvas-dark`, where a highlight of 0.07 and a shadow of 0.55 would be exactly backwards
+   for a Paper fill. */
+@utility neu-selected {
+  background-color: var(--paper);
+  box-shadow:
+    inset -4px -4px 9px rgba(255, 255, 255, 0.55),
+    inset 4px 4px 11px rgba(0, 0, 0, 0.22);
+}
 
-  &:hover {
-    background-image: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.02)
-    );
-    color: var(--on-ink);
-  }
-
-  &[data-status="active"] {
-    background-image: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.16),
-      rgba(255, 255, 255, 0.04)
-    );
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-    color: var(--on-ink);
-  }
+/* The text colour needs a COMPOUND selector, and that is not stylistic.
+   The control's base class carries `text-on-ink`, which is a single class too, so whichever of
+   the two Tailwind emits last would win. It emits `.text-on-ink` later — so a plain
+   `.neu-selected { color: … }` loses, leaving Paper text on a Paper fill, which is invisible.
+   Two classes beat one at every viewport, deterministically, with no `!important`. */
+.neu-control.neu-selected {
+  color: var(--ink);
 }
 
 /* ---------- Mount stagger (hero) ----------
