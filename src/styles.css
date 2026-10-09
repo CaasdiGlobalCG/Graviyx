@@ -828,12 +828,14 @@
    boost so what shows through keeps its colour, and an inset highlight along the top edge
    that reads as the lit rim of a pane.
 
-   The wash sits at 76% rather than the 20-40% typical of the style. That is deliberate and
-   load-bearing: the header floats over the pinned Ink hero, so a thinner wash lets the black
-   surface through and the Ink logo and muted nav text lose contrast against it. 76% keeps it
-   legible on both Paper and Ink heroes while still reading as glass. */
+   The wash sits at 52% rather than the 20-40% typical of the style, and that is deliberate.
+   The header floats over the pinned Ink hero, so the wash is what the Ink logo and the ink
+   nav text sit on. At 52% the glass resolves to roughly rgb(130,130,128) over Ink, where ink
+   text is 5.6:1 — inside AA. Going much thinner drops it below 4.5:1: at 40% it is 3.7:1,
+   which fails. 52% is therefore about as transparent as this bar can be while staying
+   legible on both Paper and Ink heroes. */
 @utility glass-bar {
-  background-color: color-mix(in oklab, var(--paper) 76%, transparent);
+  background-color: color-mix(in oklab, var(--paper) 52%, transparent);
   /* The prefixed form must come FIRST. With it last, the minifier collapses the pair and
      emits only `-webkit-backdrop-filter`, which Firefox does not support — so the blur
      silently disappears there while working in Chrome and Safari. Order is load-bearing. */

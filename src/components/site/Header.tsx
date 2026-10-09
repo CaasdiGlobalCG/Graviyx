@@ -42,9 +42,40 @@ const LINK =
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    // The bar is judged against an anchor, not against the previous scroll event.
+    //
+    // Comparing each event to the last one made the state flip on a single pixel of
+    // movement: a trackpad reports constant small jitter, so the bar would start sliding
+    // up, a 1px upward blip would yank it back, and it bounced rather than hiding. The
+    // anchor moves only when the state actually changes, so direction has to hold for a
+    // real distance — 12px down to retreat, 64px up to return.
+    let anchorY = window.scrollY;
+    let isHidden = false;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 12);
+
+      const delta = y - anchorY;
+
+      if (isHidden) {
+        // Return after a deliberate upward scroll, or as soon as we are near the top,
+        // where the mark and nav are the natural thing to reach for.
+        if (delta < -64 || y <= 120) {
+          isHidden = false;
+          setHidden(false);
+          anchorY = y;
+        }
+      } else if (y > 120 && delta > 12) {
+        isHidden = true;
+        setHidden(true);
+        anchorY = y;
+      }
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -59,16 +90,26 @@ export function Header() {
 
   return (
     <header
-      className="glass-bar fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+      className={`glass-bar fixed inset-x-0 top-0 z-50 transition-[transform,translate,border-color] duration-[var(--motion-slow)] ease-[var(--ease-signal)] ${
+        hidden && !open ? "-translate-y-full" : "translate-y-0"
+      }`}
       style={{
         // The glass surface — translucent Paper wash, backdrop blur, saturation boost and
         // the lit top edge — lives in the `glass-bar` utility in src/styles.css. Only the
         // hairline is inline, because it depends on scroll state.
         //
-        // The wash is 76% rather than the 20-40% typical of glass, and that is deliberate:
-        // this bar floats over the pinned Ink hero, so a thinner wash would let the black
-        // surface through and the Ink logo and muted nav text would lose contrast against
-        // it. 76% reads as glass while staying legible on both Paper and Ink heroes.
+        // `translate` MUST be in the transition-property list, and it is the whole reason
+        // this animates at all. Tailwind v4's translate-* utilities emit the standalone
+        // `translate` property, not `transform`, so a transition listing only `transform`
+        // covers nothing the bar actually changes — the hide lands in a single frame and
+        // reads as an instant blink. Tailwind's own `transition-transform` includes it
+        // (`transform, translate, scale, rotate`); a hand-written list has to add it.
+        //
+        // The duration and curve are the project's tokens (420ms, ease-signal) rather than
+        // raw values, which is why it glides rather than snaps.
+        //
+        // `!open` keeps it put while the mobile panel is showing — the panel is anchored
+        // below the bar, so hiding the bar would leave it floating.
         borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
       }}
     >
