@@ -31,13 +31,17 @@ const NAV: { label: string; to: To }[] = [
 /**
  * The nav-link recipe, shared by the desktop items and Login so they read as one system.
  *
- * The colour is `text-fg`, not `text-muted`. A muted tone fails AA on this surface: the bar
- * is translucent, so over the pinned Ink hero the glass resolves to roughly rgb(190,190,188),
- * where steel-50 lands at 2.9:1 against the 4.5:1 that 13px text needs. Ink on the same glass
- * is 11.3:1. Hover feedback comes from the underline, not from a colour change.
+ * The bar is the same dark ground as the hero, so this uses the on-ink tone rather than the
+ * page's ink one — `text-fg` would be black on near-black. Hover feedback comes from the
+ * underline rather than a colour change, which keeps the contrast constant while the pointer
+ * is over the link.
  */
 const LINK =
-  "whitespace-nowrap px-3 py-2 text-[13px] font-[450] text-fg transition-colors duration-200";
+  "whitespace-nowrap px-3 py-2 text-[15px] font-[450] text-on-ink transition-colors duration-200";
+
+/** The mark on a dark bar. `brightness-0 invert` forces the Ink assets to Paper, so the
+ *  header does not need a second set of white exports. */
+const MARK = "brightness-0 invert";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -111,96 +115,113 @@ export function Header() {
   }, [open]);
 
   return (
-    <header
-      className={`glass-bar fixed inset-x-0 top-0 z-50 transition-[transform,translate,border-color] duration-[var(--motion-slow)] ease-[var(--ease-signal)] ${
-        hidden && !open ? "-translate-y-full" : "translate-y-0"
-      }`}
-      style={{
-        // The glass surface — translucent Paper wash, backdrop blur, saturation boost and
-        // the lit top edge — lives in the `glass-bar` utility in src/styles.css. Only the
-        // hairline is inline, because it depends on scroll state.
-        //
-        // `translate` MUST be in the transition-property list, and it is the whole reason
-        // this animates at all. Tailwind v4's translate-* utilities emit the standalone
-        // `translate` property, not `transform`, so a transition listing only `transform`
-        // covers nothing the bar actually changes — the hide lands in a single frame and
-        // reads as an instant blink. Tailwind's own `transition-transform` includes it
-        // (`transform, translate, scale, rotate`); a hand-written list has to add it.
-        //
-        // The duration and curve are the project's tokens (420ms, ease-signal) rather than
-        // raw values, which is why it glides rather than snaps.
-        //
-        // `!open` keeps it put while the mobile panel is showing — the panel is anchored
-        // below the bar, so hiding the bar would leave it floating.
-        borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
-      }}
-    >
-      <div className="container-x flex h-[var(--header-h)] items-center gap-6">
-        <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <img src="/brand/graviyx-symbol-ink.png" alt="" className="h-7 w-auto" />
-          <img
-            src="/brand/graviyx-wordmark-ink.png"
-            alt="GRAVIYX"
-            className="hidden h-[15px] w-auto sm:block"
-          />
-        </Link>
+    <>
+      <header
+        className={`glass-bar fixed inset-x-0 top-0 z-50 transition-[transform,translate,border-color] duration-[var(--motion-slow)] ease-[var(--ease-signal)] ${
+          hidden && !open ? "-translate-y-full" : "translate-y-0"
+        }`}
+        style={{
+          // The glass surface — translucent Paper wash, backdrop blur, saturation boost and
+          // the lit top edge — lives in the `glass-bar` utility in src/styles.css. Only the
+          // hairline is inline, because it depends on scroll state.
+          //
+          // `translate` MUST be in the transition-property list, and it is the whole reason
+          // this animates at all. Tailwind v4's translate-* utilities emit the standalone
+          // `translate` property, not `transform`, so a transition listing only `transform`
+          // covers nothing the bar actually changes — the hide lands in a single frame and
+          // reads as an instant blink. Tailwind's own `transition-transform` includes it
+          // (`transform, translate, scale, rotate`); a hand-written list has to add it.
+          //
+          // The duration and curve are the project's tokens (420ms, ease-signal) rather than
+          // raw values, which is why it glides rather than snaps.
+          //
+          // `!open` keeps it put while the mobile panel is showing — the panel is anchored
+          // below the bar, so hiding the bar would leave it floating.
+          borderBottom: `1px solid ${scrolled || open ? "var(--on-ink-rule)" : "transparent"}`,
+        }}
+      >
+        {/* Three tracks: mark, nav, actions. The outer tracks are UNEQUAL on purpose —
+            `1.35fr` on the right against `1fr` on the left — which pulls the nav left of the
+            true centre. With `1fr auto 1fr` the nav sits noticeably right of where it reads
+            as balanced, because the actions are much wider than the mark. Columns are placed
+            explicitly so hiding the nav (below xl) still leaves the burger on the right. */}
+        <div className="header-x grid h-[var(--header-h)] grid-cols-[1fr_auto_1.35fr] items-center gap-6">
+          <Link
+            to="/"
+            className="col-start-1 flex shrink-0 items-center gap-3 justify-self-start"
+            onClick={() => setOpen(false)}
+          >
+            <img src="/brand/graviyx-symbol-ink.png" alt="" className={`h-7 w-auto ${MARK}`} />
+            <img
+              src="/brand/graviyx-wordmark-ink.png"
+              alt="GRAVIYX"
+              className={`hidden h-[15px] w-auto sm:block ${MARK}`}
+            />
+          </Link>
 
-        {/* The nav sits immediately after the mark rather than being centred or spread, so
-            the eye reads one continuous left-to-right line instead of three separate groups.
-            The hover rule grows from the left on a transform, never on a layout property. */}
-        <nav className="hidden items-center xl:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className={`group relative ${LINK}`}
-              activeProps={{ style: { color: "var(--fg)" } }}
-            >
-              {item.label}
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-3 bottom-1 block h-px origin-left scale-x-0 bg-fg transition-transform duration-200 ease-out group-hover:scale-x-100"
-              />
+          {/* The nav sits between the mark and the actions — one link per section, in the
+              order the sections appear in the content document. */}
+          <nav className="col-start-2 hidden items-center xl:flex">
+            {NAV.map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
+                className={`group relative ${LINK}`}
+                activeProps={{ style: { color: "var(--fg)" } }}
+              >
+                {item.label}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-3 bottom-1 block h-px origin-left scale-x-0 bg-fg transition-transform duration-200 ease-out group-hover:scale-x-100"
+                />
+              </Link>
+            ))}
+          </nav>
+
+          {/* Login, then the two calls to action — Login first so the buttons hold the outer
+              edge, which is where the eye lands last. */}
+          <div className="col-start-3 hidden items-center gap-3 justify-self-end xl:flex">
+            <Link to="/login" className={LINK}>
+              Login
             </Link>
-          ))}
-        </nav>
+            <span aria-hidden="true" className="mx-1 h-5 w-px bg-on-ink-rule" />
+            <Link to="/post-a-requirement" className="btn btn-ghost-on-ink btn-sm">
+              Post a Requirement
+            </Link>
+            <Link to="/for-buyers" className="btn btn-on-ink btn-sm">
+              Marketplace
+            </Link>
+          </div>
 
-        {/* Actions hold the right edge, separated from the nav by a hairline so there is one
-            clear place to land. Login carries the nav recipe, so it belongs to the same
-            system rather than floating between the links and the buttons. */}
-        <div className="ml-auto hidden items-center gap-3 xl:flex">
-          <Link to="/login" className={LINK}>
-            Login
-          </Link>
-          <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
-          <Link to="/post-a-requirement" className="btn btn-secondary btn-sm">
-            Post a Requirement
-          </Link>
-          <Link to="/for-buyers" className="btn btn-primary btn-sm">
-            Marketplace
-          </Link>
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="col-start-3 grid h-10 w-10 shrink-0 place-items-center justify-self-end border border-on-ink-rule-soft text-on-ink transition-colors duration-200 hover:border-on-ink xl:hidden"
+          >
+            <span className="relative block h-3 w-4">
+              <span
+                className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
+                style={{ transform: open ? "rotate(45deg)" : "translateY(-5px)" }}
+              />
+              <span
+                className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
+                style={{ transform: open ? "rotate(-45deg)" : "translateY(5px)" }}
+              />
+            </span>
+          </button>
         </div>
+      </header>
 
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="ml-auto grid h-10 w-10 shrink-0 place-items-center border border-border-soft text-ink transition-colors duration-200 hover:border-ink xl:hidden"
-        >
-          <span className="relative block h-3 w-4">
-            <span
-              className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
-              style={{ transform: open ? "rotate(45deg)" : "translateY(-5px)" }}
-            />
-            <span
-              className="absolute top-[6px] left-0 block h-px w-4 bg-current transition-transform duration-200"
-              style={{ transform: open ? "rotate(-45deg)" : "translateY(5px)" }}
-            />
-          </span>
-        </button>
-      </div>
-
+      {/* The panel is a SIBLING of the bar, not a child, and that is load-bearing.
+        The bar always carries a `translate` value — Tailwind's `translate-y-0` emits
+        `translate: 0px 0px`, not `none` — and a non-none `translate` makes an element the
+        containing block for its `position: fixed` descendants. Nested inside the bar, this
+        panel's `top: var(--header-h)` and `bottom: 0` both resolved against the bar's own
+        80px box, so top and bottom met at the same point and the panel had zero height. It
+        opened and rendered nothing, which is why the burger looked dead on a phone.
+        As a sibling, its containing block is the viewport again. */}
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -210,7 +231,7 @@ export function Header() {
             transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
             className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
           >
-            <div className="container-x py-4">
+            <div className="header-x py-4">
               {/* divide-y rather than a border on every row: one hairline between items,
                   none dangling under the last one. */}
               <nav className="divide-y divide-border border-b border-border">
@@ -240,11 +261,7 @@ export function Header() {
                 >
                   Post a Requirement
                 </Link>
-                <Link
-                  to="/login"
-                  onClick={() => setOpen(false)}
-                  className="btn btn-ghost w-full"
-                >
+                <Link to="/login" onClick={() => setOpen(false)} className="btn btn-ghost w-full">
                   Login
                 </Link>
               </div>
@@ -252,6 +269,6 @@ export function Header() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

@@ -62,9 +62,8 @@ export function Hero({
     <section
       className={`hero-pin min-h-[100svh] overflow-hidden pt-[var(--header-h)] ${isInk ? "neu-canvas-dark" : "neu-canvas"}`}
     >
-      {/* Oversized by one background tile (72px) so the drift translate never
-          exposes an edge. The drift animates transform, not background-position. */}
-      <div className="grid-veil drift-grid pointer-events-none absolute -inset-[72px]" />
+      {/* No background grid. The hero is a flat neumorphic ground now, so the drifting
+          grid read as noise behind the raised panel rather than as structure. */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
         style={{

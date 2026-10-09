@@ -222,6 +222,11 @@
      panel it anchors below, and the hero's top offset all read this token, so changing the
      bar's height is a one-line change rather than four coordinated edits. */
   --header-h: 80px;
+
+  /* The header's own gutter. Narrower than the page's `--container-gutter-*` so the bar's
+     contents reach further toward the edges than the content below it does — the bar reads
+     as a full-width element rather than as a boxed one. */
+  --header-gutter: 16px;
 }
 
 @theme inline {
@@ -377,6 +382,24 @@
 }
 
 /* ---------- Structure utilities ---------- */
+
+/* The header's container. Same idea as `container-x` — gutter-padded, centred — but with the
+   narrower `--header-gutter` and NO max-width cap, so the mark sits hard against the left edge
+   of the viewport and the actions hard against the right. The bar is a full-width element; the
+   page content below it stays in its 1280px measure. */
+@utility header-x {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--header-gutter);
+
+  @media (min-width: 768px) {
+    padding-inline: calc(var(--header-gutter) * 1.5);
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: calc(var(--header-gutter) * 2);
+  }
+}
 
 @utility container-x {
   width: 100%;
@@ -839,7 +862,10 @@
    which fails. 52% is therefore about as transparent as this bar can be while staying
    legible on both Paper and Ink heroes. */
 @utility glass-bar {
-  background-color: color-mix(in oklab, var(--paper) 52%, transparent);
+  /* Matches the hero's own ground (`--neu-canvas-dark`, steel-90) rather than Paper, so the
+     bar reads as the same surface as the hero it floats over instead of as a pale band
+     across the top of it. */
+  background-color: color-mix(in oklab, var(--neu-canvas-dark) 82%, transparent);
   /* The prefixed form must come FIRST. With it last, the minifier collapses the pair and
      emits only `-webkit-backdrop-filter`, which Firefox does not support — so the blur
      silently disappears there while working in Chrome and Safari. Order is load-bearing. */

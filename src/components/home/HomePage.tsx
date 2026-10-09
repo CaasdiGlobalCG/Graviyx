@@ -59,10 +59,7 @@ import {
 function Hero() {
   return (
     <section className="hero-pin neu-canvas-dark min-h-[100svh] overflow-hidden pt-[calc(var(--header-h)+8px)] pb-10 md:pt-[calc(var(--header-h)+32px)] md:pb-16 lg:pt-[calc(var(--header-h)+64px)] lg:pb-24">
-      <div
-        aria-hidden="true"
-        className="bg-grid drift-grid pointer-events-none absolute -inset-24"
-      />
+      {/* No background grid — see the note in the shared Hero. */}
       <div className="container-x hero-depth relative">
         {/* Same treatment as the shared Hero and as THE_SYSTEM's core: the copy sits on a
             raised panel with the brand's diagonal motif behind it, so the hero reads as the
