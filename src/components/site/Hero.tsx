@@ -60,7 +60,7 @@ export function Hero({
 
   return (
     <section
-      className={`hero-pin min-h-[100svh] overflow-hidden pt-[72px] ${isInk ? "surface-ink" : "bg-bg"}`}
+      className={`hero-pin min-h-[100svh] overflow-hidden pt-[var(--header-h)] ${isInk ? "neu-canvas-dark" : "neu-canvas"}`}
     >
       {/* Oversized by one background tile (72px) so the drift translate never
           exposes an edge. The drift animates transform, not background-position. */}
@@ -73,51 +73,63 @@ export function Hero({
         }}
       />
       <div
-        className={`container-x hero-depth relative ${compact ? "pt-28 pb-14 md:pt-36 md:pb-20" : "pt-32 pb-20 md:pt-44 md:pb-28"}`}
+        className={`container-x hero-depth relative ${compact ? "pt-20 pb-14 md:pt-28 md:pb-20" : "pt-24 pb-20 md:pt-32 md:pb-28"}`}
       >
-        {eyebrow ? (
-          <p className="eyebrow hero-in mb-6 flex items-center gap-3" style={stepStyle(STEP.eyebrow)}>
-            <span className="mark-dot pulse-dot" />
-            {eyebrow}
-          </p>
-        ) : null}
-
-        <h1 className="display-xl hero-in max-w-5xl text-fg" style={stepStyle(STEP.headline)}>
-          {headline}
-        </h1>
-
-        {subhead ? (
-          <p className="lead hero-in mt-7 max-w-2xl" style={stepStyle(STEP.subhead)}>
-            {subhead}
-          </p>
-        ) : null}
-
-        {actions.length > 0 ? (
-          <div
-            className="hero-in mt-10 flex flex-wrap gap-3"
-            style={stepStyle(STEP.actions)}
-          >
-            {actions.map((a) => (
-              <Link
-                key={a.label}
-                to={a.to}
-                className={`btn ${
-                  isInk
-                    ? a.variant === "secondary"
-                      ? "btn-ghost-on-ink"
-                      : "btn-on-ink"
-                    : a.variant === "secondary"
-                      ? "btn-secondary"
-                      : "btn-primary"
-                }`}
+        {/* The hero is a neumorphic surface like the rest of the page, so its copy sits on a
+            raised panel rather than directly on a flat band. The panel carries the same
+            treatment as THE_SYSTEM's core — raised, `overflow-hidden`, with the brand's
+            diagonal motif behind the content — so the hero reads as the same material as the
+            sections below it rather than as a one-off. The container's top padding was
+            reduced by this panel's padding, so the copy lands where it did before: the
+            surface grew, the content did not move. */}
+        <div className="neu-raised relative overflow-hidden p-8 md:p-12">
+          <span aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+          <div className="relative">
+            {eyebrow ? (
+              <p
+                className="eyebrow hero-in mb-6 flex items-center gap-3"
+                style={stepStyle(STEP.eyebrow)}
               >
-                {a.label}
-              </Link>
-            ))}
-          </div>
-        ) : null}
+                <span className="mark-dot pulse-dot" />
+                {eyebrow}
+              </p>
+            ) : null}
 
-        {children ? <div className="mt-14">{children}</div> : null}
+            <h1 className="display-xl hero-in max-w-5xl text-fg" style={stepStyle(STEP.headline)}>
+              {headline}
+            </h1>
+
+            {subhead ? (
+              <p className="lead hero-in mt-7 max-w-2xl" style={stepStyle(STEP.subhead)}>
+                {subhead}
+              </p>
+            ) : null}
+
+            {actions.length > 0 ? (
+              <div className="hero-in mt-10 flex flex-wrap gap-3" style={stepStyle(STEP.actions)}>
+                {actions.map((a) => (
+                  <Link
+                    key={a.label}
+                    to={a.to}
+                    className={`btn ${
+                      isInk
+                        ? a.variant === "secondary"
+                          ? "btn-ghost-on-ink"
+                          : "btn-on-ink"
+                        : a.variant === "secondary"
+                          ? "btn-secondary"
+                          : "btn-primary"
+                    }`}
+                  >
+                    {a.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+
+            {children ? <div className="mt-14">{children}</div> : null}
+          </div>
+        </div>
       </div>
     </section>
   );

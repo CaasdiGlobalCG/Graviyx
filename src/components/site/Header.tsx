@@ -45,34 +45,56 @@ export function Header() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // The bar is judged against an anchor, not against the previous scroll event.
+    // Travel is ACCUMULATED in one direction and reset when the direction reverses.
     //
-    // Comparing each event to the last one made the state flip on a single pixel of
-    // movement: a trackpad reports constant small jitter, so the bar would start sliding
-    // up, a 1px upward blip would yank it back, and it bounced rather than hiding. The
-    // anchor moves only when the state actually changes, so direction has to hold for a
-    // real distance — 12px down to retreat, 64px up to return.
-    let anchorY = window.scrollY;
+    // Two earlier attempts were wrong. Comparing each event to the last flipped the state on
+    // a single pixel, so a jittery trackpad made the bar bounce. Comparing against an anchor
+    // that only moved on a state change was worse: the anchor stayed pinned where the bar
+    // hid, so scrolling further down grew the gap and the bar could not come back until the
+    // visitor scrolled up past that point — which in practice meant the top of the page.
+    //
+    // Accumulating fixes both. A direction has to be sustained for a real distance to count,
+    // and reversing resets the counter, so 1px of noise can never accumulate into a flip.
+    const HIDE_AFTER = 24;
+    const SHOW_AFTER = 12;
+
+    let lastY = window.scrollY;
+    let downTravel = 0;
+    let upTravel = 0;
     let isHidden = false;
 
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 12);
 
-      const delta = y - anchorY;
+      const delta = y - lastY;
+      lastY = y;
 
-      if (isHidden) {
-        // Return after a deliberate upward scroll, or as soon as we are near the top,
-        // where the mark and nav are the natural thing to reach for.
-        if (delta < -64 || y <= 120) {
+      if (delta > 0) {
+        downTravel += delta;
+        upTravel = 0;
+      } else if (delta < 0) {
+        upTravel -= delta;
+        downTravel = 0;
+      }
+
+      // Near the top the bar is always shown: the mark and nav are the natural thing to
+      // reach for there, and hiding it would just be a thing to wait out.
+      if (y <= 120) {
+        if (isHidden) {
           isHidden = false;
           setHidden(false);
-          anchorY = y;
         }
-      } else if (y > 120 && delta > 12) {
+        downTravel = 0;
+        upTravel = 0;
+      } else if (!isHidden && downTravel > HIDE_AFTER) {
         isHidden = true;
         setHidden(true);
-        anchorY = y;
+        downTravel = 0;
+      } else if (isHidden && upTravel > SHOW_AFTER) {
+        isHidden = false;
+        setHidden(false);
+        upTravel = 0;
       }
     };
 
@@ -113,7 +135,7 @@ export function Header() {
         borderBottom: `1px solid ${scrolled || open ? "var(--border)" : "transparent"}`,
       }}
     >
-      <div className="container-x flex h-[72px] items-center gap-6">
+      <div className="container-x flex h-[var(--header-h)] items-center gap-6">
         <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
           <img src="/brand/graviyx-symbol-ink.png" alt="" className="h-7 w-auto" />
           <img
@@ -186,7 +208,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
-            className="fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
+            className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto border-t border-border bg-paper xl:hidden"
           >
             <div className="container-x py-4">
               {/* divide-y rather than a border on every row: one hairline between items,

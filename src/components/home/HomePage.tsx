@@ -50,32 +50,45 @@ import {
  * eyebrow, lead and scope line resolve through the re-pointed semantic tokens and the heading
  * inherits Paper, so no `text-ink`, `btn-primary` or `btn-secondary` appears inside it.
  *
- * The 72px header offset is PADDING, not margin, and that is the whole point: a margin would
+ * The header offset is PADDING, not margin, and that is the whole point: a margin would
  * leave a bare strip above the hero for the glass header to sit on, whereas padding is painted
  * by the section's own surface. So the Ink ground and its grid run the full height behind the
- * header while the copy still starts below it.
+ * header while the copy still starts below it. The offset reads `--header-h` rather than a
+ * literal, so the bar's height and this stay in step.
  */
 function Hero() {
   return (
-    <section className="hero-pin surface-ink min-h-[100svh] overflow-hidden pt-[112px] pb-10 md:pt-[136px] md:pb-16 lg:pt-[168px] lg:pb-24">
-      <div aria-hidden="true" className="bg-grid drift-grid pointer-events-none absolute -inset-24" />
+    <section className="hero-pin neu-canvas-dark min-h-[100svh] overflow-hidden pt-[calc(var(--header-h)+8px)] pb-10 md:pt-[calc(var(--header-h)+32px)] md:pb-16 lg:pt-[calc(var(--header-h)+64px)] lg:pb-24">
+      <div
+        aria-hidden="true"
+        className="bg-grid drift-grid pointer-events-none absolute -inset-24"
+      />
       <div className="container-x hero-depth relative">
-        <div className="flex items-center gap-3">
-          <span aria-hidden="true" className="mark-dot pulse-dot" />
-          <p className="eyebrow">{HERO.eyebrow}</p>
-        </div>
-        <h1 className="display-xl mt-6 max-w-4xl">{HERO.headline}</h1>
-        <p className="lead mt-6 max-w-2xl">{HERO.subhead}</p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <Link to={HERO.primaryCta.to} className="btn btn-on-ink">
-            {HERO.primaryCta.label}
-          </Link>
-          <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">
-            {HERO.secondaryCta.label}
-          </Link>
-        </div>
-        <div className="mt-10 border-t border-border pt-4">
-          <p className="text-[13px] text-on-ink-muted">{HERO.scopeLine}</p>
+        {/* Same treatment as the shared Hero and as THE_SYSTEM's core: the copy sits on a
+            raised panel with the brand's diagonal motif behind it, so the hero reads as the
+            same material as the sections below rather than as a one-off. The section's top
+            padding was reduced by this panel's padding so the copy lands where it did. */}
+        <div className="neu-raised relative overflow-hidden p-8 md:p-12">
+          <span aria-hidden="true" className="bg-diagonal pointer-events-none absolute inset-0" />
+          <div className="relative">
+            <div className="flex items-center gap-3">
+              <span aria-hidden="true" className="mark-dot pulse-dot" />
+              <p className="eyebrow">{HERO.eyebrow}</p>
+            </div>
+            <h1 className="display-xl mt-6 max-w-4xl">{HERO.headline}</h1>
+            <p className="lead mt-6 max-w-2xl">{HERO.subhead}</p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link to={HERO.primaryCta.to} className="btn btn-on-ink">
+                {HERO.primaryCta.label}
+              </Link>
+              <Link to={HERO.secondaryCta.to} className="btn btn-ghost-on-ink">
+                {HERO.secondaryCta.label}
+              </Link>
+            </div>
+            <div className="mt-10 border-t border-border pt-4">
+              <p className="text-[13px] text-on-ink-muted">{HERO.scopeLine}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

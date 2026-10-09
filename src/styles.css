@@ -217,6 +217,11 @@
   --container-gutter-desktop: 64px;
   --container-gutter-tablet: 32px;
   --container-gutter-phone: 16px;
+
+  /* The fixed header's height. This is the single source for it: the bar itself, the mobile
+     panel it anchors below, and the hero's top offset all read this token, so changing the
+     bar's height is a one-line change rather than four coordinated edits. */
+  --header-h: 80px;
 }
 
 @theme inline {
@@ -823,10 +828,9 @@
 /* ---------- Glass ----------
    A translucent, blurred pane — the header bar's surface.
 
-   Three parts make it read as glass rather than as a flat translucent overlay:
-   a real backdrop blur so content passing underneath is visibly refracted, a saturation
-   boost so what shows through keeps its colour, and an inset highlight along the top edge
-   that reads as the lit rim of a pane.
+   Two parts make it read as glass rather than as a flat translucent overlay: a real backdrop
+   blur so content passing underneath is visibly refracted, and a saturation boost so what
+   shows through keeps its colour.
 
    The wash sits at 52% rather than the 20-40% typical of the style, and that is deliberate.
    The header floats over the pinned Ink hero, so the wash is what the Ink logo and the ink
@@ -841,7 +845,9 @@
      silently disappears there while working in Chrome and Safari. Order is load-bearing. */
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: inset 0 1px 0 0 color-mix(in oklab, #ffffff 60%, transparent);
+  /* No inset top highlight. There was one — a 1px white line reading as the lit rim of the
+     pane — and it is a common glass signature, but it is invisible against Paper and a hard
+     white streak against the Ink hero, which now runs behind the header. Removed on request. */
 }
 
 /* ---------- Mount stagger (hero) ----------
